@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Jaminate schema gen" default="default" basedir=".">
+    <description>Jaminate schemagen</description>
+    <property name="fork"         value="true"/>
+    <!--
+    <property name="examples"     value="/x3d-code/www.web3d.org/x3d/content/examples"/>
+    -->
+    <property name="examples"     value="examples"/>
+    <property name="classpath"     value="C:/Users/john/pythonSAI/X3DJSAIL.4.0.full.jar;."/>
+
+<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+  <classpath>
+    <pathelement location="C:/apache-ant-1.10.12-bin/apache-ant-1.10.12/lib/ant-contrib-1.0b3.jar"/>
+  </classpath>
+</taskdef>
+
+<taskdef name="schemagen" classname="com.sun.tools.jxc.SchemaGenTask">
+	<classpath>
+		<fileset dir="C:/Users/john/Downloads/jaxb-ri-2.3.1/jaxb-ri/mod/" includes="*.jar" />
+	</classpath>
+</taskdef>
+
+    <target name="default" description="generate humanoids">
+	<echo message="Running HTML schema gen:"/>
+	<mkdir dir="build/schemas" />
+	<schemagen destdir="build/schemas" includeantruntime="true">
+	  <src  path="src/main/java/net/coderextreme/jaminate" />
+	  <include name="HTML*.java"/>
+	</schemagen>
+    </target>
+</project>
+
+
