@@ -690,7 +690,7 @@ public class JaminateBridge extends javax.swing.JFrame {
             bridge.setVisible(true);
         });
     }
-    private File currentFolder = new File("C:/Users/john/HAnim.code/jaminate/Jaminate/app/src/main/resources/");
+    private File currentFolder = new File("src/main/javascript/");
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Copy;
     private javax.swing.JMenuItem CopyRows;
