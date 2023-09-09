@@ -1,0 +1,11 @@
+# DEF John_Stop010Timer TimeSensor { cycleInterval 1 loop TRUE enabled TRUE } # 0.1 - 0 = 0.1, times 10 is 1
+# DEF John_Stand011Timer TimeSensor { cycleInterval 1 loop TRUE enabled TRUE } # 0.2 - 0.1 = 0.1, times 10 is 1
+# DEF John_Pitch012Timer TimeSensor { cycleInterval 1 loop TRUE enabled TRUE } # 0.3 - 0.2 = 0.1, times 10 is 1
+# DEF John_Run013Timer TimeSensor { cycleInterval 1 loop TRUE enabled TRUE } # 0.4 - 0.3 = 0.1, times 10 is 1
+# DEF John_Turn014Timer TimeSensor { cycleInterval 1 loop TRUE enabled TRUE } # 0.5 - 0.4 = 0.1, times 10 is 1
+# DEF John_Roll015Timer TimeSensor { cycleInterval 1 loop TRUE enabled TRUE } # 0.6 - 0.5 = 0.1, times 10 is 1
+# DEF John_Walk016Timer TimeSensor { cycleInterval 1 loop TRUE enabled TRUE } # 0.7 - 0.6 = 0.1, times 10 is 1
+# DEF John_Run017Timer TimeSensor { cycleInterval 1 loop TRUE enabled TRUE } # 0.8 - 0.7 = 0.1, times 10 is 1
+# DEF John_Skip018Timer TimeSensor { cycleInterval 1 loop TRUE enabled TRUE } # 0.9 - 0.8 = 0.1, times 10 is 1
+# DEF John_Kick019Timer TimeSensor { cycleInterval 1 loop TRUE enabled TRUE } # 1 - 0.9 = 0.1, times 10 is 1
+# DEF John_Stop0110Timer TimeSensor { cycleInterval 0.01 loop TRUE enabled TRUE } # 0 - 1 = 0.001, times 10 is 0.01

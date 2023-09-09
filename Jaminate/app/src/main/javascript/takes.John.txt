@@ -1,0 +1,238 @@
+DEF John_Stop010BooleanSequencer BooleanSequencer {
+	key [ 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 ]
+	keyValue [ TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE ]
+	# [ John_Stop01 John_Stand01 John_Pitch01 John_Run01 John_Turn01 John_Roll01 John_Walk01 John_Run01 John_Skip01 John_Kick01 John_Stop01 ]
+}
+DEF John_Stop010SPLITTERBooleanFilter BooleanFilter { }
+DEF John_Stop010FINALEBooleanFilter BooleanFilter { }
+DEF John_Stop010NEGATERBooleanFilter BooleanFilter { }
+DEF John_Stop010OffTimeTrigger TimeTrigger { }
+DEF John_Stop010OnTimeTrigger TimeTrigger { }
+ROUTE John_z100sTimer.isActive TO John_Stop010SPLITTERBooleanFilter.set_boolean
+ROUTE John_z100sTimer.fraction_changed TO John_Stop010BooleanSequencer.set_fraction
+ROUTE John_Stop010BooleanSequencer.value_changed TO John_Stop010SPLITTERBooleanFilter.set_boolean
+ROUTE John_Stop010SPLITTERBooleanFilter.inputTrue TO John_Stop010OnTimeTrigger.set_boolean
+ROUTE John_Stop010SPLITTERBooleanFilter.inputFalse TO John_Stop010OffTimeTrigger.set_boolean
+ROUTE John_Stop010SPLITTERBooleanFilter.inputTrue TO John_Stop010Timer.set_enabled
+ROUTE John_Stop010SPLITTERBooleanFilter.inputFalse TO John_Stop010Timer.set_enabled
+ROUTE John_Stop010OffTimeTrigger.triggerTime TO John_Stop010Timer.set_stopTime
+ROUTE John_Stop010OnTimeTrigger.triggerTime TO John_Stop010Timer.set_startTime
+DEF John_Stand011BooleanSequencer BooleanSequencer {
+	key [ 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 ]
+	keyValue [ FALSE TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE ]
+	# [ John_Stop01 John_Stand01 John_Pitch01 John_Run01 John_Turn01 John_Roll01 John_Walk01 John_Run01 John_Skip01 John_Kick01 John_Stop01 ]
+}
+DEF John_Stand011SPLITTERBooleanFilter BooleanFilter { }
+DEF John_Stand011FINALEBooleanFilter BooleanFilter { }
+DEF John_Stand011NEGATERBooleanFilter BooleanFilter { }
+DEF John_Stand011OffTimeTrigger TimeTrigger { }
+DEF John_Stand011OnTimeTrigger TimeTrigger { }
+ROUTE John_z100sTimer.fraction_changed TO John_Stand011BooleanSequencer.set_fraction
+ROUTE John_Stand011BooleanSequencer.value_changed TO John_Stand011SPLITTERBooleanFilter.set_boolean
+ROUTE John_Stand011SPLITTERBooleanFilter.inputTrue TO John_Stand011OnTimeTrigger.set_boolean
+ROUTE John_Stand011SPLITTERBooleanFilter.inputFalse TO John_Stand011OffTimeTrigger.set_boolean
+ROUTE John_Stand011SPLITTERBooleanFilter.inputTrue TO John_Stand011Timer.set_enabled
+ROUTE John_Stand011SPLITTERBooleanFilter.inputFalse TO John_Stand011Timer.set_enabled
+ROUTE John_Stand011OffTimeTrigger.triggerTime TO John_Stand011Timer.set_stopTime
+ROUTE John_Stand011OnTimeTrigger.triggerTime TO John_Stand011Timer.set_startTime
+DEF John_Pitch012BooleanSequencer BooleanSequencer {
+	key [ 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 ]
+	keyValue [ FALSE FALSE TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE ]
+	# [ John_Stop01 John_Stand01 John_Pitch01 John_Run01 John_Turn01 John_Roll01 John_Walk01 John_Run01 John_Skip01 John_Kick01 John_Stop01 ]
+}
+DEF John_Pitch012SPLITTERBooleanFilter BooleanFilter { }
+DEF John_Pitch012FINALEBooleanFilter BooleanFilter { }
+DEF John_Pitch012NEGATERBooleanFilter BooleanFilter { }
+DEF John_Pitch012OffTimeTrigger TimeTrigger { }
+DEF John_Pitch012OnTimeTrigger TimeTrigger { }
+ROUTE John_z100sTimer.fraction_changed TO John_Pitch012BooleanSequencer.set_fraction
+ROUTE John_Pitch012BooleanSequencer.value_changed TO John_Pitch012SPLITTERBooleanFilter.set_boolean
+ROUTE John_Pitch012SPLITTERBooleanFilter.inputTrue TO John_Pitch012OnTimeTrigger.set_boolean
+ROUTE John_Pitch012SPLITTERBooleanFilter.inputFalse TO John_Pitch012OffTimeTrigger.set_boolean
+ROUTE John_Pitch012SPLITTERBooleanFilter.inputTrue TO John_Pitch012Timer.set_enabled
+ROUTE John_Pitch012SPLITTERBooleanFilter.inputFalse TO John_Pitch012Timer.set_enabled
+ROUTE John_Pitch012OffTimeTrigger.triggerTime TO John_Pitch012Timer.set_stopTime
+ROUTE John_Pitch012OnTimeTrigger.triggerTime TO John_Pitch012Timer.set_startTime
+DEF John_Run013BooleanSequencer BooleanSequencer {
+	key [ 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 ]
+	keyValue [ FALSE FALSE FALSE TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE ]
+	# [ John_Stop01 John_Stand01 John_Pitch01 John_Run01 John_Turn01 John_Roll01 John_Walk01 John_Run01 John_Skip01 John_Kick01 John_Stop01 ]
+}
+DEF John_Run013SPLITTERBooleanFilter BooleanFilter { }
+DEF John_Run013FINALEBooleanFilter BooleanFilter { }
+DEF John_Run013NEGATERBooleanFilter BooleanFilter { }
+DEF John_Run013OffTimeTrigger TimeTrigger { }
+DEF John_Run013OnTimeTrigger TimeTrigger { }
+ROUTE John_z100sTimer.fraction_changed TO John_Run013BooleanSequencer.set_fraction
+ROUTE John_Run013BooleanSequencer.value_changed TO John_Run013SPLITTERBooleanFilter.set_boolean
+ROUTE John_Run013SPLITTERBooleanFilter.inputTrue TO John_Run013OnTimeTrigger.set_boolean
+ROUTE John_Run013SPLITTERBooleanFilter.inputFalse TO John_Run013OffTimeTrigger.set_boolean
+ROUTE John_Run013SPLITTERBooleanFilter.inputTrue TO John_Run013Timer.set_enabled
+ROUTE John_Run013SPLITTERBooleanFilter.inputFalse TO John_Run013Timer.set_enabled
+ROUTE John_Run013OffTimeTrigger.triggerTime TO John_Run013Timer.set_stopTime
+ROUTE John_Run013OnTimeTrigger.triggerTime TO John_Run013Timer.set_startTime
+DEF John_Turn014BooleanSequencer BooleanSequencer {
+	key [ 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 ]
+	keyValue [ FALSE FALSE FALSE FALSE TRUE FALSE FALSE FALSE FALSE FALSE FALSE ]
+	# [ John_Stop01 John_Stand01 John_Pitch01 John_Run01 John_Turn01 John_Roll01 John_Walk01 John_Run01 John_Skip01 John_Kick01 John_Stop01 ]
+}
+DEF John_Turn014SPLITTERBooleanFilter BooleanFilter { }
+DEF John_Turn014FINALEBooleanFilter BooleanFilter { }
+DEF John_Turn014NEGATERBooleanFilter BooleanFilter { }
+DEF John_Turn014OffTimeTrigger TimeTrigger { }
+DEF John_Turn014OnTimeTrigger TimeTrigger { }
+ROUTE John_z100sTimer.fraction_changed TO John_Turn014BooleanSequencer.set_fraction
+ROUTE John_Turn014BooleanSequencer.value_changed TO John_Turn014SPLITTERBooleanFilter.set_boolean
+ROUTE John_Turn014SPLITTERBooleanFilter.inputTrue TO John_Turn014OnTimeTrigger.set_boolean
+ROUTE John_Turn014SPLITTERBooleanFilter.inputFalse TO John_Turn014OffTimeTrigger.set_boolean
+ROUTE John_Turn014SPLITTERBooleanFilter.inputTrue TO John_Turn014Timer.set_enabled
+ROUTE John_Turn014SPLITTERBooleanFilter.inputFalse TO John_Turn014Timer.set_enabled
+ROUTE John_Turn014OffTimeTrigger.triggerTime TO John_Turn014Timer.set_stopTime
+ROUTE John_Turn014OnTimeTrigger.triggerTime TO John_Turn014Timer.set_startTime
+DEF John_Roll015BooleanSequencer BooleanSequencer {
+	key [ 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 ]
+	keyValue [ FALSE FALSE FALSE FALSE FALSE TRUE FALSE FALSE FALSE FALSE FALSE ]
+	# [ John_Stop01 John_Stand01 John_Pitch01 John_Run01 John_Turn01 John_Roll01 John_Walk01 John_Run01 John_Skip01 John_Kick01 John_Stop01 ]
+}
+DEF John_Roll015SPLITTERBooleanFilter BooleanFilter { }
+DEF John_Roll015FINALEBooleanFilter BooleanFilter { }
+DEF John_Roll015NEGATERBooleanFilter BooleanFilter { }
+DEF John_Roll015OffTimeTrigger TimeTrigger { }
+DEF John_Roll015OnTimeTrigger TimeTrigger { }
+ROUTE John_z100sTimer.fraction_changed TO John_Roll015BooleanSequencer.set_fraction
+ROUTE John_Roll015BooleanSequencer.value_changed TO John_Roll015SPLITTERBooleanFilter.set_boolean
+ROUTE John_Roll015SPLITTERBooleanFilter.inputTrue TO John_Roll015OnTimeTrigger.set_boolean
+ROUTE John_Roll015SPLITTERBooleanFilter.inputFalse TO John_Roll015OffTimeTrigger.set_boolean
+ROUTE John_Roll015SPLITTERBooleanFilter.inputTrue TO John_Roll015Timer.set_enabled
+ROUTE John_Roll015SPLITTERBooleanFilter.inputFalse TO John_Roll015Timer.set_enabled
+ROUTE John_Roll015OffTimeTrigger.triggerTime TO John_Roll015Timer.set_stopTime
+ROUTE John_Roll015OnTimeTrigger.triggerTime TO John_Roll015Timer.set_startTime
+DEF John_Walk016BooleanSequencer BooleanSequencer {
+	key [ 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 ]
+	keyValue [ FALSE FALSE FALSE FALSE FALSE FALSE TRUE FALSE FALSE FALSE FALSE ]
+	# [ John_Stop01 John_Stand01 John_Pitch01 John_Run01 John_Turn01 John_Roll01 John_Walk01 John_Run01 John_Skip01 John_Kick01 John_Stop01 ]
+}
+DEF John_Walk016SPLITTERBooleanFilter BooleanFilter { }
+DEF John_Walk016FINALEBooleanFilter BooleanFilter { }
+DEF John_Walk016NEGATERBooleanFilter BooleanFilter { }
+DEF John_Walk016OffTimeTrigger TimeTrigger { }
+DEF John_Walk016OnTimeTrigger TimeTrigger { }
+ROUTE John_z100sTimer.fraction_changed TO John_Walk016BooleanSequencer.set_fraction
+ROUTE John_Walk016BooleanSequencer.value_changed TO John_Walk016SPLITTERBooleanFilter.set_boolean
+ROUTE John_Walk016SPLITTERBooleanFilter.inputTrue TO John_Walk016OnTimeTrigger.set_boolean
+ROUTE John_Walk016SPLITTERBooleanFilter.inputFalse TO John_Walk016OffTimeTrigger.set_boolean
+ROUTE John_Walk016SPLITTERBooleanFilter.inputTrue TO John_Walk016Timer.set_enabled
+ROUTE John_Walk016SPLITTERBooleanFilter.inputFalse TO John_Walk016Timer.set_enabled
+ROUTE John_Walk016OffTimeTrigger.triggerTime TO John_Walk016Timer.set_stopTime
+ROUTE John_Walk016OnTimeTrigger.triggerTime TO John_Walk016Timer.set_startTime
+DEF John_Run017BooleanSequencer BooleanSequencer {
+	key [ 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 ]
+	keyValue [ FALSE FALSE FALSE FALSE FALSE FALSE FALSE TRUE FALSE FALSE FALSE ]
+	# [ John_Stop01 John_Stand01 John_Pitch01 John_Run01 John_Turn01 John_Roll01 John_Walk01 John_Run01 John_Skip01 John_Kick01 John_Stop01 ]
+}
+DEF John_Run017SPLITTERBooleanFilter BooleanFilter { }
+DEF John_Run017FINALEBooleanFilter BooleanFilter { }
+DEF John_Run017NEGATERBooleanFilter BooleanFilter { }
+DEF John_Run017OffTimeTrigger TimeTrigger { }
+DEF John_Run017OnTimeTrigger TimeTrigger { }
+ROUTE John_z100sTimer.fraction_changed TO John_Run017BooleanSequencer.set_fraction
+ROUTE John_Run017BooleanSequencer.value_changed TO John_Run017SPLITTERBooleanFilter.set_boolean
+ROUTE John_Run017SPLITTERBooleanFilter.inputTrue TO John_Run017OnTimeTrigger.set_boolean
+ROUTE John_Run017SPLITTERBooleanFilter.inputFalse TO John_Run017OffTimeTrigger.set_boolean
+ROUTE John_Run017SPLITTERBooleanFilter.inputTrue TO John_Run017Timer.set_enabled
+ROUTE John_Run017SPLITTERBooleanFilter.inputFalse TO John_Run017Timer.set_enabled
+ROUTE John_Run017OffTimeTrigger.triggerTime TO John_Run017Timer.set_stopTime
+ROUTE John_Run017OnTimeTrigger.triggerTime TO John_Run017Timer.set_startTime
+DEF John_Skip018BooleanSequencer BooleanSequencer {
+	key [ 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 ]
+	keyValue [ FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE TRUE FALSE FALSE ]
+	# [ John_Stop01 John_Stand01 John_Pitch01 John_Run01 John_Turn01 John_Roll01 John_Walk01 John_Run01 John_Skip01 John_Kick01 John_Stop01 ]
+}
+DEF John_Skip018SPLITTERBooleanFilter BooleanFilter { }
+DEF John_Skip018FINALEBooleanFilter BooleanFilter { }
+DEF John_Skip018NEGATERBooleanFilter BooleanFilter { }
+DEF John_Skip018OffTimeTrigger TimeTrigger { }
+DEF John_Skip018OnTimeTrigger TimeTrigger { }
+ROUTE John_z100sTimer.fraction_changed TO John_Skip018BooleanSequencer.set_fraction
+ROUTE John_Skip018BooleanSequencer.value_changed TO John_Skip018SPLITTERBooleanFilter.set_boolean
+ROUTE John_Skip018SPLITTERBooleanFilter.inputTrue TO John_Skip018OnTimeTrigger.set_boolean
+ROUTE John_Skip018SPLITTERBooleanFilter.inputFalse TO John_Skip018OffTimeTrigger.set_boolean
+ROUTE John_Skip018SPLITTERBooleanFilter.inputTrue TO John_Skip018Timer.set_enabled
+ROUTE John_Skip018SPLITTERBooleanFilter.inputFalse TO John_Skip018Timer.set_enabled
+ROUTE John_Skip018OffTimeTrigger.triggerTime TO John_Skip018Timer.set_stopTime
+ROUTE John_Skip018OnTimeTrigger.triggerTime TO John_Skip018Timer.set_startTime
+DEF John_Kick019BooleanSequencer BooleanSequencer {
+	key [ 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 ]
+	keyValue [ FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE TRUE FALSE ]
+	# [ John_Stop01 John_Stand01 John_Pitch01 John_Run01 John_Turn01 John_Roll01 John_Walk01 John_Run01 John_Skip01 John_Kick01 John_Stop01 ]
+}
+DEF John_Kick019SPLITTERBooleanFilter BooleanFilter { }
+DEF John_Kick019FINALEBooleanFilter BooleanFilter { }
+DEF John_Kick019NEGATERBooleanFilter BooleanFilter { }
+DEF John_Kick019OffTimeTrigger TimeTrigger { }
+DEF John_Kick019OnTimeTrigger TimeTrigger { }
+ROUTE John_z100sTimer.fraction_changed TO John_Kick019BooleanSequencer.set_fraction
+ROUTE John_Kick019BooleanSequencer.value_changed TO John_Kick019SPLITTERBooleanFilter.set_boolean
+ROUTE John_Kick019SPLITTERBooleanFilter.inputTrue TO John_Kick019OnTimeTrigger.set_boolean
+ROUTE John_Kick019SPLITTERBooleanFilter.inputFalse TO John_Kick019OffTimeTrigger.set_boolean
+ROUTE John_Kick019SPLITTERBooleanFilter.inputTrue TO John_Kick019Timer.set_enabled
+ROUTE John_Kick019SPLITTERBooleanFilter.inputFalse TO John_Kick019Timer.set_enabled
+ROUTE John_Kick019OffTimeTrigger.triggerTime TO John_Kick019Timer.set_stopTime
+ROUTE John_Kick019OnTimeTrigger.triggerTime TO John_Kick019Timer.set_startTime
+DEF John_Stop0110BooleanSequencer BooleanSequencer {
+	key [ 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 ]
+	keyValue [ FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE TRUE ]
+	# [ John_Stop01 John_Stand01 John_Pitch01 John_Run01 John_Turn01 John_Roll01 John_Walk01 John_Run01 John_Skip01 John_Kick01 John_Stop01 ]
+}
+DEF John_Stop0110SPLITTERBooleanFilter BooleanFilter { }
+DEF John_Stop0110FINALEBooleanFilter BooleanFilter { }
+DEF John_Stop0110NEGATERBooleanFilter BooleanFilter { }
+DEF John_Stop0110OffTimeTrigger TimeTrigger { }
+DEF John_Stop0110OnTimeTrigger TimeTrigger { }
+ROUTE John_z100sTimer.cycleTime TO John_Stop0110Timer.set_stopTime
+ROUTE John_z100sTimer.isActive TO John_Stop0110Timer.set_enabled
+DEF John_Stop0110FINALETimeTrigger TimeTrigger { }
+ROUTE John_Stop0110FINALEBooleanFilter.inputFalse TO John_Stop0110FINALETimeTrigger.set_boolean
+ROUTE John_Stop0110FINALETimeTrigger.triggerTime TO John_Stop0110Timer.set_stopTime
+ROUTE John_z100sTimer.fraction_changed TO John_Stop0110BooleanSequencer.set_fraction
+ROUTE John_Stop0110BooleanSequencer.value_changed TO John_Stop0110SPLITTERBooleanFilter.set_boolean
+ROUTE John_Stop0110SPLITTERBooleanFilter.inputTrue TO John_Stop0110OnTimeTrigger.set_boolean
+ROUTE John_Stop0110SPLITTERBooleanFilter.inputFalse TO John_Stop0110OffTimeTrigger.set_boolean
+ROUTE John_Stop0110SPLITTERBooleanFilter.inputTrue TO John_Stop0110Timer.set_enabled
+ROUTE John_Stop0110SPLITTERBooleanFilter.inputFalse TO John_Stop0110Timer.set_enabled
+ROUTE John_Stop0110OffTimeTrigger.triggerTime TO John_Stop0110Timer.set_stopTime
+ROUTE John_Stop0110OnTimeTrigger.triggerTime TO John_Stop0110Timer.set_startTime
+###########################################################################################
+ROUTE John_Stop010Timer.stopTime TO John_Stand011Timer.set_startTime
+ROUTE John_Stop010Timer.isActive TO John_Stand011NEGATERBooleanFilter.set_boolean
+ROUTE John_Stand011NEGATERBooleanFilter.inputNegate TO John_Stop010BooleanSequencer.next
+ROUTE John_Stand011Timer.stopTime TO John_Pitch012Timer.set_startTime
+ROUTE John_Stand011Timer.isActive TO John_Pitch012NEGATERBooleanFilter.set_boolean
+ROUTE John_Pitch012NEGATERBooleanFilter.inputNegate TO John_Stand011BooleanSequencer.next
+ROUTE John_Pitch012Timer.stopTime TO John_Run013Timer.set_startTime
+ROUTE John_Pitch012Timer.isActive TO John_Run013NEGATERBooleanFilter.set_boolean
+ROUTE John_Run013NEGATERBooleanFilter.inputNegate TO John_Pitch012BooleanSequencer.next
+ROUTE John_Run013Timer.stopTime TO John_Turn014Timer.set_startTime
+ROUTE John_Run013Timer.isActive TO John_Turn014NEGATERBooleanFilter.set_boolean
+ROUTE John_Turn014NEGATERBooleanFilter.inputNegate TO John_Run013BooleanSequencer.next
+ROUTE John_Turn014Timer.stopTime TO John_Roll015Timer.set_startTime
+ROUTE John_Turn014Timer.isActive TO John_Roll015NEGATERBooleanFilter.set_boolean
+ROUTE John_Roll015NEGATERBooleanFilter.inputNegate TO John_Turn014BooleanSequencer.next
+ROUTE John_Roll015Timer.stopTime TO John_Walk016Timer.set_startTime
+ROUTE John_Roll015Timer.isActive TO John_Walk016NEGATERBooleanFilter.set_boolean
+ROUTE John_Walk016NEGATERBooleanFilter.inputNegate TO John_Roll015BooleanSequencer.next
+ROUTE John_Walk016Timer.stopTime TO John_Run017Timer.set_startTime
+ROUTE John_Walk016Timer.isActive TO John_Run017NEGATERBooleanFilter.set_boolean
+ROUTE John_Run017NEGATERBooleanFilter.inputNegate TO John_Walk016BooleanSequencer.next
+ROUTE John_Run017Timer.stopTime TO John_Skip018Timer.set_startTime
+ROUTE John_Run017Timer.isActive TO John_Skip018NEGATERBooleanFilter.set_boolean
+ROUTE John_Skip018NEGATERBooleanFilter.inputNegate TO John_Run017BooleanSequencer.next
+ROUTE John_Skip018Timer.stopTime TO John_Kick019Timer.set_startTime
+ROUTE John_Skip018Timer.isActive TO John_Kick019NEGATERBooleanFilter.set_boolean
+ROUTE John_Kick019NEGATERBooleanFilter.inputNegate TO John_Skip018BooleanSequencer.next
+ROUTE John_Kick019Timer.stopTime TO John_Stop0110Timer.set_startTime
+ROUTE John_Kick019Timer.isActive TO John_Stop0110NEGATERBooleanFilter.set_boolean
+ROUTE John_Stop0110NEGATERBooleanFilter.inputNegate TO John_Kick019BooleanSequencer.next
+ROUTE John_Stop0110Timer.stopTime TO John_Stop010Timer.set_startTime
+ROUTE John_Stop0110Timer.isActive TO John_Stop010NEGATERBooleanFilter.set_boolean
+ROUTE John_Stop010NEGATERBooleanFilter.inputNegate TO John_Stop0110BooleanSequencer.next
