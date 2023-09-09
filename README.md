@@ -22,7 +22,7 @@ More inforamation on the type of HTML later.  I will create some examples
 See below for information on taking the proprietary format to generate VRML Event chaining code
 In folder: ./Jaminate/app/src/main/javascript
 
-```
+```txt
 John.json -- Provide JSON data here.
 John.txt -- Input file in proprietary format
 takes.John.timers.txt -- Sample time sensors
