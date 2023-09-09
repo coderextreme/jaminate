@@ -1,13 +1,22 @@
-# jaminate
-
+# jaminate.  High Level Animation Planning Tool (Like Excel, but worse)
 
 For JaminateBridge (Java Program)
 Load files as .html
 Save files as .html
 Load propriety format as .txt
 
-More inforamation on the type of HTML later.  I will create some examples
+```
+$ git clone https://github.com/coderextreme/jaminate
+$ cd jaminate/Jaminate/
+$ gradle
+$ gradle build
+$ gradle run
+```
 
+Have fun Jaminating!
+
+More inforamation on the type of HTML later.  I will create some examples
+=======================================================================================
 See below for information on taking the proprietary format to generate VRML Event chaining code
 In: ./Jaminate/app/src/main/javascript
 
