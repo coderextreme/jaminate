@@ -17,7 +17,7 @@ Then load the file John.txt, for example.  Save is only to .html now, but you ca
 
 Have fun Jaminating!
 
-More inforamation on the type of HTML later.  I will create some examples
+More information on the type of HTML later.  I will create some examples
 =======================================================================================
 See below for information on taking the proprietary format to generate VRML Event chaining code
 In folder: ./Jaminate/app/src/main/javascript
