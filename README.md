@@ -1,6 +1,9 @@
 # jaminate.  A high Level Animation Motion Chaining Tool for X3D VRML (Like Excel, but worse)
+
 =======================================================
-See below for information on taking a JSON file and generating VRML Event chaining code from it.
+
+See below for information on taking a JSON file and
+generating VRML Event chaining code from it.
 In folder: ./Jaminate/app/src/main/javascript:
 
 ```txt
@@ -32,6 +35,7 @@ takes.\*.txt
 where * becomes one of your characters in John.json
 ```
 ===========================================================
+
 Also in this repository, a Java program for generating files like John.txt
 
 ```txt
