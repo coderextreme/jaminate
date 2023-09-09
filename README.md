@@ -41,7 +41,7 @@ $ node takes.js
 ```
 And pick up VRML in files
 
-takes.*.timers.txt
-takes.*.txt
+takes.\*.timers.txt
+takes.\*.txt
 
 where * becomes one of your characters in John.json
