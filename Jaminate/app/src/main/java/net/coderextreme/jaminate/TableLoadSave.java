@@ -23,6 +23,12 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import javax.swing.table.DefaultTableModel;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TableLoadSave extends DefaultHandler {
 
@@ -113,7 +119,103 @@ public class TableLoadSave extends DefaultHandler {
             e.printStackTrace(System.err);
         }
     }
+
     public void saveTableModel(GenericTableModel model, File selectedFile){
+        this.model = model;
+        if (selectedFile.getName().endsWith(".html")) {
+            saveXMLTableModel(model, selectedFile);
+        } else if (selectedFile.getName().endsWith(".json")) {
+            saveJsonTableModel(model, selectedFile);
+        }
+    }
+    /*
+     {
+"John": {
+        "TimesPerCharacter": [ 0,0.10,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],
+        "MovesPerCharacter": [ "John_Stop01","John_Stand01","John_Pitch01","John_Run01","John_Turn01","John_Roll01","John_Walk01","John_Run01","John_Skip01","John_Kick01","John_Stop01" ],
+        "Global": [ 0,0.10,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],
+        "John_Walk01": [false,false,false,false,false,false,true,false,false,false,false],
+        "John_Stop01": [true,false,false,false,false,false,false,false,false,false,true],
+        "John_Kick01": [false,false,false,false,false,false,false,false,false,true,false],
+        "John_Pitch01": [false,false,true,false,false,false,false,false,false,false,false],
+        "John_Skip01": [false,false,false,false,false,false,false,false,true,false,false],
+        "John_Stand01": [false,true,false,false,false,false,false,false,false,false,false],
+        "John_Run01": [false,false,false,true,false,false,false,true,false,false,false],
+        "John_Roll01": [false,false,false,false,false,true,false,false,false,false,false],
+        "John_Turn01": [false,false,false,false,true,false,false,false,false,false,false]
+        }
+}
+*/
+
+    public void saveJsonTableModel(GenericTableModel model, File selectedFile) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(selectedFile));) {
+	    Map<String, Map<String, List<Double>>> timesAllCharacters = new HashMap<String, Map<String, List<Double>>>();
+	    Map<String, Map<String, List<String>>> movesAllCharacters = new HashMap<String, Map<String, List<String>>>();
+            int rows = model.getModel().getRowCount();
+            int cols = model.getModel().getColumnCount();
+	    String MPC = "MovesPerCharacter";
+	    String TPC = "TimesPerCharacter";
+            for (int r = 0; r < rows; r++) {
+                String character = model.getModel().getValueAt(r, 1).toString(); // get character name
+                Double time = Double.valueOf(model.getModel().getValueAt(r, 2).toString()); // get time
+                String mainMotion = model.getModel().getValueAt(r, 3).toString(); // primary motion
+                Integer subMotion = Integer.valueOf(model.getModel().getValueAt(r, 4).toString()); // secondary submotion
+								      //
+		Map<String, List<Double>> characterTimeInfo = timesAllCharacters.get(character);
+		if (characterTimeInfo == null) {
+			timesAllCharacters.put(character, new HashMap<String, List<Double>>());
+			characterTimeInfo = timesAllCharacters.get(character);
+		}
+
+		Map<String, List<String>> characterMoveInfo = movesAllCharacters.get(character);
+		if (characterMoveInfo == null) {
+			movesAllCharacters.put(character, new HashMap<String, List<String>>());
+			characterMoveInfo = movesAllCharacters.get(character);
+		}
+
+		List<Double> characterTimes = characterTimeInfo.get(TPC);
+		if (characterTimes == null) {
+			characterTimeInfo.put(TPC, new ArrayList<Double>());
+			characterTimes = characterTimeInfo.get(TPC);
+		}
+		characterTimes.add(time);
+
+		List<String> characterMoves = characterMoveInfo.get(MPC);
+		if (characterMoves == null) {
+			characterMoveInfo.put(MPC, new ArrayList<String>());
+			characterMoves = characterMoveInfo.get(MPC);
+		}
+		String move = subMotion.toString();
+		if (subMotion < 10 && subMotion >= 0) {
+			move = "0"+move;
+		}
+		characterMoves.add(mainMotion+"_"+move);
+            }
+            pw.println("{");
+	    Boolean afterFirst = false;
+	    // base this off Times, could be based on moves.
+	    for (String character : timesAllCharacters.keySet()) {
+		if (afterFirst) {
+			pw.println(",");
+		} else {
+			afterFirst = true;
+		}
+		pw.println("\""+character+"\": { ");
+	    	for (Map.Entry<String, List<Double>> pair2 : timesAllCharacters.get(character).entrySet()) {
+		    pw.println("\""+pair2.getKey()+"\": "+pair2.getValue().stream ().map(Object::toString).collect (Collectors.joining(", ", "[", "]"))+",");
+		}
+	    	for (Map.Entry<String, List<String>> pair3 : movesAllCharacters.get(character).entrySet()) {
+		    pw.println("\""+pair3.getKey()+"\": [\""+String.join("\", \"", pair3.getValue())+"\"]");
+		}
+		pw.println("}");
+	    }
+            pw.println("}");
+        } catch (IOException e) {
+            e.printStackTrace(System.err);
+        }
+
+    }
+    public void saveXMLTableModel(GenericTableModel model, File selectedFile) {
              
         try (PrintWriter pw = new PrintWriter(new FileWriter(selectedFile));) {
             int rows = model.getModel().getRowCount();
