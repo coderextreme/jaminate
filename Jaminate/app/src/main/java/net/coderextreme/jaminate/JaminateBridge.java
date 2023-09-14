@@ -4,17 +4,15 @@
  */
 package net.coderextreme.jaminate;
 
-import com.stackoverflow.CopyTable;
 import com.stackoverflow.HtmlSelection;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -23,6 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import org.xml.sax.InputSource;
 
 class ClipboardItem {
 
@@ -62,11 +61,12 @@ public class JaminateBridge extends javax.swing.JFrame {
      */
     public JaminateBridge() {
         initComponents();
-        jFileChooser1.setVisible(false);
+        this.jFileChooser1.setVisible(false);
         //jTable1.setColumnSelectionAllowed(true);
-        jTable1.setRowSelectionAllowed(true);
-        jTable1.setColumnSelectionAllowed(true);
-        jTable1.setVisible(true);
+        this.jTable1.setRowSelectionAllowed(true);
+        this.jTable1.setColumnSelectionAllowed(true);
+        this.jTable1.setVisible(true);
+        this.tableModel = new GenericTableModel((DefaultTableModel) jTable1.getModel());
         //jScrollPane3.setPreferredSize(new Dimension(400, 300));
         /*
         setEditableComboBox(1);
@@ -520,7 +520,7 @@ public class JaminateBridge extends javax.swing.JFrame {
                 if (selectedFile != null) {
                     TableLoadSave save = new TableLoadSave();
                     System.out.println(selectedFile);
-                    JaminateBridge.this.tableModel = new GenericTableModel((DefaultTableModel) jTable1.getModel());
+                    //JaminateBridge.this.tableModel = new GenericTableModel((DefaultTableModel) jTable1.getModel());
                     String s = save.saveTableModel(JaminateBridge.this.tableModel, selectedFile);
                     jTable1.repaint();  // refresh
                     jTextArea1.setText(s);
@@ -562,7 +562,6 @@ public class JaminateBridge extends javax.swing.JFrame {
                 if (selectedFile != null) {
                     TableLoadSave load = new TableLoadSave();
                     System.out.println(selectedFile);
-                    JaminateBridge.this.tableModel = new GenericTableModel((DefaultTableModel) jTable1.getModel());
                     JaminateBridge.this.tableModel.getModel().setRowCount(0);  // clear table
                     load.loadTableModel(JaminateBridge.this.tableModel, selectedFile);
                     Integer rowCount = JaminateBridge.this.tableModel.getRowCount();
@@ -640,7 +639,17 @@ public class JaminateBridge extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1KeyReleased
 
     private void ImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImportActionPerformed
-        // TODO add your handling code here:
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                String html = (String)Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.allHtmlFlavor); 
+                TableLoadSave load = new TableLoadSave();
+                html = /*"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"+*/html.substring(html.indexOf("<"));
+                jTextArea1.setText(html);
+                load.loadHTMLSource(JaminateBridge.this.tableModel, new InputSource(new StringReader(html)));
+            } catch (IOException | UnsupportedFlavorException e) {
+                e.printStackTrace(System.err);
+            }
+        });
     }//GEN-LAST:event_ImportActionPerformed
 
     private void ExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportActionPerformed

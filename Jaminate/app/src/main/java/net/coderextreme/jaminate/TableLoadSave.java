@@ -3,16 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
  */
 package net.coderextreme.jaminate;
-import com.google.common.base.Charsets;
-import com.google.common.io.CharStreams;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.BufferedReader;
-import java.io.BufferedOutputStream;
-import java.io.OutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -20,9 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -30,11 +24,12 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.parsers.SAXParser;
 import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import org.ccil.cowan.tagsoup.Parser;
+import org.ccil.cowan.tagsoup.XMLWriter;
 import javax.swing.table.DefaultTableModel;
 import java.util.Map;
 import java.util.HashMap;
@@ -42,8 +37,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import javax.activation.DataHandler;
+import org.xml.sax.XMLReader;
 
-public class TableLoadSave extends DefaultHandler {
+public class TableLoadSave extends Parser {
 
     /**
      * @return the mode
@@ -62,6 +58,7 @@ public class TableLoadSave extends DefaultHandler {
 
     }
     private int column;
+    private int row;
 
     public TableLoadSave() {
         this.model = null;
@@ -78,12 +75,12 @@ public class TableLoadSave extends DefaultHandler {
     public void loadTableModel(GenericTableModel model, File selectedFile) {
         this.model = model;
         if (selectedFile.getName().endsWith(".html")) {
-            loadXMLTableModel(model, selectedFile);
+            loadHTMLFile(model, selectedFile);
         } else if (selectedFile.getName().endsWith(".txt")) {
-            loadTxtTableModel(model, selectedFile);
+            loadTxtFile(model, selectedFile);
         }
     }
-    public void loadTxtTableModel(GenericTableModel model, File selectedFile) {
+    public void loadTxtFile(GenericTableModel model, File selectedFile) {
         try (BufferedReader br = new BufferedReader(new FileReader(selectedFile))) {
             Pattern pattern = Pattern.compile("([-0-9\\.e\\+]+)[ \\t]+([-0-9\\.e\\+]+)[ \\t]+([-0-9\\.e\\+]+),[ \\t]+#?\\(([0-9\\.]+)\\)[ \\t]+#?\\(([A-Za-z]+)_([A-Za-z]+)([0-9]+)\\)");
             String str;
@@ -120,26 +117,41 @@ public class TableLoadSave extends DefaultHandler {
         }
         
     }
-    public void loadXMLTableModel(GenericTableModel model, File selectedFile) {
+    public void loadHTMLFile(GenericTableModel model, File selectedFile) {
         this.model = model;
          try (FileInputStream fis = new FileInputStream(selectedFile)){
+            loadHTMLSource(model, new InputSource(fis));
+            System.err.println("Number of rows in reader "+model.getModel().getRowCount());
+        } catch (IOException e) {
+            e.printStackTrace(System.err);
+        }
+    }
+    public void loadHTMLSource(GenericTableModel model, InputSource is) {
+        this.model = model;
+        
+        //tagsoup
+        try {
+            this.parse(is);
+        } catch (IOException | SAXException e) {
+            e.printStackTrace(System.err);
+        }/*
+        try {
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
             SAXParser parser = parserFactory.newSAXParser();
             XMLReader reader = parser.getXMLReader();
             reader.setContentHandler(this);
-            reader.parse(new InputSource(fis));
+            reader.parse(is);
             System.err.println("Number of rows in reader "+model.getModel().getRowCount());
         } catch (SAXException | IOException | ParserConfigurationException e) {
             e.printStackTrace(System.err);
-        }
+        }*/
     }
-
     public String saveTableModel(GenericTableModel model, File selectedFile){
         this.model = model;
         if (selectedFile.getName().endsWith(".html")) {
             return saveXMLTableModel(model, selectedFile);
         } else if (selectedFile.getName().endsWith(".json")) {
-            return saveJsonTableModel(model, selectedFile);
+            return saveJsonFile(model, selectedFile);
         } else {
             return "";
         }
@@ -230,7 +242,7 @@ public class TableLoadSave extends DefaultHandler {
             pw.print(json);
             return json;
     }
-    public String saveJsonTableModel(GenericTableModel model, File selectedFile) {
+    public String saveJsonFile(GenericTableModel model, File selectedFile) {
         this.model = model;
      
         PrintWriter nopw = null;
@@ -272,7 +284,12 @@ public class TableLoadSave extends DefaultHandler {
             return "";
         }
     }
-    public String saveStringToClipboardTableModel(GenericTableModel model) {
+    /**
+     * @param model
+     * @return 
+     */
+    @Deprecated
+    public String saveHTMLToClipboard(GenericTableModel model) {
         this.model = model;  
         try  {
             String s = saveTableToHTMLString(model);
@@ -331,6 +348,7 @@ public class TableLoadSave extends DefaultHandler {
             case "table" -> {
                 this.mode = rowMode.OFF;
                 this.column = 0;
+                this.row = 0;
             }
             case "tr" -> {
                 this.currentRow = new Motion();
@@ -339,7 +357,11 @@ public class TableLoadSave extends DefaultHandler {
                 this.mode = rowMode.OFF;
             }
             case "td" -> {
-                mode = rowMode.DATA;
+                if (this.row == 0) {
+                    mode = rowMode.HEADER;
+                } else {
+                    mode = rowMode.DATA;
+                }
             }
             case "th" -> {
                 mode = rowMode.HEADER;
@@ -354,6 +376,7 @@ public class TableLoadSave extends DefaultHandler {
             case "table" -> {
                 this.mode = rowMode.OFF;
                 this.column = 0;
+                this.row = 0;
                 this.currentRow = null;
                 //System.err.println("Number of rows in endElement "+model.getModel().getRowCount()+" mode "+this.mode);
             }
@@ -362,6 +385,7 @@ public class TableLoadSave extends DefaultHandler {
                 this.model.getModel().setNumRows(this.model.getModel().getRowCount());
                 this.mode = rowMode.OFF;
                 this.column = 0;
+                this.row++;
                 this.currentRow = null;
             }
             case "td" -> {

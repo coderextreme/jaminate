@@ -1,3 +1,6 @@
+/*
+ https://stackoverflow.com/questions/24966974/copy-jtable-row-with-its-grid-lines-into-excel-word-documents/24978019#24978019
+ */
 package com.stackoverflow;
 
 import java.awt.datatransfer.DataFlavor;
