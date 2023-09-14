@@ -355,7 +355,7 @@ public class Motion extends GenericModel implements Serializable {
                     myField.setAccessible(true);
                     Object o = myField.get(this);
                     if (o != null) {
-                        System.err.println("column "+c.fieldName+" classname "+o.getClass().getName()+" "+o.toString());
+                        //System.err.println("column "+c.fieldName+" classname "+o.getClass().getName()+" "+o.toString());
                         if (c.fieldName.equals(URI)) { // URI is a template, replace "Motion" and "Toddler"
                             o = this.getUri();
                         }

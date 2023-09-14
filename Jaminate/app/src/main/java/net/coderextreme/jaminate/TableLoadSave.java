@@ -3,13 +3,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
  */
 package net.coderextreme.jaminate;
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.BufferedReader;
+import java.io.BufferedOutputStream;
+import java.io.OutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -28,7 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import javax.activation.DataHandler;
 
 public class TableLoadSave extends DefaultHandler {
 
@@ -97,6 +110,7 @@ public class TableLoadSave extends DefaultHandler {
                     this.currentRow = motion;
                     this.mode = rowMode.DATA;
                     this.model.addRow(this.currentRow, this.mode);
+                    this.model.getModel().setNumRows(this.model.getModel().getRowCount());
                 } else {
                     // System.err.println(str+"# failed row ");
                 }
@@ -120,12 +134,14 @@ public class TableLoadSave extends DefaultHandler {
         }
     }
 
-    public void saveTableModel(GenericTableModel model, File selectedFile){
+    public String saveTableModel(GenericTableModel model, File selectedFile){
         this.model = model;
         if (selectedFile.getName().endsWith(".html")) {
-            saveXMLTableModel(model, selectedFile);
+            return saveXMLTableModel(model, selectedFile);
         } else if (selectedFile.getName().endsWith(".json")) {
-            saveJsonTableModel(model, selectedFile);
+            return saveJsonTableModel(model, selectedFile);
+        } else {
+            return "";
         }
     }
     /*
@@ -146,10 +162,10 @@ public class TableLoadSave extends DefaultHandler {
         }
 }
 */
-
-    public void saveJsonTableModel(GenericTableModel model, File selectedFile) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter(selectedFile));) {
-	    Map<String, Map<String, List<Double>>> timesAllCharacters = new HashMap<String, Map<String, List<Double>>>();
+    public String saveJson(GenericTableModel model, PrintWriter pw) {
+            this.model = model;
+            String json = "";
+            Map<String, Map<String, List<Double>>> timesAllCharacters = new HashMap<String, Map<String, List<Double>>>();
 	    Map<String, Map<String, List<String>>> movesAllCharacters = new HashMap<String, Map<String, List<String>>>();
             int rows = model.getModel().getRowCount();
             int cols = model.getModel().getColumnCount();
@@ -189,56 +205,116 @@ public class TableLoadSave extends DefaultHandler {
 		if (subMotion < 10 && subMotion >= 0) {
 			move = "0"+move;
 		}
-		characterMoves.add(mainMotion+"_"+move);
+		characterMoves.add(mainMotion+move);
             }
-            pw.println("{");
+            json += "{\n";
 	    Boolean afterFirst = false;
 	    // base this off Times, could be based on moves.
 	    for (String character : timesAllCharacters.keySet()) {
 		if (afterFirst) {
-			pw.println(",");
+			json += ",\n";
 		} else {
 			afterFirst = true;
 		}
-		pw.println("\""+character+"\": { ");
+		json += "\""+character+"\": {\n";
 	    	for (Map.Entry<String, List<Double>> pair2 : timesAllCharacters.get(character).entrySet()) {
-		    pw.println("\""+pair2.getKey()+"\": "+pair2.getValue().stream ().map(Object::toString).collect (Collectors.joining(", ", "[", "]"))+",");
+		    json += "\""+pair2.getKey()+"\": "+pair2.getValue().stream ().map(Object::toString).collect (Collectors.joining(", ", "[", "]"))+",";
 		}
+                json += "\n";
 	    	for (Map.Entry<String, List<String>> pair3 : movesAllCharacters.get(character).entrySet()) {
-		    pw.println("\""+pair3.getKey()+"\": [\""+String.join("\", \"", pair3.getValue())+"\"]");
+		    json += "\""+pair3.getKey()+"\": [\""+character+"_"+String.join("\", \""+character+"_", pair3.getValue())+"\"]";
 		}
-		pw.println("}");
+		json += "}\n";
 	    }
-            pw.println("}");
-        } catch (IOException e) {
-            e.printStackTrace(System.err);
-        }
-
+            json += "}\n";
+            pw.print(json);
+            return json;
     }
-    public void saveXMLTableModel(GenericTableModel model, File selectedFile) {
-             
+    public String saveJsonTableModel(GenericTableModel model, File selectedFile) {
+        this.model = model;
+     
+        PrintWriter nopw = null;
+        InputStream is = null;
+        String json = "";
         try (PrintWriter pw = new PrintWriter(new FileWriter(selectedFile));) {
-            int rows = model.getModel().getRowCount();
-            int cols = model.getModel().getColumnCount();
-            pw.println("<!DOCTYPE html>\n<html>\n<head>\n<title>Main Stage</title>\n</head>\n<body>\n<table>\n<tr>");
-            for (int c = 0; c < cols; c++) {
-                String chead = model.getModel().getColumnName(c);
-                pw.print("<th>"+chead+"</th>");
-            }
-            pw.println("</tr>");
-            for (int r = 0; r < rows; r++) {
-                pw.print("<tr>");
-                for (int c = 0; c < cols; c++) {
-                    Object o = model.getModel().getValueAt(r, c);
-                    pw.print("<td>"+o+"</td>");
-                }
-                pw.println("</tr>");
-            }
-            pw.println("</table>\n</body>\n</html>");
+            json = saveJson(model, pw);
+            Process p = Runtime.getRuntime().exec(new String[] { "node", "takes.js"});
+            nopw = new PrintWriter(p.getOutputStream());
+            nopw.write(json);
+            is = p.getInputStream();
+            nopw.close();
+            nopw = null;
+            String animationChain = new BufferedReader(new InputStreamReader(is))
+   .lines().collect(Collectors.joining("\n"));
+            return animationChain;
         } catch (IOException e) {
             e.printStackTrace(System.err);
+        } finally {
+            if (nopw != null) {
+                 nopw.close();
+            }
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace(System.err);
+                }
+            }
+        }
+        return json;
+    }
+    public String saveXMLTableModel(GenericTableModel model, File selectedFile) {
+        this.model = model;
+        try (PrintWriter pw = new PrintWriter(new FileWriter(selectedFile));) {
+            return saveTableToPrintWriter(model, pw);
+        } catch (IOException e) {
+            e.printStackTrace(System.err);
+            return "";
         }
     }
+    public String saveStringToClipboardTableModel(GenericTableModel model) {
+        this.model = model;  
+        try  {
+            String s = saveTableToHTMLString(model);
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            StringSelection ss = new StringSelection(s);
+            DataHandler dh = new DataHandler(ss, "text/html");
+            clipboard.setContents(ss, ss);
+            System.out.println(clipboard.getData(DataFlavor.stringFlavor));
+            return s;
+        } catch (IOException | UnsupportedFlavorException e) {
+            Logger.getLogger(TableLoadSave.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return "";
+    }
+    public String saveTableToHTMLString(GenericTableModel model) {
+        String html = "";
+        this.model = model;
+        int rows = this.model.getModel().getRowCount();
+        int cols = this.model.getModel().getColumnCount();
+        html += "<!DOCTYPE html>\n<html>\n<head>\n<title>Main Stage</title>\n</head>\n<body>\n<table>\n<tr>";
+        for (int c = 0; c < cols; c++) {
+            String chead = model.getModel().getColumnName(c);
+            html += "<th>"+chead+"</th>";
+        }
+        html += "</tr>";
+        for (int r = 0; r < rows; r++) {
+            html += "<tr>";
+            for (int c = 0; c < cols; c++) {
+                Object o = model.getModel().getValueAt(r, c);
+                html += "<td>"+o+"</td>";
+            }
+            html += "</tr>\n";
+        }
+        html += "</table>\n</body>\n</html>";  
+        return html;
+    }
+    private String saveTableToPrintWriter(GenericTableModel model, PrintWriter pw) {
+        this.model = model;
+        String html = saveTableToHTMLString(model);
+        pw.print(html);
+        return html;
+    } 
 
     @Override
     public void startDocument() throws SAXException {
@@ -250,7 +326,7 @@ public class TableLoadSave extends DefaultHandler {
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
-        System.err.println("Parsing <"+localName+"> "+qName);
+        //System.err.println("Parsing <"+localName+"> "+qName);
         switch (qName.toLowerCase()) {
             case "table" -> {
                 this.mode = rowMode.OFF;
@@ -258,7 +334,7 @@ public class TableLoadSave extends DefaultHandler {
             }
             case "tr" -> {
                 this.currentRow = new Motion();
-                System.err.println("Current row is "+this.currentRow);
+                //System.err.println("Current row is "+this.currentRow);
                 this.column = 0;
                 this.mode = rowMode.OFF;
             }
@@ -273,16 +349,17 @@ public class TableLoadSave extends DefaultHandler {
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        System.err.println("Done parsing <"+localName+"> "+qName);
+        //System.err.println("Done parsing <"+localName+"> "+qName);
         switch (qName.toLowerCase()) {
             case "table" -> {
                 this.mode = rowMode.OFF;
                 this.column = 0;
                 this.currentRow = null;
-                System.err.println("Number of rows in endElement "+model.getModel().getRowCount()+" mode "+this.mode);
+                //System.err.println("Number of rows in endElement "+model.getModel().getRowCount()+" mode "+this.mode);
             }
             case "tr" -> {
                 this.model.addRow(this.currentRow, this.mode);
+                this.model.getModel().setNumRows(this.model.getModel().getRowCount());
                 this.mode = rowMode.OFF;
                 this.column = 0;
                 this.currentRow = null;
@@ -301,7 +378,7 @@ public class TableLoadSave extends DefaultHandler {
             if (currentRow != null) {
                 if (length > 0) {
                     String cell = new String(ch, start, length);
-                    System.err.println("Found column "+this.column+" cell "+cell+" length "+length+" mode "+this.mode);
+                    //System.err.println("Found column "+this.column+" cell "+cell+" length "+length+" mode "+this.mode);
                     try {
                         if (mode != rowMode.OFF) {
                             currentRow.setField(this.column, this.mode, cell);
