@@ -1,4 +1,8 @@
 # jaminate.  A high Level Animation Motion Chaining Tool for X3D VRML (Like Excel, but worse)
+=======================================================
+Capabilities:
+Copy/Paste HTML between apps through Import/Export in File menu.
+Note that you must copy from LibreOffice each time you want to import into Jaminate.
 
 =======================================================
 
