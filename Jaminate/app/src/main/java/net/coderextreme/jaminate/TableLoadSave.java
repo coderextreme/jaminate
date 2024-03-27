@@ -32,13 +32,13 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import javax.activation.DataHandler;
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptEngineFactory;
-import javax.script.ScriptException;
-import javax.script.CompiledScript;
-import javax.script.Compilable;
+//import javax.script.Invocable;
+//import javax.script.ScriptEngine;
+//import javax.script.ScriptEngineManager;
+//import javax.script.ScriptEngineFactory;
+//import javax.script.ScriptException;
+//import javax.script.CompiledScript;
+//import javax.script.Compilable;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.Engine;
@@ -57,11 +57,11 @@ public class TableLoadSave extends Parser {
     private GenericTableModel model;
     private Motion currentRow = null;
 
-    public void JavaScriptExec(String javaScriptString)
+    public X3D JavaScriptExec(String javaScriptString)
       {
+	  X3D X3D0 = null;
           try
           {
-	    System.err.println("A:");
             Engine engine = Engine.newBuilder("js").build();
             Context context = Context.newBuilder("js")
 		.engine(engine)
@@ -69,29 +69,14 @@ public class TableLoadSave extends Parser {
 		.allowHostClassLookup(className -> true)
 		.arguments("js", new String[]{"--jvm", "--vm.classpath=lib/X3DJSAIL.4.0.full.jar;lib/saxon-he-12.1.jar"})
 		.option("js.ecmascript-version", "2022").build();
-	    // ScriptEngine engine = GraalJSScriptEngine.create(null,
-            //ScriptEngineManager sem = new ScriptEngineManager();
-            //ScriptEngine engine = sem.getEngineByName("graal.js");
-	    // CompiledScript script = ((Compilable) engine).compile("console.log('hello world');");
-	    
-	    // CompiledScript script = ((Compilable) engine).compile("load('src/main/javascript/X3Dautoclass.js');");
-	    //CompiledScript script = ((Compilable) engine).compile(javaScriptString);
-	    //script.eval();
-	    System.err.println("B:");
-            // Object getModel = context.eval("js", "console.log('hello world');");
             context.eval("js", javaScriptString).asHostObject();
-	    X3D X3D0 = context.eval("js", "X3D0").asHostObject();
-            // Object getModel = engine.eval(javaScriptString);
-	    System.err.println("B:");
-	    System.err.println(X3D0.getVersion());
-	    System.err.println("F:");
-	    System.err.println(X3D0.getProfile());
-	    System.err.println("G:");
+	    X3D0 = context.eval("js", "X3D0").asHostObject();
 	    context.close();
 	    engine.close();
           } catch(Exception e) {
               e.printStackTrace(System.err);
           }
+	  return X3D0;
       }
     private void loadJsFile(GenericTableModel model, File selectedFile) {
          this.model = model;
@@ -105,7 +90,9 @@ public class TableLoadSave extends Parser {
                     sb.append("\n");
                 }
                 String jsCode = sb.toString();
-                this.JavaScriptExec(jsCode);
+                X3D X3D0 = this.JavaScriptExec(jsCode);
+		System.err.println("Version: "+X3D0.getVersion());
+		System.err.println("Profile: "+X3D0.getProfile());
                 
             } catch (IOException e) {
                 e.printStackTrace(System.err);
