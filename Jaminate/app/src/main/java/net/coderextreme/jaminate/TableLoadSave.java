@@ -21,15 +21,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.parsers.SAXParser;
 import org.xml.sax.InputSource;
-import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 import org.ccil.cowan.tagsoup.Parser;
-import org.ccil.cowan.tagsoup.XMLWriter;
 import javax.swing.table.DefaultTableModel;
 import java.util.Map;
 import java.util.HashMap;
@@ -37,7 +32,19 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import javax.activation.DataHandler;
-import org.xml.sax.XMLReader;
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptException;
+import javax.script.CompiledScript;
+import javax.script.Compilable;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.HostAccess;
+import org.graalvm.polyglot.Engine;
+import org.web3d.x3d.jsail.Core.X3D;
+//import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
+//import com.oracle.truffle.js.lang.JavaScriptLanguageProvider;
 
 public class TableLoadSave extends Parser {
 
@@ -49,12 +56,72 @@ public class TableLoadSave extends Parser {
     }
     private GenericTableModel model;
     private Motion currentRow = null;
+
+    public void JavaScriptExec(String javaScriptString)
+      {
+          try
+          {
+	    System.err.println("A:");
+            Engine engine = Engine.newBuilder("js").build();
+            Context context = Context.newBuilder("js")
+		.engine(engine)
+		.allowHostAccess(HostAccess.ALL)
+		.allowHostClassLookup(className -> true)
+		.arguments("js", new String[]{"--jvm", "--vm.classpath=lib/X3DJSAIL.4.0.full.jar;lib/saxon-he-12.1.jar"})
+		.option("js.ecmascript-version", "2022").build();
+	    // ScriptEngine engine = GraalJSScriptEngine.create(null,
+            //ScriptEngineManager sem = new ScriptEngineManager();
+            //ScriptEngine engine = sem.getEngineByName("graal.js");
+	    // CompiledScript script = ((Compilable) engine).compile("console.log('hello world');");
+	    
+	    // CompiledScript script = ((Compilable) engine).compile("load('src/main/javascript/X3Dautoclass.js');");
+	    //CompiledScript script = ((Compilable) engine).compile(javaScriptString);
+	    //script.eval();
+	    System.err.println("B:");
+            // Object getModel = context.eval("js", "console.log('hello world');");
+            context.eval("js", javaScriptString).asHostObject();
+	    X3D X3D0 = context.eval("js", "X3D0").asHostObject();
+            // Object getModel = engine.eval(javaScriptString);
+	    System.err.println("B:");
+	    System.err.println(X3D0.getVersion());
+	    System.err.println("F:");
+	    System.err.println(X3D0.getProfile());
+	    System.err.println("G:");
+	    context.close();
+	    engine.close();
+          } catch(Exception e) {
+              e.printStackTrace(System.err);
+          }
+      }
+    private void loadJsFile(GenericTableModel model, File selectedFile) {
+         this.model = model;
+	 System.err.println("Opening file "+selectedFile);
+         try (FileInputStream fis = new FileInputStream(selectedFile)){
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(fis, "UTF-8"))) {
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line);
+                    sb.append("\n");
+                }
+                String jsCode = sb.toString();
+                this.JavaScriptExec(jsCode);
+                
+            } catch (IOException e) {
+                e.printStackTrace(System.err);
+            }
+            System.err.println("Number of rows in reader "+model.getModel().getRowCount());
+        } catch (IOException e) {
+            e.printStackTrace(System.err);
+        }
+    }
     public enum rowMode { HEADER, DATA, OFF };
     private rowMode mode = rowMode.DATA;
     public static void main(String[] args) {
  
         TableLoadSave loadAndSave = new TableLoadSave();
-        loadAndSave.loadTest(new GenericTableModel(new DefaultTableModel()));
+        loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/HAnim.code/jaminate/Jaminate/app/src/main/javascript/JinLOA4.js"));
+        // loadAndSave.loadTest(new GenericTableModel(new DefaultTableModel()));
 
     }
     private int column;
@@ -78,6 +145,8 @@ public class TableLoadSave extends Parser {
             loadHTMLFile(model, selectedFile);
         } else if (selectedFile.getName().endsWith(".txt")) {
             loadTxtFile(model, selectedFile);
+        } else if (selectedFile.getName().endsWith(".js")) {
+            loadJsFile(model, selectedFile);
         }
     }
     public void loadTxtFile(GenericTableModel model, File selectedFile) {
@@ -297,7 +366,7 @@ public class TableLoadSave extends Parser {
             StringSelection ss = new StringSelection(s);
             DataHandler dh = new DataHandler(ss, "text/html");
             clipboard.setContents(ss, ss);
-            System.out.println(clipboard.getData(DataFlavor.stringFlavor));
+            System.err.println(clipboard.getData(DataFlavor.stringFlavor));
             return s;
         } catch (IOException | UnsupportedFlavorException e) {
             Logger.getLogger(TableLoadSave.class.getName()).log(Level.SEVERE, null, e);

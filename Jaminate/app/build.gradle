@@ -8,13 +8,22 @@
 
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
-    id 'application'
     id 'java'
+    id 'application'
+}
+
+application {
+     applicationDefaultJvmArgs = ["-XX:+UnlockExperimentalVMOptions", "-XX:+EnableJVMCI", "-Djs.allowAllAccess=true", "-Xss1g", "-Xmx4g"]
+    // applicationDefaultJvmArgs = ["--module-path=C:/Users/john/.m2/repository/org/graalvm/js/js-scriptengine/20.1.0/js-scriptengine-20.1.0.jar"]
+    
+	// --vm.classpath="${GRAAL_CLASSPATH}" "$@"
+
 }
 
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+    mavenLocal()   // for X3DJSAIL
     //jcenter() // for schemagen
 }
 configurations {
@@ -34,6 +43,46 @@ dependencies {
 
     // https://mvnrepository.com/artifact/javax.activation/activation
     implementation 'javax.activation:activation:1.1.1'
+
+    // https://mvnrepository.com/artifact/org.graalvm.sdk/graal-sdk
+    implementation 'org.graalvm.sdk:graal-sdk:24.0.0'
+    // https://mvnrepository.com/artifact/org.graalvm.js/js-launcher
+    implementation 'org.graalvm.js:js-launcher:24.0.0'
+    // https://mvnrepository.com/artifact/org.graalvm.js/js-scriptengine
+    implementation 'org.graalvm.js:js-scriptengine:24.0.0'
+    // https://mvnrepository.com/artifact/org.graalvm.js/js
+    implementation 'org.graalvm.js:js:23.0.3'
+    // implementation 'org.graalvm.js:js:24.0.0'
+    // https://mvnrepository.com/artifact/org.graalvm.truffle/truffle-api
+    implementation 'org.graalvm.truffle:truffle-api:24.0.0'
+    // https://mvnrepository.com/artifact/org.graalvm.shadowed/icu4j
+    implementation 'org.graalvm.shadowed:icu4j:24.0.0'
+    // https://mvnrepository.com/artifact/org.graalvm/launcher-common
+    implementation 'org.graalvm:launcher-common:1.0.0-rc7'
+    // https://mvnrepository.com/artifact/org.graalvm.regex/regex
+    implementation 'org.graalvm.regex:regex:24.0.0'
+    implementation 'org.web3d.x3d:X3DJSAIL:4.0-SNAPSHOT'
+
+
+    //implementation 'org.graalvm.tools:profiler:24.0.0'
+    //implementation 'org.graalvm.tools:chromeinspector:24.0.0'
+    // needs newer
+    //implementation 'org.graalvm.compiler:compiler:24.0.0'
+    	// https://mvnrepository.com/artifact/org.graalvm.truffle/truffle-compiler
+	implementation 'org.graalvm.truffle:truffle-compiler:24.0.0'
+
+
+	implementation 'org.graalvm.polyglot:polyglot:24.0.0'
+	implementation 'org.graalvm.sdk:collections:24.0.0'
+	// implementation 'org.graalvm.sdk:nativeimage:24.0.0'
+
+	// implementation 'org.graalvm.polyglot:js:24.0.0'
+	// Select tools: profiler, inspect, coverage, dap, tools
+	implementation 'org.graalvm.polyglot:tools:24.0.0'
+
+	// https://mvnrepository.com/artifact/org.graalvm.polyglot/js-community
+	implementation 'org.graalvm.polyglot:js-community:24.0.0'
+
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -45,7 +94,8 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'net.coderextreme.jaminate.JaminateBridge'
+    // mainClass = 'net.coderextreme.jaminate.JaminateBridge'
+    mainClass = 'net.coderextreme.jaminate.TableLoadSave'
 }
 
 tasks.named('test') {

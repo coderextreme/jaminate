@@ -544,9 +544,10 @@ public class JaminateBridge extends javax.swing.JFrame {
             jFileChooser1.setAcceptAllFileFilterUsed(false);
             jFileChooser1.removeChoosableFileFilter(jFileChooser1.getFileFilter());
             jFileChooser1.setFileFilter(new FileNameExtensionFilter(
-                    "Files ending in .txt, .html",
+                    "Files ending in .txt (chaining), .html (dopesheet), .js (scene graph)",
                     "txt",
-                    "html"));
+                    "html",
+                    "js"));
      
             jFileChooser1.setVisible(true);
             java.util.Iterator<Frame> frames = (java.util.Iterator<Frame>) java.util.Arrays.asList(JaminateBridge.getFrames()).iterator();
