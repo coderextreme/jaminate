@@ -13,4 +13,5 @@ plugins {
 }
 
 rootProject.name = 'Jaminate'
-include('app')
+include 'app'
+apply from: 'app/src/main/javascript/settings.gradle'
