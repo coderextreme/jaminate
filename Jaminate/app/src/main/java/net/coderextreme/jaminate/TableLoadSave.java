@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
  */
 package net.coderextreme.jaminate;
+import java.lang.reflect.Method;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -30,6 +31,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.stream.Collectors;
 import javax.activation.DataHandler;
 //import javax.script.Invocable;
@@ -43,6 +45,12 @@ import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.Engine;
 import org.web3d.x3d.jsail.Core.X3D;
+import org.web3d.x3d.jsail.Core.ROUTE;
+import org.web3d.x3d.jsail.Interpolation.OrientationInterpolator;
+import org.web3d.x3d.sai.Core.X3DNode;
+import org.web3d.x3d.sai.Grouping.X3DGroupingNode;
+import org.web3d.x3d.sai.Rendering.X3DGeometryNode;
+import org.web3d.x3d.sai.Shape.X3DAppearanceNode;
 //import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
 //import com.oracle.truffle.js.lang.JavaScriptLanguageProvider;
 
@@ -93,6 +101,47 @@ public class TableLoadSave extends Parser {
                 X3D X3D0 = this.JavaScriptExec(jsCode);
 		System.err.println("Version: "+X3D0.getVersion());
 		System.err.println("Profile: "+X3D0.getProfile());
+		ArrayList<X3DNode> orientations = traverseChildren(X3D0.getScene().getChildren());
+		for (int oi = 0; oi < orientations.size(); oi++) {
+		    OrientationInterpolator interpolator = (OrientationInterpolator)orientations.get(oi);
+		    // System.out.println(interpolator.toStringX3D());
+		    float[] keys = interpolator.getKey();
+		    float[] keyValues = interpolator.getKeyValue();
+
+		    for (int k = 0; k < keys.length; k++) {
+                    	    Motion motion = new Motion();
+			    Integer id = oi;
+			    motion.setId(id);
+
+			    // OrienationInterpolator DEF
+			    String orientationDef = interpolator.getDEF(); 
+			    motion.setMotion(orientationDef);
+
+			    // key position in list
+			    Integer submove = (int)k;
+			    motion.setSubmove(submove);
+			    // key time
+			    Double t = (double)keys[k];
+			    motion.setTimeStart(t);
+
+			    // rotation
+			    Double x = (double)keyValues[k*4];
+			    motion.setxAxis(x);
+			    Double y = (double)keyValues[k*4+1];
+			    motion.setyAxis(y);
+			    Double z = (double)keyValues[k*4+2];
+			    motion.setzAxis(z);
+			    Double degrees = (double)keyValues[k*4+3];
+			    motion.setDegrees(degrees);
+
+			    // String character = m.group(5);
+			    //motion.setCharacter(character);
+			    this.currentRow = motion;
+			    this.mode = rowMode.DATA;
+			    this.model.addRow(this.currentRow, this.mode);
+			    this.model.getModel().setRowCount(this.model.getModel().getRowCount());
+	  	    }
+		}
                 
             } catch (IOException e) {
                 e.printStackTrace(System.err);
@@ -102,6 +151,68 @@ public class TableLoadSave extends Parser {
             e.printStackTrace(System.err);
         }
     }
+
+
+private ArrayList<X3DNode> traverseChildren(ArrayList<X3DNode> children) {
+	var orientations = new ArrayList<X3DNode>();
+	if (children != null) {
+		Iterator<X3DNode> ci = children.iterator();
+		while (ci.hasNext()) {
+			orientations.addAll(traverseChild(ci.next()));
+		}
+	}
+	return orientations;
+}
+
+private ArrayList<X3DNode> traverseChild(X3DNode child) {
+	var orientations = new ArrayList<X3DNode>();
+	if (child instanceof OrientationInterpolator) {
+		orientations.add(child);
+	} else if (child != null) {
+		try {
+			if (child instanceof ROUTE) {
+			} else {
+				Class<?> clazz = child.getClass();
+				try {
+					Method method = clazz.getMethod("getChildren");
+					X3DNode[] children = (X3DNode[])method.invoke(child);
+					for (int ci = 0; ci < children.length; ci++) {
+						orientations.addAll(traverseChild(children[ci]));
+					}
+				} catch (NoSuchMethodException e) {
+					//System.err.println(child.getClass().getName()+":"+e.getMessage());
+				}
+				try {
+					Method method = clazz.getMethod("getChildrenList");
+					ArrayList<X3DNode> children = (ArrayList<X3DNode>)method.invoke(child);
+					for (int ci = 0; ci < children.size(); ci++) {
+						orientations.addAll(traverseChild(children.get(ci)));
+					}
+				} catch (NoSuchMethodException e) {
+					//System.err.println(child.getClass().getName()+":"+e.getMessage());
+				}
+				try {
+					Method method = clazz.getMethod("getGeometry");
+					X3DGeometryNode node = (X3DGeometryNode)method.invoke(child);
+					orientations.addAll(traverseChild(node));
+				} catch (NoSuchMethodException e) {
+					//System.err.println(child.getClass().getName()+":"+e.getMessage());
+				}
+				try {
+					Method method = clazz.getMethod("getAppearance");
+					X3DAppearanceNode node = (X3DAppearanceNode)method.invoke(child);
+					orientations.addAll(traverseChild(node));
+				} catch (NoSuchMethodException e) {
+					//System.err.println(child.getClass().getName()+":"+e.getMessage());
+				}
+			}
+		} catch (Exception e) {
+			System.err.println(child.getClass().getName()+":"+e.getMessage());
+		}
+
+	}
+	return orientations;
+}
     public enum rowMode { HEADER, DATA, OFF };
     private rowMode mode = rowMode.DATA;
     public static void main(String[] args) {
@@ -140,12 +251,15 @@ public class TableLoadSave extends Parser {
         try (BufferedReader br = new BufferedReader(new FileReader(selectedFile))) {
             Pattern pattern = Pattern.compile("([-0-9\\.e\\+]+)[ \\t]+([-0-9\\.e\\+]+)[ \\t]+([-0-9\\.e\\+]+),[ \\t]+#?\\(([0-9\\.]+)\\)[ \\t]+#?\\(([A-Za-z]+)_([A-Za-z]+)([0-9]+)\\)");
             String str;
+	    Integer id = 0;
             while ((str = br.readLine()) != null) {
                 Matcher m = pattern.matcher(str);
                 //System.err.println(m.toString());
                 if (m.matches()) {
                     System.err.println(str+"# found row ");
                     Motion motion = new Motion();
+                    id++;
+		    motion.setId(id);
                     Double x = Double.valueOf(m.group(1));
                     motion.setX(x);
                     Double y = Double.valueOf(m.group(2));
@@ -240,10 +354,10 @@ public class TableLoadSave extends Parser {
 	    String MPC = "MovesPerCharacter";
 	    String TPC = "TimesPerCharacter";
             for (int r = 0; r < rows; r++) {
-                String character = model.getModel().getValueAt(r, 1).toString(); // get character name
-                Double time = Double.valueOf(model.getModel().getValueAt(r, 2).toString()); // get time
-                String mainMotion = model.getModel().getValueAt(r, 3).toString(); // primary motion
-                Integer subMotion = Integer.valueOf(model.getModel().getValueAt(r, 4).toString()); // secondary submotion
+                String character = model.getModel().getValueAt(r, 2).toString(); // get character name
+                Double time = Double.valueOf(model.getModel().getValueAt(r, 3).toString()); // get time
+                String mainMotion = model.getModel().getValueAt(r, 4).toString(); // primary motion
+                Integer subMotion = Integer.valueOf(model.getModel().getValueAt(r, 5).toString()); // secondary submotion
 								      //
 		Map<String, List<Double>> characterTimeInfo = timesAllCharacters.get(character);
 		if (characterTimeInfo == null) {

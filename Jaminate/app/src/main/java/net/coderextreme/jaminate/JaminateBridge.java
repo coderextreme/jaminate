@@ -16,6 +16,7 @@ import java.util.Vector;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JScrollPane;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -67,11 +68,11 @@ public class JaminateBridge extends javax.swing.JFrame {
         this.jTable1.setColumnSelectionAllowed(true);
         this.jTable1.setVisible(true);
         this.tableModel = new GenericTableModel((DefaultTableModel) jTable1.getModel());
-        //jScrollPane3.setPreferredSize(new Dimension(400, 300));
+        jScrollPane3.setPreferredSize(new Dimension(1500, 800));
         /*
-        setEditableComboBox(1);
-        setEditableComboBox(3);
-        setEditableComboBox(13);
+        setEditableComboBox(2);
+        setEditableComboBox(4);
+        setEditableComboBox(14);
          */
     }
 
@@ -207,8 +208,8 @@ public class JaminateBridge extends javax.swing.JFrame {
         jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane(jTable1);
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         Open = new javax.swing.JMenuItem();
@@ -299,26 +300,25 @@ public class JaminateBridge extends javax.swing.JFrame {
 
         jSplitPane1.setRightComponent(jScrollPane2);
 
+        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane3.setMinimumSize(new java.awt.Dimension(1500, 20));
         jScrollPane3.setPreferredSize(new java.awt.Dimension(1500, 800));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
             new String [] {
-                "Check all", "Character", "Time start [0,1]", "Motion", "Submotion", "X", "Y", "Z", "Cycle interval", "X axis", "Y axis", "Z axis", "Degrees", "URL"
-            }
+                "Check all", "Id", "Character", "Time start [0,1]", "Motion", "Submotion", "X", "Y", "Z", "Cycle interval", "X axis", "Y axis", "Z axis", "Degrees", "URL"
+            }, 4000
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class
+                java.lang.Boolean.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         jTable1.setColumnSelectionAllowed(true);
         jTable1.setMaximumSize(new java.awt.Dimension(2147483647, 1080));
         jTable1.setMinimumSize(new java.awt.Dimension(1920, 1080));
@@ -341,32 +341,34 @@ public class JaminateBridge extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTable1);
         jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(1).setMinWidth(50);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(2).setMinWidth(40);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(1).setMinWidth(10);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(10);
+            jTable1.getColumnModel().getColumn(2).setMinWidth(50);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(50);
             jTable1.getColumnModel().getColumn(3).setMinWidth(40);
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(40);
-            jTable1.getColumnModel().getColumn(4).setMinWidth(15);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(15);
-            jTable1.getColumnModel().getColumn(5).setMinWidth(40);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(4).setMinWidth(40);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(5).setMinWidth(15);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(15);
             jTable1.getColumnModel().getColumn(6).setMinWidth(40);
             jTable1.getColumnModel().getColumn(6).setPreferredWidth(40);
             jTable1.getColumnModel().getColumn(7).setMinWidth(40);
             jTable1.getColumnModel().getColumn(7).setPreferredWidth(40);
-            jTable1.getColumnModel().getColumn(8).setMinWidth(20);
-            jTable1.getColumnModel().getColumn(8).setPreferredWidth(20);
-            jTable1.getColumnModel().getColumn(9).setMinWidth(40);
-            jTable1.getColumnModel().getColumn(9).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(8).setMinWidth(40);
+            jTable1.getColumnModel().getColumn(8).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(9).setMinWidth(20);
+            jTable1.getColumnModel().getColumn(9).setPreferredWidth(20);
             jTable1.getColumnModel().getColumn(10).setMinWidth(40);
             jTable1.getColumnModel().getColumn(10).setPreferredWidth(40);
             jTable1.getColumnModel().getColumn(11).setMinWidth(40);
             jTable1.getColumnModel().getColumn(11).setPreferredWidth(40);
             jTable1.getColumnModel().getColumn(12).setMinWidth(40);
             jTable1.getColumnModel().getColumn(12).setPreferredWidth(40);
-            jTable1.getColumnModel().getColumn(13).setMinWidth(250);
-            jTable1.getColumnModel().getColumn(13).setPreferredWidth(250);
+            jTable1.getColumnModel().getColumn(13).setMinWidth(40);
+            jTable1.getColumnModel().getColumn(13).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(14).setMinWidth(250);
+            jTable1.getColumnModel().getColumn(14).setPreferredWidth(250);
         }
 
         jSplitPane1.setLeftComponent(jScrollPane3);
@@ -421,14 +423,14 @@ public class JaminateBridge extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -565,6 +567,9 @@ public class JaminateBridge extends javax.swing.JFrame {
                     System.out.println(selectedFile);
                     JaminateBridge.this.tableModel.getModel().setRowCount(0);  // clear table
                     load.loadTableModel(JaminateBridge.this.tableModel, selectedFile);
+		    jScrollPane3.setPreferredSize(new Dimension(JaminateBridge.this.jTable1.getPreferredSize().width,6000));
+		    // JaminateBridge.this.tableModel.fireTableRowsInserted(0, JaminateBridge.this.tableModel.getRowCount()-1);
+		    /*
                     Integer rowCount = JaminateBridge.this.tableModel.getRowCount();
                     //System.err.println("Number of rows " + rowCount);
                     Integer colCount = JaminateBridge.this.tableModel.getColumnCount();
@@ -573,17 +578,17 @@ public class JaminateBridge extends javax.swing.JFrame {
                         for (int c = 0; c < colCount; c++) {
                             try {
                                 //jTable1.getColumn(c).
-                                Object value = jTable1.getValueAt(r, c);
+                                Object value = JaminateBridge.this.jTable1.getValueAt(r, c);
                                 //System.err.println("row " + r + " col " + c + " obj " + value.getClass().getName() + " " + value.toString());
-                                TableCellRenderer renderer = jTable1.getCellRenderer(r, c);
-                                // jTable1.getDefaultRenderer(value.getClass());
-                                //System.err.println(renderer.getClass());
-//                                try {
-//                                    // if JaminateBridge.this fails, we have the wrong type somewhere
-//                                    Component component1 = renderer.getTableCellRendererComponent(jTable1, value, false, false, r, c);
-//                                }catch (IllegalArgumentException | ClassCastException e) {
-//                                    System.err.println(e.getMessage()+" row "+r+" column "+c);
-//                                }
+                                TableCellRenderer renderer = JaminateBridge.this.jTable1.getCellRenderer(r, c);
+                                JaminateBridge.this.jTable1.getDefaultRenderer(value.getClass());
+                                // System.err.println(renderer.getClass());
+                                try {
+                                    // if JaminateBridge.this fails, we have the wrong type somewhere
+                                    Component component1 = renderer.getTableCellRendererComponent(JaminateBridge.this.jTable1, value, false, false, r, c);
+                                } catch (IllegalArgumentException | ClassCastException e) {
+                                    System.err.println(e.getMessage()+" row "+r+" column "+c);
+                                }
                             } catch (NullPointerException npe) {
                                 System.err.println("Row " + r + " Column " + c + ": " + npe.getMessage());
 
@@ -592,13 +597,18 @@ public class JaminateBridge extends javax.swing.JFrame {
                             //System.err.println(formatter.format(value));
                         }
                     }
+		    */
                     try {
                         //System.err.println("Firing table change");
                         java.awt.EventQueue.invokeLater(() -> {
-                            JaminateBridge.this.tableModel.fireTableDataChanged();
-                            JaminateBridge.this.jScrollPane3.setViewportView(JaminateBridge.this.jTable1);
+			    JaminateBridge.this.tableModel.fireTableDataChanged();
+        		    jScrollPane3.setViewportView(JaminateBridge.this.jTable1);
+			    // JaminateBridge.this.jScrollPane3.repaint();
+        		    //JaminateBridge.this.jSplitPane1.setLeftComponent(JaminateBridge.this.jScrollPane3);
+            		    JaminateBridge.this.jTable1.repaint();
+            		    //JaminateBridge.this.jScrollPane3.repaint();
                         });
-                        // jTable1.repaint();  // refresh
+                        // JaminateBridge.this.jTable1.repaint();
                     } catch (IllegalArgumentException | ClassCastException e) {
                         System.err.println(e.getMessage());
                     }

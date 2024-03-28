@@ -14,6 +14,7 @@ import java.util.Vector;
  */
 public class Motion extends GenericModel implements Serializable {
     private Boolean checked = false;
+    private Integer id = 0;
     private String character = "Character";
     private Double timeStart = 1.0;
     private String motion = "Motion";
@@ -28,6 +29,7 @@ public class Motion extends GenericModel implements Serializable {
     private Double degrees = 0.0;
     private String uri = "https://www.web3d.org/Toddler.Motion.txt";
     private static final String CHECKED = "checked";
+    private static final String ID = "id";
     private static final String CHARACTER = "character";
     private static final String START = "timeStart";
     private static final String MOTION = "motion";
@@ -44,6 +46,7 @@ public class Motion extends GenericModel implements Serializable {
     
     private final Column[] fields = new Column[] {
         new Column(CHECKED, "Check all", Boolean.class),
+        new Column(ID, "Id", Integer.class),
         new Column(CHARACTER, "Character", String.class),
         new Column(START, "Time start [0, 1]", Double.class),
         new Column(MOTION, "Motion", String.class),
@@ -58,26 +61,27 @@ public class Motion extends GenericModel implements Serializable {
         new Column(DEGREES, "Degrees", Double.class),
         new Column(URI, "URL", String.class)
     };
-    private final HashMap<String, Integer> htmlToColumn = new HashMap<>(14);
-    private static final Integer[] htmlColumnToColumn = new Integer[14];
+    private final HashMap<String, Integer> htmlToColumn = new HashMap<>(15);
+    private static final Integer[] htmlColumnToColumn = new Integer[15];
     {{
             htmlToColumn.put("Check all", 0);
-            htmlToColumn.put("Character", 1);
-            htmlToColumn.put("Time", 2);
-            htmlToColumn.put("Time start [0,1]", 2);
-            htmlToColumn.put("Primary move", 3);
-            htmlToColumn.put("Motion", 3);
-            htmlToColumn.put("Sub move", 4);
-            htmlToColumn.put("Submotion", 4);
-            htmlToColumn.put("X", 5);
-            htmlToColumn.put("Y", 6);
-            htmlToColumn.put("Z", 7);
-            htmlToColumn.put("Cycle interval", 8);
-            htmlToColumn.put("X axis", 9);
-            htmlToColumn.put("Y axis", 10);
-            htmlToColumn.put("Z axis", 11);
-            htmlToColumn.put("Degrees", 12);
-            htmlToColumn.put("URL", 13);
+            htmlToColumn.put("Id", 1);
+            htmlToColumn.put("Character", 2);
+            htmlToColumn.put("Time", 3);
+            htmlToColumn.put("Time start [0,1]", 3);
+            htmlToColumn.put("Primary move", 4);
+            htmlToColumn.put("Motion", 4);
+            htmlToColumn.put("Sub move", 5);
+            htmlToColumn.put("Submotion", 5);
+            htmlToColumn.put("X", 6);
+            htmlToColumn.put("Y", 7);
+            htmlToColumn.put("Z", 8);
+            htmlToColumn.put("Cycle interval", 9);
+            htmlToColumn.put("X axis", 10);
+            htmlToColumn.put("Y axis", 11);
+            htmlToColumn.put("Z axis", 12);
+            htmlToColumn.put("Degrees", 13);
+            htmlToColumn.put("URL", 14);
     }}
     public Motion() {
     }
@@ -123,6 +127,20 @@ public class Motion extends GenericModel implements Serializable {
             setUri(getUri().replace("Toddler", "Adult"));
         }
   
+    }
+
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * @param id the motoin identifier to set
+     */
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     /**
