@@ -60,7 +60,7 @@ dependencies {
     implementation 'org.graalvm.shadowed:icu4j:24.0.0'
     implementation 'org.graalvm.truffle:truffle-runtime:24.0.0'
     
-    implementation 'org.web3d.x3d:X3DJSAIL:4.0-SNAPSHOT'
+    implementation 'org.web3d.x3d:X3DJSAIL:4.0.full'
 
 }
 
