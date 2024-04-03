@@ -420,14 +420,19 @@ private ArrayList<X3DNode> traverseChild(X3DNode child) {
         String json = "";
         try (PrintWriter pw = new PrintWriter(new FileWriter(selectedFile));) {
             json = saveJson(model, pw);
-            Process p = Runtime.getRuntime().exec(new String[] { "node", "takes.js"});
+	    System.err.println("Starting");
+            Process p = Runtime.getRuntime().exec(new String[] { "js", "--experimental-options", "--polyglot", "--vm.Djs.allowAllAccess=true", "--vm.Xss1g", "--vm.Xmx4g", "--jvm", "--vm.classpath=C:/Users/john/jaminate/Jaminate/app/lib/X3DJSAIL.4.0.full.jar;C:/Users/john/jaminate/Jaminate/app/lib/saxon-he-12.1.jar", "src/main/resources/takesX3DJSAIL.js"});
+	                                                       // js    --experimental-options    --polyglot    --vm.Djs.allowAllAccess=true    --vm.Xss1g    --vm.Xmx4g    --jvm    --vm.classpath='C:/Users/john/jaminate/Jaminate/app/lib/X3DJSAIL.4.0.full.jar;C:/Users/john/jaminate/Jaminate/app/lib/saxon-he-12.1.jar"    src/main/resources/takesX3DJSAIL.js
+
+		    // "node", "-cp", "./lib/X3DJSAIL.4.0.full.jar:./lib/saxon-he-12.1.jar:.", "takes.js"});
             nopw = new PrintWriter(p.getOutputStream());
+	    System.err.println("Writing JSON");
             nopw.write(json);
             is = p.getInputStream();
             nopw.close();
             nopw = null;
-            String animationChain = new BufferedReader(new InputStreamReader(is))
-   .lines().collect(Collectors.joining("\n"));
+            String animationChain = new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.joining("\n"));
+	    System.err.println("Chain is "+animationChain);
             return animationChain;
         } catch (IOException e) {
             e.printStackTrace(System.err);

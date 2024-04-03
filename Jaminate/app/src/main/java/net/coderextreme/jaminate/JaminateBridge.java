@@ -68,7 +68,8 @@ public class JaminateBridge extends javax.swing.JFrame {
         this.jTable1.setColumnSelectionAllowed(true);
         this.jTable1.setVisible(true);
         this.tableModel = new GenericTableModel((DefaultTableModel) jTable1.getModel());
-        jScrollPane3.setPreferredSize(new Dimension(1500, 800));
+        jScrollPane2.setPreferredSize(new Dimension(1500, 500));
+        jScrollPane3.setPreferredSize(new Dimension(1500, 500));
         /*
         setEditableComboBox(2);
         setEditableComboBox(4);
@@ -296,6 +297,7 @@ public class JaminateBridge extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
+        jTextArea1.setPreferredSize(new Dimension(1500, 500));
         jScrollPane2.setViewportView(jTextArea1);
 
         jSplitPane1.setRightComponent(jScrollPane2);
@@ -303,7 +305,7 @@ public class JaminateBridge extends javax.swing.JFrame {
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane3.setMinimumSize(new java.awt.Dimension(1500, 20));
-        jScrollPane3.setPreferredSize(new java.awt.Dimension(1500, 800));
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(1500, 500));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new String [] {
@@ -322,7 +324,7 @@ public class JaminateBridge extends javax.swing.JFrame {
         jTable1.setColumnSelectionAllowed(true);
         jTable1.setMaximumSize(new java.awt.Dimension(2147483647, 1080));
         jTable1.setMinimumSize(new java.awt.Dimension(1920, 1080));
-        jTable1.setPreferredSize(new java.awt.Dimension(960, 540));
+        jTable1.setPreferredSize(new java.awt.Dimension(1500, 500));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -372,6 +374,7 @@ public class JaminateBridge extends javax.swing.JFrame {
         }
 
         jSplitPane1.setLeftComponent(jScrollPane3);
+        jSplitPane1.setPreferredSize(new Dimension(1500, 1000));
 
         fileMenu.setText("File");
 
@@ -423,14 +426,14 @@ public class JaminateBridge extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -526,6 +529,7 @@ public class JaminateBridge extends javax.swing.JFrame {
                     String s = save.saveTableModel(JaminateBridge.this.tableModel, selectedFile);
                     jTable1.repaint();  // refresh
                     jTextArea1.setText(s);
+                    jTextArea1.repaint();  // refresh
                 } else {
                     System.err.println("Did not select a file to open");
                 }
@@ -567,7 +571,7 @@ public class JaminateBridge extends javax.swing.JFrame {
                     System.out.println(selectedFile);
                     JaminateBridge.this.tableModel.getModel().setRowCount(0);  // clear table
                     load.loadTableModel(JaminateBridge.this.tableModel, selectedFile);
-		    jScrollPane3.setPreferredSize(new Dimension(JaminateBridge.this.jTable1.getPreferredSize().width,6000));
+		    // jScrollPane3.setPreferredSize(new Dimension(JaminateBridge.this.jTable1.getPreferredSize().width,6000));
 		    // JaminateBridge.this.tableModel.fireTableRowsInserted(0, JaminateBridge.this.tableModel.getRowCount()-1);
 		    /*
                     Integer rowCount = JaminateBridge.this.tableModel.getRowCount();
@@ -607,6 +611,7 @@ public class JaminateBridge extends javax.swing.JFrame {
         		    //JaminateBridge.this.jSplitPane1.setLeftComponent(JaminateBridge.this.jScrollPane3);
             		    JaminateBridge.this.jTable1.repaint();
             		    //JaminateBridge.this.jScrollPane3.repaint();
+            		    JaminateBridge.this.repaint();
                         });
                         // JaminateBridge.this.jTable1.repaint();
                     } catch (IllegalArgumentException | ClassCastException e) {
