@@ -27,22 +27,40 @@ function booleanArrayToJava(b) {
 }
 
 function makeChainingAnimation(json) {
-      X3D0 =  new X3D().setProfile("Immersive").setVersion("4.0")
-      .setHead(new head()
-        .addComponent(new component().setName("HAnim").setLevel(1))
-        .addMeta(new meta().setName("title").setContent("ChainingAnimation.x3d"))
-        .addMeta(new meta().setName("creator").setContent("John Carlson, Joe Williams and Andreas Plesch"))
-        .addMeta(new meta().setName("translator").setContent("X3DJSAIL"))
-        .addMeta(new meta().setName("version").setContent("2.0"))
-        .addMeta(new meta().setName("description").setContent("Create Chaining animation from a JSON file"))
-        .addMeta(new meta().setName("generator").setContent("Jaminate, V2.0, https://github.com/coderextreme/jaminate/tree/main/Jaminate/app/src/main/resources/takesX3DJSAIL.js"))
-        .addMeta(new meta().setName("license").setContent("https://github.com/coderextreme/jaminate/blob/main/LICENSE")))
-	var Scene0 = new Scene();
-      	X3D0.setScene(Scene0);
-        Scene0.addChild(new WorldInfo().setTitle("ChainingAnimation.x3d"))
 
 	let chars = [];
 	for (let ch in json) {
+	      var X3D0 =  new X3D().setProfile("Immersive").setVersion("4.0")
+	      .setHead(new head()
+		.addComponent(new component().setName("HAnim").setLevel(1))
+		.addMeta(new meta().setName("title").setContent("takes."+ch+".x3dv"))
+		.addMeta(new meta().setName("creator").setContent("John Carlson, Joe Williams and Andreas Plesch"))
+		.addMeta(new meta().setName("translator").setContent("X3DJSAIL"))
+		.addMeta(new meta().setName("version").setContent("3.0"))
+		.addMeta(new meta().setName("description").setContent("Create Chaining animation from a JSON file"))
+		.addMeta(new meta().setName("generator").setContent("Jaminate, V3.0, https://github.com/coderextreme/jaminate/tree/main/Jaminate/app/src/main/resources/takesX3DJSAIL.js"))
+		.addMeta(new meta().setName("license").setContent("https://github.com/coderextreme/jaminate/blob/main/LICENSE")))
+	        var Scene0 = new Scene();
+      	        X3D0.setScene(Scene0);
+                Scene0.addChild(new WorldInfo().setTitle("takes."+ch+".x3dv"))
+
+
+
+
+	      var X3D0_timers =  new X3D().setProfile("Immersive").setVersion("4.0")
+	      .setHead(new head()
+		.addComponent(new component().setName("HAnim").setLevel(1))
+		.addMeta(new meta().setName("title").setContent("takes."+ch+".timers.x3dv"))
+		.addMeta(new meta().setName("creator").setContent("John Carlson, Joe Williams and Andreas Plesch"))
+		.addMeta(new meta().setName("translator").setContent("X3DJSAIL"))
+		.addMeta(new meta().setName("version").setContent("3.0"))
+		.addMeta(new meta().setName("description").setContent("Create Chaining animation from a JSON file"))
+		.addMeta(new meta().setName("generator").setContent("Jaminate, V3.0, https://github.com/coderextreme/jaminate/tree/main/Jaminate/app/src/main/resources/takesX3DJSAIL.js"))
+		.addMeta(new meta().setName("license").setContent("https://github.com/coderextreme/jaminate/blob/main/LICENSE")))
+	        var Scene0_timers = new Scene();
+      	        X3D0_timers.setScene(Scene0_timers);
+                Scene0_timers.addChild(new WorldInfo().setTitle("takes."+ch+".timers.x3dv"))
+
 		chars.push(ch);
 		let chardata = json[ch];
 		let charobj = {};
@@ -145,8 +163,8 @@ function makeChainingAnimation(json) {
 					cycleInterval.push(0);
 				}
 			}
-		        Scene0.addComments(next[mvi] / LENGTH+" - "+current[mvi] / LENGTH+" = "+ cycleInterval[mvi] / LENGTH+", times "+LENGTH+" is "+cycleInterval[mvi]);
-			Scene0.addChild(new TimeSensor().setDEF(appearingcharmove+"Timer").setCycleInterval(cycleInterval[mvi]).setLoop(true).setEnabled(true));
+		        Scene0_timers.addComments(next[mvi] / LENGTH+" - "+current[mvi] / LENGTH+" = "+ cycleInterval[mvi] / LENGTH+", times "+LENGTH+" is "+cycleInterval[mvi]);
+			Scene0_timers.addChild(new TimeSensor().setDEF(appearingcharmove+"Timer").setCycleInterval(cycleInterval[mvi]).setLoop(true).setEnabled(true));
 
 			var bs = new BooleanSequencer().setDEF(appearingcharmove+"BooleanSequencer");
 			if (typeof movebooleans !== 'undefined') {
@@ -157,7 +175,6 @@ function makeChainingAnimation(json) {
 			Scene0.addComments("[ "+charobj["movesperchar"].join(" ")+" ]"); 
 			Scene0.addChild(new BooleanFilter().setDEF(appearingcharmove+"SPLITTERBooleanFilter"));
 			Scene0.addChild(new BooleanFilter().setDEF(appearingcharmove+"FINALEBooleanFilter"));
-			Scene0.addChild(new BooleanFilter().setDEF(appearingcharmove+"NEGATERBooleanFilter"));
 			Scene0.addChild(new BooleanFilter().setDEF(appearingcharmove+"NEGATERBooleanFilter"));
 			Scene0.addChild(new TimeTrigger().setDEF(appearingcharmove+"OffTimeTrigger"));
 			Scene0.addChild(new TimeTrigger().setDEF(appearingcharmove+"OnTimeTrigger"));
@@ -201,16 +218,16 @@ function makeChainingAnimation(json) {
 			Scene0.addChild(new ROUTE().setFromNode(appearingcharmove+"Timer").setFromField("isActive").setToNode(appearingcharmove+"NEGATERBooleanFilter").setToField("set_boolean"));
 			Scene0.addChild(new ROUTE().setFromNode(appearingcharmove+"NEGATERBooleanFilter").setFromField("inputNegate").setToNode(appearingcharmove+"BooleanSequencer").setToField("next"));
 		}
+		console.log(X3D0.toFileClassicVRML("../data/takes."+ch+".x3dv"));
+		console.log(X3D0_timers.toFileClassicVRML("../data/takes."+ch+".timers.x3dv"));
 	}
-	return X3D0
 }
 
 var json = new BufferedReader(new InputStreamReader(System.in)).lines().collect(Collectors.joining("\n"));
 var js = JSON.parse(json);
-System.out.println(JSON.stringify(js, null, 2));
-var X3D0 = makeChainingAnimation(js);
-console.log(X3D0.toFileJSON("../data/ChaningAnimation.json"));
-console.log(X3D0.toFileClassicVRML("../data/ChaningAnimation.x3dv"));
-console.log(X3D0.toFilePython("../data/ChaningAnimation.py"));
-console.log(X3D0.toFileJavaScript("../data/ChaningAnimation.js"));
-console.log(X3D0.toFileX3D("../data/ChaningAnimation.x3d"));
+System.out.println(JSON.stringify(js, null, 2)); // send back to GUI
+makeChainingAnimation(js);
+//console.log(X3D0.toFileJSON("../data/ChainingAnimation.json"));
+//console.log(X3D0.toFilePython("../data/ChainingAnimation.py"));
+//console.log(X3D0.toFileJavaScript("../data/ChainingAnimation.js"));
+//console.log(X3D0.toFileX3D("../data/ChainingAnimation.x3d"));
