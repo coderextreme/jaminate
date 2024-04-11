@@ -2914,5 +2914,3 @@ function doubleToFloat(d) {
         .addChild(new ROUTE().setFromField("touchTime").setFromNode("Stop_Touch").setToField("set_stopTime").setToNode("JumpTimer"))
         .addChild(new ROUTE().setFromField("touchTime").setFromNode("Stop_Touch").setToField("set_stopTime").setToNode("KickTimer"))
         .addChild(new ROUTE().setFromField("touchTime").setFromNode("Stop_Touch").setToField("set_startTime").setToNode("StopTimer")))      ;
-    X3D0.toFileX3D("../data/JinLOA4scaled1joe05b.new.graal.x3d");
-    X3D0.toFileJSON("../data/JinLOA4scaled1joe05b.new.graal.json");

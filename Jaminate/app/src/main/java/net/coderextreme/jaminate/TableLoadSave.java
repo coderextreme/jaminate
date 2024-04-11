@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.stream.Collectors;
 import javax.activation.DataHandler;
 //import javax.script.Invocable;
@@ -46,7 +45,12 @@ import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.Engine;
 import org.web3d.x3d.jsail.Core.X3D;
 import org.web3d.x3d.jsail.Core.ROUTE;
+import org.web3d.x3d.jsail.HAnim.HAnimJoint;
+import org.web3d.x3d.jsail.HAnim.HAnimHumanoid;
 import org.web3d.x3d.jsail.Interpolation.OrientationInterpolator;
+import org.web3d.x3d.jsail.Interpolation.PositionInterpolator;
+import org.web3d.x3d.jsail.Rendering.Coordinate;
+import org.web3d.x3d.jsail.Geometry3D.IndexedFaceSet;
 import org.web3d.x3d.sai.Core.X3DNode;
 import org.web3d.x3d.sai.Grouping.X3DGroupingNode;
 import org.web3d.x3d.sai.Rendering.X3DGeometryNode;
@@ -86,6 +90,117 @@ public class TableLoadSave extends Parser {
           }
 	  return X3D0;
       }
+    private List<X3DNode> rotateCoordinates(X3D X3D0) {
+	ArrayList<X3DNode> coordinates = traverseChildren(X3D0.getScene().getChildren(), Coordinate.class, 0);
+	for (int ci = 0; ci < coordinates.size(); ci++) {
+	    Coordinate coordinate = (Coordinate)coordinates.get(ci);
+	    float [] point = coordinate.getPoint();
+	    for (int i = 0; i < point.length; i += 3) {
+		    turnPoint(point, i);
+	    }
+	    coordinate.setPoint(point);
+	}
+	return coordinates;
+    }
+    private List<X3DNode> rotateOrientations(X3D X3D0) {
+	ArrayList<X3DNode> orientations = traverseChildren(X3D0.getScene().getChildren(), OrientationInterpolator.class, 0);
+	for (int oi = 0; oi < orientations.size(); oi++) {
+	    OrientationInterpolator interpolator = (OrientationInterpolator)orientations.get(oi);
+	    float[] keys = interpolator.getKey();
+	    float[] keyValues = interpolator.getKeyValue();
+
+	    for (int k = 0; k < keys.length; k += 4) {
+		    keyValues[k+3] = -keyValues[k+3];
+		    turnPoint(keyValues, k);
+	    }
+	    interpolator.setKeyValue(keyValues);
+	}
+	return orientations;
+    }
+    private List<X3DNode> rotatePositions(X3D X3D0) {
+	ArrayList<X3DNode> positions = traverseChildren(X3D0.getScene().getChildren(), PositionInterpolator.class, 0);
+	for (int pi = 0; pi < positions.size(); pi++) {
+	    PositionInterpolator interpolator = (PositionInterpolator)positions.get(pi);
+	    float[] keys = interpolator.getKey();
+	    float[] keyValues = interpolator.getKeyValue();
+
+	    for (int k = 0; k < keys.length; k += 3) {
+		    turnPoint(keyValues, k);
+	    }
+	    interpolator.setKeyValue(keyValues);
+	}
+	return positions;
+    }
+    private void turnPoint(float [] point, int offset) {
+	    javax.vecmath.Point3f point3f = new javax.vecmath.Point3f(point[offset+0], point[offset+1], point[offset+2]);
+	    // rotate 180 degrees around Y
+	    javax.vecmath.AxisAngle4f axisAngle = new javax.vecmath.AxisAngle4f(0f, 1f, 0f, 3.141592654f);
+	    javax.vecmath.Matrix3f rotationMatrix = new javax.vecmath.Matrix3f();
+
+	    float [] rotPoint =  new float[3];
+            rotationMatrix.set(axisAngle);
+            rotationMatrix.transform(point3f);
+	    point3f.get(rotPoint);
+	    // System.err.print(point[offset+0]+" "+point[offset+1]+" "+point[offset+2]);
+	    point[offset+0] = rotPoint[0];
+	    point[offset+1] = rotPoint[1];
+	    point[offset+2] = rotPoint[2];
+	    // System.err.println(" "+point[offset+0]+" "+point[offset+1]+" "+point[offset+2]);
+    }
+    private List<X3DNode> rotateJoints(X3D X3D0) {
+	ArrayList<X3DNode> joints = traverseChildren(X3D0.getScene().getChildren(), HAnimJoint.class, 0);
+	for (int ji = 0; ji < joints.size(); ji++) {
+	    HAnimJoint joint = (HAnimJoint)joints.get(ji);
+	    float [] center = joint.getCenter();
+	    turnPoint(center, 0);
+	    joint.setCenter(center);
+	}
+	return joints;
+    }
+    private List<X3DNode> loadOrientations(X3D X3D0) {
+	ArrayList<X3DNode> orientations = traverseChildren(X3D0.getScene().getChildren(), OrientationInterpolator.class, 0);
+	for (int oi = 0; oi < orientations.size(); oi++) {
+	    OrientationInterpolator interpolator = (OrientationInterpolator)orientations.get(oi);
+	    // System.out.println(interpolator.toStringX3D());
+	    float[] keys = interpolator.getKey();
+	    float[] keyValues = interpolator.getKeyValue();
+
+	    for (int k = 0; k < keys.length; k++) {
+		    Motion motion = new Motion();
+		    Integer id = oi;
+		    motion.setId(id);
+
+		    // OrienationInterpolator DEF
+		    String orientationDef = interpolator.getDEF(); 
+		    motion.setMotion(orientationDef);
+
+		    // key position in list
+		    Integer submove = (int)k;
+		    motion.setSubmove(submove);
+		    // key time
+		    Double t = (double)keys[k];
+		    motion.setTimeStart(t);
+
+		    // rotation
+		    Double x = (double)keyValues[k*4];
+		    motion.setxAxis(x);
+		    Double y = (double)keyValues[k*4+1];
+		    motion.setyAxis(y);
+		    Double z = (double)keyValues[k*4+2];
+		    motion.setzAxis(z);
+		    Double degrees = (double)keyValues[k*4+3];
+		    motion.setDegrees(degrees);
+
+		    // String character = m.group(5);
+		    //motion.setCharacter(character);
+		    this.currentRow = motion;
+		    this.mode = rowMode.DATA;
+		    this.model.addRow(this.currentRow, this.mode);
+		    this.model.getModel().setRowCount(this.model.getModel().getRowCount());
+	    }
+	}
+	return orientations;
+    }
     private void loadJsFile(GenericTableModel model, File selectedFile) {
          this.model = model;
 	 System.err.println("Opening file "+selectedFile);
@@ -99,48 +214,22 @@ public class TableLoadSave extends Parser {
                 }
                 String jsCode = sb.toString();
                 X3D X3D0 = this.JavaScriptExec(jsCode);
-		System.err.println("Version: "+X3D0.getVersion());
-		System.err.println("Profile: "+X3D0.getProfile());
-		ArrayList<X3DNode> orientations = traverseChildren(X3D0.getScene().getChildren());
-		for (int oi = 0; oi < orientations.size(); oi++) {
-		    OrientationInterpolator interpolator = (OrientationInterpolator)orientations.get(oi);
-		    // System.out.println(interpolator.toStringX3D());
-		    float[] keys = interpolator.getKey();
-		    float[] keyValues = interpolator.getKeyValue();
-
-		    for (int k = 0; k < keys.length; k++) {
-                    	    Motion motion = new Motion();
-			    Integer id = oi;
-			    motion.setId(id);
-
-			    // OrienationInterpolator DEF
-			    String orientationDef = interpolator.getDEF(); 
-			    motion.setMotion(orientationDef);
-
-			    // key position in list
-			    Integer submove = (int)k;
-			    motion.setSubmove(submove);
-			    // key time
-			    Double t = (double)keys[k];
-			    motion.setTimeStart(t);
-
-			    // rotation
-			    Double x = (double)keyValues[k*4];
-			    motion.setxAxis(x);
-			    Double y = (double)keyValues[k*4+1];
-			    motion.setyAxis(y);
-			    Double z = (double)keyValues[k*4+2];
-			    motion.setzAxis(z);
-			    Double degrees = (double)keyValues[k*4+3];
-			    motion.setDegrees(degrees);
-
-			    // String character = m.group(5);
-			    //motion.setCharacter(character);
-			    this.currentRow = motion;
-			    this.mode = rowMode.DATA;
-			    this.model.addRow(this.currentRow, this.mode);
-			    this.model.getModel().setRowCount(this.model.getModel().getRowCount());
-	  	    }
+		if (X3D0 != null) {
+			System.err.println("Version: "+X3D0.getVersion());
+			System.err.println("Profile: "+X3D0.getProfile());
+			//List<X3DNode> positions = rotatePositions(X3D0);
+			//System.err.println("read "+positions.size()+" positions");
+			//List<X3DNode> orientations = rotateOrientations(X3D0);
+			//System.err.println("read "+orientations.size()+" orientations");
+			List<X3DNode> joints = rotateJoints(X3D0);
+			System.err.println("read "+joints.size()+" joints");
+			try {
+				List<X3DNode> coordinates = rotateCoordinates(X3D0);
+				System.err.println("read "+coordinates.size()+" coordinates");
+				X3D0.toFileClassicVRML("rotated.x3dv");
+			} catch (Exception e) {
+				e.printStackTrace(System.err);
+			}
 		}
                 
             } catch (IOException e) {
@@ -153,72 +242,96 @@ public class TableLoadSave extends Parser {
     }
 
 
-private ArrayList<X3DNode> traverseChildren(ArrayList<X3DNode> children) {
-	var orientations = new ArrayList<X3DNode>();
+private ArrayList<X3DNode> traverseChildren(ArrayList<X3DNode> children, Class clazz, int indent) {
+	var collection = new ArrayList<X3DNode>();
 	if (children != null) {
-		Iterator<X3DNode> ci = children.iterator();
-		while (ci.hasNext()) {
-			orientations.addAll(traverseChild(ci.next()));
+		for (int ci = 0; ci < children.size(); ci++) {
+			collection.addAll(traverseChild(children.get(ci), clazz, indent+1));
 		}
 	}
-	return orientations;
+	return collection;
 }
 
-private ArrayList<X3DNode> traverseChild(X3DNode child) {
-	var orientations = new ArrayList<X3DNode>();
-	if (child instanceof OrientationInterpolator) {
-		orientations.add(child);
-	} else if (child != null) {
+private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent) {
+	var collection = new ArrayList<X3DNode>();
+	if (child != null) {
+		Class<?> clazzchild = child.getClass();
+		if (clazzchild.getName().equals(clazz.getName())) {
+			// System.err.println(indent+" "+clazzchild.getName() +" == "+ clazz.getName());
+			collection.add(child);
+		}
+		if (child instanceof ROUTE) {
+			return collection;
+		}
 		try {
-			if (child instanceof ROUTE) {
-			} else {
-				Class<?> clazz = child.getClass();
+			String [] methods = new String [] {"getChildren", /*"getGeometry", "getAppearance", */ "getSkeleton", "getCoord", "getSkinCoord", "getSkin"};
+			for (int m = 0; m < methods.length; m++) {
 				try {
-					Method method = clazz.getMethod("getChildren");
-					X3DNode[] children = (X3DNode[])method.invoke(child);
-					for (int ci = 0; ci < children.length; ci++) {
-						orientations.addAll(traverseChild(children[ci]));
+					Method method = clazzchild.getMethod(methods[m]);
+					if (method != null) {
+						// System.err.println(methods[m]);
+						Object children = method.invoke(child);
+						if (children != null) {
+							if (children instanceof X3DNode[]) {
+								for (int ci = 0; ci < ((X3DNode[])children).length; ci++) {
+									collection.addAll(traverseChild(((X3DNode[])children)[ci], clazz, indent+1));
+								}
+								//break;
+							} else if (children instanceof ArrayList) {
+								for (int ci = 0; ci < ((ArrayList<X3DNode>)children).size(); ci++) {
+									collection.addAll(traverseChild(((ArrayList<X3DNode>)children).get(ci), clazz, indent+1));
+								}
+								//break;
+							} else if (children instanceof X3DGeometryNode) {
+								collection.addAll(traverseChild((X3DGeometryNode)children, clazz, indent+1));
+								//break;
+							} else if (children instanceof X3DAppearanceNode) {
+								collection.addAll(traverseChild((X3DAppearanceNode)children, clazz, indent+1));
+								//break;
+							} else if (children instanceof HAnimJoint) {
+								collection.addAll(traverseChild((HAnimJoint)children, clazz, indent+1));
+								//break;
+							} else if (children instanceof HAnimHumanoid) {
+								collection.addAll(traverseChild((HAnimJoint)children, clazz, indent+1));
+								//break;
+							} else if (children instanceof IndexedFaceSet) {
+								System.err.println("IFS");
+								collection.addAll(traverseChild((HAnimJoint)children, clazz, indent+1));
+								//break;
+							} else if (children instanceof Coordinate) {
+								System.err.println("IFS");
+								collection.addAll(traverseChild((Coordinate)children, clazz, indent+1));
+								//break;
+							} else {
+								System.err.println(children.getClass().getName());
+								for (int ci = 0; ci < ((X3DNode[])children).length; ci++) {
+									collection.addAll(traverseChild(((X3DNode[])children)[ci], clazz, indent+1));
+								}
+								//break;
+							}
+						}
 					}
 				} catch (NoSuchMethodException e) {
-					//System.err.println(child.getClass().getName()+":"+e.getMessage());
-				}
-				try {
-					Method method = clazz.getMethod("getChildrenList");
-					ArrayList<X3DNode> children = (ArrayList<X3DNode>)method.invoke(child);
-					for (int ci = 0; ci < children.size(); ci++) {
-						orientations.addAll(traverseChild(children.get(ci)));
-					}
-				} catch (NoSuchMethodException e) {
-					//System.err.println(child.getClass().getName()+":"+e.getMessage());
-				}
-				try {
-					Method method = clazz.getMethod("getGeometry");
-					X3DGeometryNode node = (X3DGeometryNode)method.invoke(child);
-					orientations.addAll(traverseChild(node));
-				} catch (NoSuchMethodException e) {
-					//System.err.println(child.getClass().getName()+":"+e.getMessage());
-				}
-				try {
-					Method method = clazz.getMethod("getAppearance");
-					X3DAppearanceNode node = (X3DAppearanceNode)method.invoke(child);
-					orientations.addAll(traverseChild(node));
-				} catch (NoSuchMethodException e) {
-					//System.err.println(child.getClass().getName()+":"+e.getMessage());
+					// System.err.println(child.getClass().getName()+":"+e.getMessage());
 				}
 			}
 		} catch (Exception e) {
-			System.err.println(child.getClass().getName()+":"+e.getMessage());
+			e.printStackTrace(System.err);
+			// System.err.println(child.getClass().getName()+":"+e.getMessage());
 		}
 
 	}
-	return orientations;
+	return collection;
 }
     public enum rowMode { HEADER, DATA, OFF };
     private rowMode mode = rowMode.DATA;
     public static void main(String[] args) {
  
         TableLoadSave loadAndSave = new TableLoadSave();
-        loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/HAnim.code/jaminate/Jaminate/app/src/main/javascript/JinLOA4.js"));
+        loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/New2TemplateNoBoxes.js"));
+        // loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.js"));
+
+        //loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA4.js"));
         // loadAndSave.loadTest(new GenericTableModel(new DefaultTableModel()));
 
     }

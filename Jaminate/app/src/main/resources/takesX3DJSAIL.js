@@ -218,8 +218,8 @@ function makeChainingAnimation(json) {
 			Scene0.addChild(new ROUTE().setFromNode(appearingcharmove+"Timer").setFromField("isActive").setToNode(appearingcharmove+"NEGATERBooleanFilter").setToField("set_boolean"));
 			Scene0.addChild(new ROUTE().setFromNode(appearingcharmove+"NEGATERBooleanFilter").setFromField("inputNegate").setToNode(appearingcharmove+"BooleanSequencer").setToField("next"));
 		}
-		console.log(X3D0.toFileClassicVRML("../data/takes."+ch+".x3dv"));
-		console.log(X3D0_timers.toFileClassicVRML("../data/takes."+ch+".timers.x3dv"));
+		console.log(X3D0.toFileClassicVRML("takes."+ch+".x3dv"));
+		console.log(X3D0_timers.toFileClassicVRML("takes."+ch+".timers.x3dv"));
 	}
 }
 
@@ -227,7 +227,3 @@ var json = new BufferedReader(new InputStreamReader(System.in)).lines().collect(
 var js = JSON.parse(json);
 System.out.println(JSON.stringify(js, null, 2)); // send back to GUI
 makeChainingAnimation(js);
-//console.log(X3D0.toFileJSON("../data/ChainingAnimation.json"));
-//console.log(X3D0.toFilePython("../data/ChainingAnimation.py"));
-//console.log(X3D0.toFileJavaScript("../data/ChainingAnimation.js"));
-//console.log(X3D0.toFileX3D("../data/ChainingAnimation.x3d"));
