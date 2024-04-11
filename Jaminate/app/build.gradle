@@ -10,6 +10,7 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'java'
     id 'application'
+    id 'antlr'
 }
 
 application {
@@ -62,6 +63,13 @@ dependencies {
     
     implementation 'org.web3d.x3d:X3DJSAIL:4.0.full'
 
+    // https://mvnrepository.com/artifact/org.openjfx/javafx-graphics
+    // implementation 'org.openjfx:javafx-graphics:22'
+    // https://mvnrepository.com/artifact/javax.vecmath/vecmath
+    implementation 'javax.vecmath:vecmath:1.5.2'
+
+    // https://mvnrepository.com/artifact/org.antlr/antlr4
+    implementation 'org.antlr:antlr4:4.13.1'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -73,11 +81,15 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'net.coderextreme.jaminate.JaminateBridge'
-    //mainClass = 'net.coderextreme.jaminate.TableLoadSave'
+    // mainClass = 'net.coderextreme.jaminate.JaminateBridge'
+    mainClass = 'net.coderextreme.jaminate.TableLoadSave'
 }
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+generateGrammarSource {
+    outputDirectory = file("src/main/java/net/coderextreme/cppon")
 }
