@@ -18,7 +18,7 @@ public class Motion extends GenericModel implements Serializable {
     private String character = "Character";
     private Double timeStart = 1.0;
     private String motion = "Motion";
-    private Integer submove = 1;
+    private Integer submove = 0;
     private Double x = 0.0;
     private Double y = 0.0;
     private Double z = 0.0;

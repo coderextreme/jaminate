@@ -22,9 +22,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
 import org.xml.sax.InputSource;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import javax.xml.parsers.ParserConfigurationException;
 import org.ccil.cowan.tagsoup.Parser;
 import javax.swing.table.DefaultTableModel;
 import java.util.Map;
@@ -43,6 +48,7 @@ import javax.activation.DataHandler;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.Engine;
+import org.web3d.x3d.jsail.X3DLoaderDOM;
 import org.web3d.x3d.jsail.Core.X3D;
 import org.web3d.x3d.jsail.Core.ROUTE;
 import org.web3d.x3d.jsail.HAnim.HAnimJoint;
@@ -157,6 +163,55 @@ public class TableLoadSave extends Parser {
 	}
 	return joints;
     }
+    private List<X3DNode> swapJoints(X3D X3D0) {
+	ArrayList<X3DNode> joints = traverseChildren(X3D0.getScene().getChildren(), HAnimJoint.class, 0);
+	String LEFT = "l_";
+	String RIGHT = "r_";
+	for (int ji = 0; ji < joints.size(); ji++) {
+	    HAnimJoint joint = (HAnimJoint)joints.get(ji);
+	    String name = joint.getName();
+	    String DEF = joint.getDEF();
+	    String USE = joint.getUSE();
+	    if (name != null) {
+		if (name.startsWith(LEFT)) {
+		    if (DEF != null && DEF.endsWith(name)) {
+			int ni = DEF.indexOf(name);
+			if (ni > 0) {
+			    DEF = DEF.substring(0, ni)+RIGHT+DEF.substring(ni+2);
+			    joint.setDEF(DEF);
+			}
+		    }
+		    if (USE != null && USE.endsWith(name)) {
+			int ui = USE.indexOf(name);
+			if (ui > 0) {
+			    USE = USE.substring(0, ui)+RIGHT+USE.substring(ui+2);
+			    joint.setUSE(USE);
+			}
+		    }
+		    name = RIGHT+name.substring(2);
+	        } else if (name.startsWith(RIGHT)) {
+		    if (DEF != null && DEF.endsWith(name)) {
+			int ni = DEF.indexOf(name);
+			if (ni > 0) {
+			    DEF = DEF.substring(0, ni)+LEFT+DEF.substring(ni+2);
+			    joint.setDEF(DEF);
+			}
+		    }
+		    if (USE != null && USE.endsWith(name)) {
+			int ui = USE.indexOf(name);
+			if (ui > 0) {
+			    USE = USE.substring(0, ui)+LEFT+USE.substring(ui+2);
+			    joint.setUSE(USE);
+			}
+		    }
+		    name = LEFT+name.substring(2);
+	        }
+	    }
+
+	    joint.setName(name);
+	}
+	return joints;
+    }
     private List<X3DNode> loadOrientations(X3D X3D0) {
 	ArrayList<X3DNode> orientations = traverseChildren(X3D0.getScene().getChildren(), OrientationInterpolator.class, 0);
 	for (int oi = 0; oi < orientations.size(); oi++) {
@@ -221,12 +276,15 @@ public class TableLoadSave extends Parser {
 			//System.err.println("read "+positions.size()+" positions");
 			//List<X3DNode> orientations = rotateOrientations(X3D0);
 			//System.err.println("read "+orientations.size()+" orientations");
-			List<X3DNode> joints = rotateJoints(X3D0);
-			System.err.println("read "+joints.size()+" joints");
+			//List<X3DNode> joints = rotateJoints(X3D0);
+			//System.err.println("read "+joints.size()+" joints");
+			//List<X3DNode> joints2 = swapJoints(X3D0);
+			//System.err.println("swapped joints");
 			try {
-				List<X3DNode> coordinates = rotateCoordinates(X3D0);
-				System.err.println("read "+coordinates.size()+" coordinates");
+				//List<X3DNode> coordinates = rotateCoordinates(X3D0);
+				//System.err.println("read "+coordinates.size()+" coordinates");
 				X3D0.toFileClassicVRML("rotated.x3dv");
+				X3D0.toFileX3D("rotated.x3d");
 			} catch (Exception e) {
 				e.printStackTrace(System.err);
 			}
@@ -241,6 +299,44 @@ public class TableLoadSave extends Parser {
         }
     }
 
+    private void loadX3dFile(GenericTableModel model, File selectedFile) {
+        this.model = model;
+	System.err.println("Opening file "+selectedFile);
+	try {
+		X3DLoaderDOM xmlLoader = new X3DLoaderDOM();
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		dbf.setNamespaceAware(true);
+		dbf.setValidating(true);
+		// DocumentType doctype = domImpl.createDocumentType("X3D", "ISO//Web3D//DTD X3D 4.0//EN", "./x3d-4.0.dtd");
+
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document document = db.parse(selectedFile);
+		X3D X3D0 = (X3D)xmlLoader.toX3dModelInstance(document);
+		if (X3D0 != null) {
+			System.err.println("Version: "+X3D0.getVersion());
+			System.err.println("Profile: "+X3D0.getProfile());
+			//List<X3DNode> positions = rotatePositions(X3D0);
+			//System.err.println("read "+positions.size()+" positions");
+			//List<X3DNode> orientations = rotateOrientations(X3D0);
+			//System.err.println("read "+orientations.size()+" orientations");
+			//List<X3DNode> joints = rotateJoints(X3D0);
+			//System.err.println("read "+joints.size()+" joints");
+			//List<X3DNode> joints2 = swapJoints(X3D0);
+			//System.err.println("swapped joints");
+			try {
+				//List<X3DNode> coordinates = rotateCoordinates(X3D0);
+				//System.err.println("read "+coordinates.size()+" coordinates");
+				X3D0.toFileClassicVRML("xrotated.x3dv");
+				X3D0.toFileX3D("xrotated.x3d");
+			} catch (Exception e) {
+				e.printStackTrace(System.err);
+			}
+		}
+            System.err.println("Number of rows in reader "+model.getModel().getRowCount());
+	} catch (ParserConfigurationException | IOException | SAXException e) {
+            e.printStackTrace(System.err);
+        }
+    }
 
 private ArrayList<X3DNode> traverseChildren(ArrayList<X3DNode> children, Class clazz, int indent) {
 	var collection = new ArrayList<X3DNode>();
@@ -328,8 +424,9 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
     public static void main(String[] args) {
  
         TableLoadSave loadAndSave = new TableLoadSave();
-        loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/New2TemplateNoBoxes.js"));
+        // loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/New2TemplateNoBoxes.js"));
         // loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.js"));
+        loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.x3d"));
 
         //loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA4.js"));
         // loadAndSave.loadTest(new GenericTableModel(new DefaultTableModel()));
@@ -358,11 +455,13 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
             loadTxtFile(model, selectedFile);
         } else if (selectedFile.getName().endsWith(".js")) {
             loadJsFile(model, selectedFile);
+        } else if (selectedFile.getName().endsWith(".x3d")) {
+            loadX3dFile(model, selectedFile);
         }
     }
     public void loadTxtFile(GenericTableModel model, File selectedFile) {
         try (BufferedReader br = new BufferedReader(new FileReader(selectedFile))) {
-            Pattern pattern = Pattern.compile("([-0-9\\.e\\+]+)[ \\t]+([-0-9\\.e\\+]+)[ \\t]+([-0-9\\.e\\+]+),[ \\t]+#?\\(([0-9\\.]+)\\)[ \\t]+#?\\(([A-Za-z]+)_([A-Za-z]+)([0-9]+)\\)");
+            Pattern pattern = Pattern.compile("([-0-9\\.e\\+]+)[ \\t]+([-0-9\\.e\\+]+)[ \\t]+([-0-9\\.e\\+]+),[ \\t]+#?\\(([0-9\\.]+)\\)[ \\t]+#?\\(([A-Za-z]*)_([A-Za-z]+)([0-9]*)\\)");
             String str;
 	    Integer id = 0;
             while ((str = br.readLine()) != null) {
@@ -385,8 +484,10 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
                     motion.setCharacter(character);
                     String move = m.group(6);
                     motion.setMotion(move);
-                    Integer submove = Integer.valueOf(m.group(7));
-                    motion.setSubmove(submove);
+		    if (!"".equals(m.group(7))) {
+			    Integer submove = Integer.valueOf(m.group(7));
+			    motion.setSubmove(submove);
+		    }
                     this.currentRow = motion;
                     this.mode = rowMode.DATA;
                     this.model.addRow(this.currentRow, this.mode);
@@ -498,7 +599,9 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
 		}
 		String move = subMotion.toString();
 		if (subMotion < 10 && subMotion >= 0) {
+			/* for WinterAndSpring 
 			move = "0"+move;
+			*/
 		}
 		characterMoves.add(mainMotion+move);
             }
@@ -517,7 +620,7 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
 		}
                 json += "\n";
 	    	for (Map.Entry<String, List<String>> pair3 : movesAllCharacters.get(character).entrySet()) {
-		    json += "\""+pair3.getKey()+"\": [\""+character+"_"+String.join("\", \""+character+"_", pair3.getValue())+"\"]";
+		    json += "\""+pair3.getKey()+"\": [\""+(character.length() > 0 ? character+"_" : "")+String.join("\", \""+(character.length() > 0 ? character+"_" : ""), pair3.getValue())+"\"]";
 		}
 		json += "}\n";
 	    }

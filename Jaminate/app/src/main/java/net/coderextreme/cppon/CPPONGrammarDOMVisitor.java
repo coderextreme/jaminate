@@ -130,9 +130,6 @@ public class CPPONGrammarDOMVisitor<Node extends org.w3c.dom.Node> extends CPPON
 		if (idx != null) {
 			idxstr = idx.toString();
 		}
-		if (!(tystr+idxstr).toLowerCase().startsWith(typstr.toLowerCase())) {
-			log(tystr+" != "+typstr+"\n");
-		}
 		// log("Creating ");log(typ); log(" "); log(ty); log(idx); log(eq); log(fn); log(pa); log("\n");
 		switch (typstr) {
 			case "Connect":
@@ -144,6 +141,9 @@ public class CPPONGrammarDOMVisitor<Node extends org.w3c.dom.Node> extends CPPON
 			case "CColor":
 				typstr = "Color";
 				break;
+		}
+		if (!(tystr+idxstr).toLowerCase().startsWith(typstr.toLowerCase())) {
+			log(tystr+" != "+typstr+"\n");
 		}
 		Element child = document.createElement(typstr);
 		this.nodes.put(tystr+idxstr, child);
@@ -261,7 +261,7 @@ public class CPPONGrammarDOMVisitor<Node extends org.w3c.dom.Node> extends CPPON
 				} else if (vc != null) {
 					Node child = visitVariable(vc);
 					String containerFieldName = fn.toString();
-					if (containerFieldName.toLowerCase().endsWith("metadata") || containerFieldName.toLowerCase().endsWith("url") || containerFieldName.toLowerCase().endsWith("texture")) {
+					if (containerFieldName.toLowerCase().endsWith("joints") || containerFieldName.toLowerCase().endsWith("segments") || containerFieldName.toLowerCase().endsWith("sites") || containerFieldName.toLowerCase().endsWith("metadata") || containerFieldName.toLowerCase().endsWith("url") || containerFieldName.toLowerCase().endsWith("texture")) {
 						this.elementSetAttribute((Element)child, "containerField", containerFieldName, false);
 					}
 					parent.appendChild(child);
@@ -278,7 +278,7 @@ public class CPPONGrammarDOMVisitor<Node extends org.w3c.dom.Node> extends CPPON
 		} else if (add != null) {
 			Node child = visitVariable(vc);
 			String containerFieldName = fn.toString();
-			if (containerFieldName.toLowerCase().endsWith("metadata") || containerFieldName.toLowerCase().endsWith("url") || containerFieldName.toLowerCase().endsWith("texture")) {
+			if (containerFieldName.toLowerCase().endsWith("joints") || containerFieldName.toLowerCase().endsWith("segments") || containerFieldName.toLowerCase().endsWith("sites") || containerFieldName.toLowerCase().endsWith("metadata") || containerFieldName.toLowerCase().endsWith("url") || containerFieldName.toLowerCase().endsWith("texture")) {
 				this.elementSetAttribute((Element)child, "containerField", containerFieldName, false);
 			}
 			parent.appendChild(child);

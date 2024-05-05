@@ -26,6 +26,17 @@ function booleanArrayToJava(b) {
 	return Java.to(JSBooleans, Java.type("boolean[]")); 
 }
 
+function getAppearingCharMove(acm, charmove) {
+	let submove = acm;
+	submove = "";
+	let appearingcharmove = charmove+submove;
+	if (appearingcharmove.endsWith("0")) {
+		appearingcharmove = appearingcharmove.substring(0, appearingcharmove.length-1)
+	}
+	console.log(appearingcharmove);
+	return appearingcharmove;
+}
+
 function makeChainingAnimation(json) {
 
 	let chars = [];
@@ -87,20 +98,20 @@ function makeChainingAnimation(json) {
 				let charmove = mpc[mvi];
 				let acm = mvi;
 				let submove = acm;
-				let appearingcharmove = charmove+submove;
+				let appearingcharmove = getAppearingCharMove(acm, charmove);
 				let tcm = tpc[acm];
 
 				let nacm = (mvi + 1) % len;
 				let ncharmove = mpc[nacm];
 				let nsubmove = nacm;
-				let nappearingcharmove = ncharmove+nsubmove;
+				let nappearingcharmove = getAppearingCharMove(nacm, ncharmove);
 				let ntcm = tpc[nacm];
 
 
 				let pacm = (mvi - 1 + len) % len;
 				let pcharmove = mpc[pacm];
 				let psubmove = pacm;
-				let pappearingcharmove = pcharmove+psubmove;
+				let pappearingcharmove = getAppearingCharMove(pacm, pcharmove);
 				let ptcm = tpc[pacm];
 				if (charmove === pcharmove) {
 					if (mvi === 0) {
@@ -131,17 +142,17 @@ function makeChainingAnimation(json) {
 			let charmove = charobj["movesperchar"][mvi];
 			let acm = mvi;
 			let submove = acm;
-			let appearingcharmove = charmove+submove;
+			let appearingcharmove = getAppearingCharMove(acm, charmove);
 
 			let nacm = (mvi + 1) % len;
 			let ncharmove = charobj["movesperchar"][nacm];
 			let nsubmove = nacm;
-			let nappearingcharmove = ncharmove+nsubmove;
+			let nappearingcharmove = getAppearingCharMove(nacm, ncharmove);
 
 			let pacm = (mvi - 1 + len) % len;
 			let pcharmove = charobj["movesperchar"][pacm];
 			let psubmove = pacm;
-			let pappearingcharmove = pcharmove+psubmove;
+			let pappearingcharmove = getAppearingCharMove(pacm, pcharmove);
 
 			let ctl = charobj["timesperchar"].length;
 			let movebooleans = Array.from({length:ctl}).map(x => "FALSE");
@@ -180,15 +191,15 @@ function makeChainingAnimation(json) {
 			Scene0.addChild(new TimeTrigger().setDEF(appearingcharmove+"OnTimeTrigger"));
 
 			if (mvi === 0) {
-				Scene0.addChild(new ROUTE().setFromNode(ch+"_z100sTimer").setFromField("isActive").setToNode(appearingcharmove+"SPLITTERBooleanFilter").setToField("set_boolean"));
+				Scene0.addChild(new ROUTE().setFromNode((ch.length > 0 ? ch+"_" : "")+"z100sTimer").setFromField("isActive").setToNode(appearingcharmove+"SPLITTERBooleanFilter").setToField("set_boolean"));
 			} else if (mvi === len - 1) {
-				Scene0.addChild(new ROUTE().setFromNode(ch+"_z100sTimer").setFromField("cycleTime").setToNode(appearingcharmove+"Timer").setToField("set_stopTime"));
-				Scene0.addChild(new ROUTE().setFromNode(ch+"_z100sTimer").setFromField("isActive").setToNode(appearingcharmove+"Timer").setToField("set_enabled"));
+				Scene0.addChild(new ROUTE().setFromNode((ch.length > 0 ? ch+"_" : "")+"z100sTimer").setFromField("cycleTime").setToNode(appearingcharmove+"Timer").setToField("set_stopTime"));
+				Scene0.addChild(new ROUTE().setFromNode((ch.length > 0 ? ch+"_" : "")+"z100sTimer").setFromField("isActive").setToNode(appearingcharmove+"Timer").setToField("set_enabled"));
 				Scene0.addChild(new TimeTrigger().setDEF(appearingcharmove+"FINALETimeTrigger"));
 				Scene0.addChild(new ROUTE().setFromNode(appearingcharmove+"FINALEBooleanFilter").setFromField("inputFalse").setToNode(appearingcharmove+"FINALETimeTrigger").setToField("set_boolean"));
 				Scene0.addChild(new ROUTE().setFromNode(appearingcharmove+"FINALETimeTrigger").setFromField("triggerTime").setToNode(appearingcharmove+"Timer").setToField("set_stopTime"));
 			}
-			Scene0.addChild(new ROUTE().setFromNode(ch+"_z100sTimer").setFromField("fraction_changed").setToNode(appearingcharmove+"BooleanSequencer").setToField("set_fraction"));
+			Scene0.addChild(new ROUTE().setFromNode((ch.length > 0 ? ch+"_" : "")+"z100sTimer").setFromField("fraction_changed").setToNode(appearingcharmove+"BooleanSequencer").setToField("set_fraction"));
 			Scene0.addChild(new ROUTE().setFromNode(appearingcharmove+"BooleanSequencer").setFromField("value_changed").setToNode(appearingcharmove+"SPLITTERBooleanFilter").setToField("set_boolean"));
 			Scene0.addChild(new ROUTE().setFromNode(appearingcharmove+"SPLITTERBooleanFilter").setFromField("inputTrue").setToNode(appearingcharmove+"OnTimeTrigger").setToField("set_boolean"));
 			Scene0.addChild(new ROUTE().setFromNode(appearingcharmove+"SPLITTERBooleanFilter").setFromField("inputFalse").setToNode(appearingcharmove+"OffTimeTrigger").setToField("set_boolean"));
@@ -202,21 +213,21 @@ function makeChainingAnimation(json) {
 			let charmove = charobj["movesperchar"][mvi];
 			let acm = mvi;
 			let submove = acm;
-			let appearingcharmove = charmove+submove;
+			let appearingcharmove = getAppearingCharMove(acm, charmove);
 
 			let nacm = (mvi + 1) % len;
 			let ncharmove = charobj["movesperchar"][nacm];
 			let nsubmove = nacm;
-			let nappearingcharmove = ncharmove+nsubmove;
+			let nappearingcharmove = getAppearingCharMove(nacm, ncharmove);
 
 			let pacm = (mvi - 1 + len) % len;
 			let pcharmove = charobj["movesperchar"][pacm];
 			let psubmove = pacm;
-			let pappearingcharmove = pcharmove+psubmove;
+			let pappearingcharmove = getAppearingCharMove(pacm, pcharmove);
 
-			Scene0.addChild(new ROUTE().setFromNode(appearingcharmove+"Timer").setFromField("stopTime").setToNode(appearingcharmove+"Timer").setToField("set_startTime"));
-			Scene0.addChild(new ROUTE().setFromNode(appearingcharmove+"Timer").setFromField("isActive").setToNode(appearingcharmove+"NEGATERBooleanFilter").setToField("set_boolean"));
-			Scene0.addChild(new ROUTE().setFromNode(appearingcharmove+"NEGATERBooleanFilter").setFromField("inputNegate").setToNode(appearingcharmove+"BooleanSequencer").setToField("next"));
+			Scene0.addChild(new ROUTE().setFromNode(appearingcharmove+"Timer").setFromField("stopTime").setToNode(nappearingcharmove+"Timer").setToField("set_startTime"));
+			Scene0.addChild(new ROUTE().setFromNode(appearingcharmove+"Timer").setFromField("isActive").setToNode(nappearingcharmove+"NEGATERBooleanFilter").setToField("set_boolean"));
+			Scene0.addChild(new ROUTE().setFromNode(nappearingcharmove+"NEGATERBooleanFilter").setFromField("inputNegate").setToNode(appearingcharmove+"BooleanSequencer").setToField("next"));
 		}
 		console.log(X3D0.toFileClassicVRML("takes."+ch+".x3dv"));
 		console.log(X3D0_timers.toFileClassicVRML("takes."+ch+".timers.x3dv"));

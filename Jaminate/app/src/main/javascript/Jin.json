@@ -1,0 +1,5 @@
+{
+"": {
+"TimesPerCharacter": [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2],
+"MovesPerCharacter": ["Default0", "Test0", "Pitch1", "Pitch2", "Yaw1", "Yaw2", "Roll1", "Roll2", "Walk0", "Run0", "Jump0", "Kick1", "Kick2"]}
+}
