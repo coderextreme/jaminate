@@ -4,6 +4,7 @@
  */
 package net.coderextreme.jaminate;
 import java.lang.reflect.Method;
+import java.lang.Override;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -22,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.function.BiConsumer;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -34,8 +36,12 @@ import org.ccil.cowan.tagsoup.Parser;
 import javax.swing.table.DefaultTableModel;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 import javax.activation.DataHandler;
 //import javax.script.Invocable;
@@ -48,15 +54,21 @@ import javax.activation.DataHandler;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.Engine;
+import org.web3d.x3d.jsail.fields.SFRotation;
 import org.web3d.x3d.jsail.X3DLoaderDOM;
+import org.web3d.x3d.jsail.X3DConcreteElement;
+import org.web3d.x3d.jsail.X3DConcreteNode;
 import org.web3d.x3d.jsail.Core.X3D;
 import org.web3d.x3d.jsail.Core.ROUTE;
+import net.coderextreme.remove.NewROUTE;
+import net.coderextreme.remove.Remove;
 import org.web3d.x3d.jsail.HAnim.HAnimJoint;
 import org.web3d.x3d.jsail.HAnim.HAnimHumanoid;
 import org.web3d.x3d.jsail.Interpolation.OrientationInterpolator;
 import org.web3d.x3d.jsail.Interpolation.PositionInterpolator;
 import org.web3d.x3d.jsail.Rendering.Coordinate;
 import org.web3d.x3d.jsail.Geometry3D.IndexedFaceSet;
+import org.web3d.x3d.jsail.Time.TimeSensor;
 import org.web3d.x3d.sai.Core.X3DNode;
 import org.web3d.x3d.sai.Grouping.X3DGroupingNode;
 import org.web3d.x3d.sai.Rendering.X3DGeometryNode;
@@ -225,7 +237,7 @@ public class TableLoadSave extends Parser {
 		    Integer id = oi;
 		    motion.setId(id);
 
-		    // OrienationInterpolator DEF
+		    // OrientationInterpolator DEF
 		    String orientationDef = interpolator.getDEF(); 
 		    motion.setMotion(orientationDef);
 
@@ -283,8 +295,9 @@ public class TableLoadSave extends Parser {
 			try {
 				//List<X3DNode> coordinates = rotateCoordinates(X3D0);
 				//System.err.println("read "+coordinates.size()+" coordinates");
-				X3D0.toFileClassicVRML("rotated.x3dv");
-				X3D0.toFileX3D("rotated.x3d");
+				concatenateOrientationInterpolators(X3D0);
+				X3D0.toFileClassicVRML("jsconcatenated.x3dv");
+				X3D0.toFileX3D("jsconcatenated.x3d");
 			} catch (Exception e) {
 				e.printStackTrace(System.err);
 			}
@@ -305,8 +318,8 @@ public class TableLoadSave extends Parser {
 	try {
 		X3DLoaderDOM xmlLoader = new X3DLoaderDOM();
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		dbf.setNamespaceAware(true);
-		dbf.setValidating(true);
+		// dbf.setNamespaceAware(true);
+		// dbf.setValidating(true);
 		// DocumentType doctype = domImpl.createDocumentType("X3D", "ISO//Web3D//DTD X3D 4.0//EN", "./x3d-4.0.dtd");
 
 		DocumentBuilder db = dbf.newDocumentBuilder();
@@ -323,11 +336,15 @@ public class TableLoadSave extends Parser {
 			//System.err.println("read "+joints.size()+" joints");
 			//List<X3DNode> joints2 = swapJoints(X3D0);
 			//System.err.println("swapped joints");
+			//List<X3DNode> coordinates = rotateCoordinates(X3D0);
+			//System.err.println("read "+coordinates.size()+" coordinates");
 			try {
-				//List<X3DNode> coordinates = rotateCoordinates(X3D0);
-				//System.err.println("read "+coordinates.size()+" coordinates");
-				X3D0.toFileClassicVRML("xrotated.x3dv");
-				X3D0.toFileX3D("xrotated.x3d");
+				System.err.println("concatenating");
+				concatenateOrientationInterpolators(X3D0);
+				System.err.println("writing VRML");
+				X3D0.toFileClassicVRML("x3dconcatenated.x3dv");
+				System.err.println("writing XML");
+				X3D0.toFileX3D("x3dconcatenated.x3d");
 			} catch (Exception e) {
 				e.printStackTrace(System.err);
 			}
@@ -338,8 +355,118 @@ public class TableLoadSave extends Parser {
         }
     }
 
-private ArrayList<X3DNode> traverseChildren(ArrayList<X3DNode> children, Class clazz, int indent) {
-	var collection = new ArrayList<X3DNode>();
+private void concatenateOrientationInterpolators(X3D X3D0) {
+       ArrayList routes = traverseChildren(X3D0.getScene().getChildren(), NewROUTE.class, 0);
+       HashSet<OrientationInterpolator> oldois = new HashSet<OrientationInterpolator>();
+	System.err.println("route "+routes.size());
+       LinkedHashMap<TimeSensor, TimeSensor> timing = new LinkedHashMap<TimeSensor, TimeSensor>();
+	HashMap<HAnimJoint, ArrayList<OrientationInterpolator>> joint2oi = new HashMap<HAnimJoint, ArrayList<OrientationInterpolator>>();
+	HashMap<OrientationInterpolator, ArrayList<TimeSensor>> oi2time = new HashMap<OrientationInterpolator, ArrayList<TimeSensor>>();
+       for (int ri = 0; ri < routes.size(); ri++) {
+		NewROUTE route = (NewROUTE)routes.get(ri);
+		System.err.println("ROUTE "+ri);
+
+		X3DConcreteElement from = X3D0.findNodeByDEF(route.getFromNode());
+		if (from == null) {
+			from = X3D0.findElementByNameValue(route.getFromNode());
+       		}
+
+		X3DConcreteElement to = X3D0.findNodeByDEF(route.getToNode());
+		if (to == null) {
+			to = X3D0.findElementByNameValue(route.getToNode());
+       		}
+		if (from instanceof OrientationInterpolator  && to instanceof HAnimJoint) {
+			// System.err.println("from "+from+" to "+to+" "+route.getFromNode()+"."+route.getFromField()+" TO "+route.getToNode()+"."+route.getToField());
+			ArrayList<OrientationInterpolator> ois = joint2oi.get(to);
+			if (ois == null) {
+				ois = new ArrayList<OrientationInterpolator>();
+			}
+			ois.add((OrientationInterpolator)from);
+			oldois.add((OrientationInterpolator)from);
+			joint2oi.put((HAnimJoint)to, ois);
+		} else if (from instanceof TimeSensor && to instanceof OrientationInterpolator) {
+			// System.err.println("from "+from+" to "+to+" "+route.getFromNode()+"."+route.getFromField()+" TO "+route.getToNode()+"."+route.getToField());
+			ArrayList<TimeSensor> sensors = oi2time.get(to);
+			if (sensors == null) {
+				sensors = new ArrayList<TimeSensor>();
+			}
+			sensors.add((TimeSensor)from);
+			oldois.add((OrientationInterpolator)to);
+			oi2time.put((OrientationInterpolator)to, sensors);
+		} else if (from instanceof TimeSensor && to instanceof TimeSensor && "stopTime_changed".equals(route.getFromField()) && "set_startTime".equals(route.getToField())) {
+			System.err.println("from "+from+" to "+to+" "+route.getFromNode()+"."+route.getFromField()+" TO "+route.getToNode()+"."+route.getToField());
+			timing.put((TimeSensor)from, (TimeSensor)to);
+		}
+	}
+        ArrayList<OrientationInterpolator> ois = new ArrayList<OrientationInterpolator>();
+	TimeSensor first = null;
+	TimeSensor next = null;
+	for (Map.Entry<HAnimJoint, ArrayList<OrientationInterpolator>> joint2oiEntry : joint2oi.entrySet()) {
+		ArrayList<OrientationInterpolator> oij = joint2oiEntry.getValue();
+		HAnimJoint joint = joint2oiEntry.getKey();
+		OrientationInterpolator newOI = new OrientationInterpolator();
+                Integer start = 0;
+		for (Map.Entry<OrientationInterpolator, ArrayList<TimeSensor>> oi2timeEntry : oi2time.entrySet()) {
+			OrientationInterpolator oi = oi2timeEntry.getKey();
+			ArrayList<TimeSensor> sensors = oi2timeEntry.getValue();
+			first = sensors.get(0);
+			next = first;
+			HashSet<TimeSensor> set = new HashSet<TimeSensor>();
+			// now traverse through all of the sensors for this interpolator
+			do {
+
+				// this OrientationInterpolator is part of this sensor.
+				if (oij.contains(oi)) {
+					for (float k : oi.getKey()) {
+						newOI.addKey(k+start);
+					}
+					float [] keyValue = oi.getKeyValue();
+					for (int kv = 0; kv < keyValue.length; kv += 4) {
+						if (keyValue[kv] == 0 && keyValue[kv+1] == 0 && keyValue[kv+2] == 0) {
+							System.err.println("Error, axis is 0,0,0");
+						} else {
+							newOI.addKeyValue(new SFRotation(
+									keyValue[kv],
+									keyValue[kv + 1],
+									keyValue[kv + 2],
+									keyValue[kv + 3]));
+						}
+					}
+					System.err.println("New OI "+newOI.getKey());
+                                        start += 1; 
+				} else {
+					// System.err.println("no match for oi "+oi);
+				}
+
+				set.add(next);
+				next = timing.get(next);
+			} while (!set.contains(next));
+		}
+		ois.add(newOI);
+	}
+	ArrayList children = X3D0.getScene().getChildren();
+	for (OrientationInterpolator oi : oi2time.keySet()) {
+		Iterator itr = children.iterator();
+		while (itr.hasNext()) {
+			if (itr == oi) {
+				System.err.println("removing interpolator");
+				itr.remove();
+			}
+			itr.next();
+		}
+	}
+	Iterator<OrientationInterpolator> itr = ois.iterator();
+	while (itr.hasNext()) {
+		OrientationInterpolator oi = itr.next();
+		System.err.println("adding interpolator");
+		X3D0.getScene().addChild(oi);
+	}
+	Remove rem = new Remove();
+	rem.removeChildren(X3D0.getScene().getChildren(), oldois);
+}
+
+private ArrayList traverseChildren(ArrayList<X3DNode> children, Class clazz, int indent) {
+	var collection = new ArrayList();
 	if (children != null) {
 		for (int ci = 0; ci < children.size(); ci++) {
 			collection.addAll(traverseChild(children.get(ci), clazz, indent+1));
@@ -356,7 +483,7 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
 			// System.err.println(indent+" "+clazzchild.getName() +" == "+ clazz.getName());
 			collection.add(child);
 		}
-		if (child instanceof ROUTE) {
+		if (child instanceof ROUTE || child instanceof NewROUTE) {
 			return collection;
 		}
 		try {
@@ -425,9 +552,10 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
  
         TableLoadSave loadAndSave = new TableLoadSave();
         // loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/New2TemplateNoBoxes.js"));
-        // loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.js"));
-        loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.x3d"));
-
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.x3d"));
+        loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.js"));
+	//
+        //loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4Sites09n.x3d"));
         //loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA4.js"));
         // loadAndSave.loadTest(new GenericTableModel(new DefaultTableModel()));
 
