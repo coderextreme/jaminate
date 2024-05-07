@@ -81,8 +81,8 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'net.coderextreme.jaminate.JaminateBridge'
-    //mainClass = 'net.coderextreme.jaminate.TableLoadSave'
+    // mainClass = 'net.coderextreme.jaminate.JaminateBridge'
+    mainClass = 'net.coderextreme.jaminate.TableLoadSave'
 }
 
 tasks.named('test') {
