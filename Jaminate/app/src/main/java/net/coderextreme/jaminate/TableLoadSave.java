@@ -479,6 +479,9 @@ private void concatenateOrientationInterpolators(X3D X3D0) {
 
 		Iterator<OrientationInterpolator> itr = newois.iterator();
 		boolean found = false;
+		if (start == 1) {  // There's only one interpolator in this list, so no need to provide a new one
+			found = true;
+		}
 		while (itr.hasNext()) {
 			OrientationInterpolator present = itr.next();
 			if (newOI.getDEF().equals(present.getDEF())) {
