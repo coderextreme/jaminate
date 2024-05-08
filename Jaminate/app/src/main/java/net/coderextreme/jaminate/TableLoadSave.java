@@ -342,9 +342,7 @@ public class TableLoadSave extends Parser {
 			//List<X3DNode> coordinates = rotateCoordinates(X3D0);
 			//System.err.println("read "+coordinates.size()+" coordinates");
 			try {
-				System.err.println("concatenating");
-				concatenateOrientationInterpolators(X3D0);
-				System.err.println("writing VRML");
+				concatenateX3DOrientationInterpolators(X3D0);
 				X3D0.toFileClassicVRML("x3dconcatenated.x3dv");
 				System.err.println("writing XML");
 				X3D0.toFileX3D("x3dconcatenated.x3d");
@@ -581,6 +579,229 @@ private void concatenateOrientationInterpolators(X3D X3D0) {
 	//rem.removeChildren(X3D0.getScene().getChildren(), oldois);
 	//rem.removeChildren(X3D0.getScene().getChildren(), oldsensors);
 }
+private void concatenateX3DOrientationInterpolators(X3D X3D0) {
+	ArrayList routes = traverseChildren(X3D0.getScene().getChildren(), ROUTE.class, 0);
+	LinkedHashSet<OrientationInterpolator> oldois = new LinkedHashSet<OrientationInterpolator>();
+	LinkedHashSet<OrientationInterpolator> newois = new LinkedHashSet<OrientationInterpolator>();
+	LinkedHashSet<ROUTE> oldroutes = new LinkedHashSet<ROUTE>();
+	float cycleInterval = 0.0f;
+	LinkedHashSet<TimeSensor> oldsensors = new LinkedHashSet<TimeSensor>();
+	System.err.println("route "+routes.size());
+	LinkedHashMap<TimeSensor, TimeSensor> timing = new LinkedHashMap<TimeSensor, TimeSensor>();
+	LinkedHashMap<HAnimJoint, ArrayList<OrientationInterpolator>> joint2oi = new LinkedHashMap<HAnimJoint, ArrayList<OrientationInterpolator>>();
+	LinkedHashMap<OrientationInterpolator, ArrayList<TimeSensor>> oi2time = new LinkedHashMap<OrientationInterpolator, ArrayList<TimeSensor>>();
+
+        ProximitySensor prox = new ProximitySensor();
+	prox.setDEF("ShinyActivate");
+	prox.setSize(new float[] { 1000000, 1000000, 1000000});
+	X3D0.getScene().addChild(prox);
+
+	TimeSensor sensor = new TimeSensor();
+	sensor.setDEF("ShinyTimer");
+	// sensor.setCycleInterval(100.0f);
+	sensor.setEnabled(true);
+	sensor.setLoop(true);
+	X3D0.getScene().addChild(sensor);
+
+	ROUTE newRoute3 = new ROUTE();
+	newRoute3.setFromNode("ShinyActivate");
+	newRoute3.setFromField("enterTime");
+	newRoute3.setToNode("ShinyTimer");
+	newRoute3.setToField("set_startTime");
+	X3D0.getScene().addChild(newRoute3);
+
+	// first, go through all the routes, collecting up information
+	for (int ri = 0; ri < routes.size(); ri++) {
+		ROUTE route = (ROUTE)routes.get(ri);
+		// System.err.println("ROUTE "+ri);
+
+		X3DConcreteElement from = X3D0.findNodeByDEF(route.getFromNode());
+		if (from == null) {
+			from = X3D0.findElementByNameValue(route.getFromNode());
+       		}
+
+		X3DConcreteElement to = X3D0.findNodeByDEF(route.getToNode());
+		if (to == null) {
+			to = X3D0.findElementByNameValue(route.getToNode());
+       		}
+		if (from instanceof OrientationInterpolator  && to instanceof HAnimJoint) {
+			// System.err.println("from "+from+" to "+to+" "+route.getFromNode()+"."+route.getFromField()+" TO "+route.getToNode()+"."+route.getToField());
+			ArrayList<OrientationInterpolator> ois = joint2oi.get(to);
+			if (ois == null) {
+				ois = new ArrayList<OrientationInterpolator>();
+			}
+			ois.add((OrientationInterpolator)from);
+			oldois.add((OrientationInterpolator)from);
+			oldroutes.add((ROUTE)route);
+			joint2oi.put((HAnimJoint)to, ois);
+		} else if (from instanceof TimeSensor && to instanceof OrientationInterpolator) {
+			// System.err.println("from "+from+" to "+to+" "+route.getFromNode()+"."+route.getFromField()+" TO "+route.getToNode()+"."+route.getToField());
+			ArrayList<TimeSensor> sensors = oi2time.get(to);
+			if (sensors == null) {
+				sensors = new ArrayList<TimeSensor>();
+			}
+			sensors.add((TimeSensor)from);
+			oldois.add((OrientationInterpolator)to);
+			oldroutes.add((ROUTE)route);
+			oldsensors.add((TimeSensor)from);
+			oi2time.put((OrientationInterpolator)to, sensors);
+		} else if (from instanceof TimeSensor && to instanceof TimeSensor && "stopTime_changed".equals(route.getFromField()) && "set_startTime".equals(route.getToField())) {
+			System.err.println("from "+from+" to "+to+" "+route.getFromNode()+"."+route.getFromField()+" TO "+route.getToNode()+"."+route.getToField());
+			timing.put((TimeSensor)from, (TimeSensor)to);
+			oldsensors.add((TimeSensor)from);
+			oldsensors.add((TimeSensor)to);
+			if (from != null) {
+				((TimeSensor)from).setEnabled(false);
+				cycleInterval += ((TimeSensor)from).getCycleInterval();
+			} else {
+				System.err.println("OOPS, from TimeSensor is null");
+			}
+			if (to != null) {
+				((TimeSensor)to).setEnabled(false);
+			} else {
+				System.err.println("OOPS, to TimeSensor is null");
+			}
+		}
+	}
+	TimeSensor first = null;
+	TimeSensor next = null;
+	// then go through all the joints and interpolators, collecting up keys and values for new OrientationInterpolators
+	for (Map.Entry<HAnimJoint, ArrayList<OrientationInterpolator>> joint2oiEntry : joint2oi.entrySet()) {
+		ArrayList<OrientationInterpolator> oij = joint2oiEntry.getValue();
+		HAnimJoint joint = joint2oiEntry.getKey();
+		OrientationInterpolator newOI = new OrientationInterpolator();
+		ArrayList<float[]> newKeys = new ArrayList<float[]>();
+		ArrayList<float[]> newKeyValues = new ArrayList<float[]>();
+		StringBuffer oiName = new StringBuffer();
+		for (Map.Entry<OrientationInterpolator, ArrayList<TimeSensor>> oi2timeEntry : oi2time.entrySet()) {
+			OrientationInterpolator oi = oi2timeEntry.getKey();
+			ArrayList<TimeSensor> sensors = oi2timeEntry.getValue();
+			first = sensors.get(0);
+			next = first;
+			LinkedHashSet<TimeSensor> set = new LinkedHashSet<TimeSensor>();
+			// now traverse through all of the sensors for this interpolator
+			do {
+
+				// this OrientationInterpolator is part of this sensor.
+				if (oij.contains(oi)) {
+					newKeys.add(oi.getKey());
+					newKeyValues.add(oi.getKeyValue());
+					oiName.append(oi.getDEF());
+					/*
+				} else {
+					newKeys.add(null);
+					newKeyValues.add(null);
+					oiName.append("");
+					*/
+				}
+				set.add(next);
+				next = timing.get(next);
+			} while (!set.contains(next));
+		}
+
+		// now actually add keys and values to the new orientation interpolator
+                Integer start = 0;
+		Integer animCount = 0;
+		SFRotation currot = null;
+		for (int ik = 0; ik < newKeys.size(); ik++) {
+			if (newKeys.get(ik) == null) {
+				newOI.addKey(start);
+			} else {
+				for (float k : newKeys.get(ik)) {
+					newOI.addKey(k+start);
+				}
+				animCount++;
+			}
+			if (newKeyValues.get(ik) == null) {
+				if (currot == null) {
+					currot = new SFRotation(0, 0, 1, 0);
+				}
+				newOI.addKeyValue(currot);
+			} else {
+				float [] keyValue = newKeyValues.get(ik);
+				for (int kv = 0; kv < keyValue.length; kv += 4) {
+					if (keyValue[kv] == 0 && keyValue[kv+1] == 0 && keyValue[kv+2] == 0) {
+						System.err.println("Error, axis is 0,0,0, changing to 0,0,1 (default) "+(kv/4+1)+"th tuple in "+(ik+1)+" orientation interpolator in this list: "+oiName);
+						keyValue[kv+2] = 1;
+					}
+					currot = new SFRotation(
+							keyValue[kv],
+							keyValue[kv + 1],
+							keyValue[kv + 2],
+							keyValue[kv + 3]);
+					newOI.addKeyValue(currot);
+				}
+			}
+			start += 1; 
+		}
+
+		newOI.setDEF(oiName.toString());
+
+		// make the keys in the interpolator go from 0 to 1
+		float [] key = newOI.getKey();
+		float end = key[key.length-1];
+		if (end != 0) {
+			for (int i = 0; i < key.length; i++) {
+				key[i] = key[i]/end;
+			}
+			newOI.setKey(key);
+		}
+
+
+
+		// search for existing interpolators
+		Iterator<OrientationInterpolator> itr = newois.iterator();
+		boolean found = false;
+		if (animCount == 1) {  // There's only one interpolator in this list, so no need to provide a new one
+			found = true;
+			System.err.println("Found OI "+newOI.getDEF());
+		}
+		while (itr.hasNext()) {
+			OrientationInterpolator present = itr.next();
+			if (newOI.getDEF().equals(present.getDEF())) {
+				found = true;
+				System.err.println("Found OI "+newOI.getDEF());
+			}
+		}
+
+       		ArrayList copyois = traverseChildren(X3D0.getScene().getChildren(), OrientationInterpolator.class, 0);
+		Iterator<OrientationInterpolator> citr = (Iterator<OrientationInterpolator>)(newois.iterator());
+		while (citr.hasNext()) {
+			OrientationInterpolator present = citr.next();
+			if (newOI.getDEF().equals(present.getDEF())) {
+				found = true;
+				System.err.println("Found OI "+newOI.getDEF());
+			}
+		}
+
+		// if the interpolator wasn't found above, add it
+		if (!found) {
+			X3D0.getScene().addChild(newOI);
+			newois.add(newOI);
+		}
+
+		ROUTE newRoute = new ROUTE();
+		newRoute.setFromNode(oiName.toString());
+		newRoute.setFromField("value_changed");
+		newRoute.setToNode(joint.getDEF());
+		newRoute.setToField("set_rotation");
+		X3D0.getScene().addChild(newRoute);
+
+		ROUTE newRoute2 = new ROUTE();
+		newRoute2.setFromNode(sensor.getDEF());
+		newRoute2.setFromField("fraction_changed");
+		newRoute2.setToNode(oiName.toString());
+		newRoute2.setToField("set_fraction");
+		X3D0.getScene().addChild(newRoute2);
+	}
+	sensor.setCycleInterval(cycleInterval);
+
+
+	Remove rem = new Remove();
+	rem.removeChildren(X3D0.getScene().getChildren(), oldroutes);
+	rem.removeChildren(X3D0.getScene().getChildren(), oldois);
+	rem.removeChildren(X3D0.getScene().getChildren(), oldsensors);
+}
 
 private ArrayList traverseChildren(ArrayList<X3DNode> children, Class clazz, int indent) {
 	var collection = new ArrayList();
@@ -670,9 +891,9 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
         TableLoadSave loadAndSave = new TableLoadSave();
         // loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/New2TemplateNoBoxes.js"));
         // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.x3d"));
-        loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.js"));
+        // loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.js"));
 	//
-        //loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4Sites09n.x3d"));
+        loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4Sites09v.x3d"));
         //loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA4.js"));
         // loadAndSave.loadTest(new GenericTableModel(new DefaultTableModel()));
 
@@ -882,7 +1103,8 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
         try (PrintWriter pw = new PrintWriter(new FileWriter(selectedFile));) {
             json = saveJson(model, pw);
 	    System.err.println("Starting");
-            Process p = Runtime.getRuntime().exec(new String[] { "js", "--experimental-options", "--polyglot", "--vm.Djs.allowAllAccess=true", "--vm.Xss1g", "--vm.Xmx4g", "--jvm", "--vm.classpath=C:/Users/john/jaminate/Jaminate/app/lib/X3DJSAIL.4.0.full.jar;C:/Users/john/jaminate/Jaminate/app/lib/saxon-he-12.1.jar", "src/main/resources/takesX3DJSAIL.js"});
+            // Process p = Runtime.getRuntime().exec(new String[] { "js", "--experimental-options", "--polyglot", "--vm.Djs.allowAllAccess=true", "--vm.Xss1g", "--vm.Xmx4g", "--jvm", "--vm.classpath=C:/Users/john/jaminate/Jaminate/app/lib/X3DJSAIL.4.0.full.jar;C:/Users/john/jaminate/Jaminate/app/lib/saxon-he-12.1.jar", "src/main/resources/takesX3DJSAIL.js"});
+            Process p = Runtime.getRuntime().exec(new String[] { "js", "--experimental-options", "--polyglot", "--vm.Djs.allowAllAccess=true", "--vm.Xss1g", "--vm.Xmx4g", "--jvm", "--vm.classpath=C:/Users/john/jaminate/Jaminate/app/lib/X3DJSAIL.4.0.full.jar;C:/Users/john/jaminate/Jaminate/app/lib/saxon-he-12.1.jar", "src/main/resources/takesSimple.js"});
 	                                                       // js    --experimental-options    --polyglot    --vm.Djs.allowAllAccess=true    --vm.Xss1g    --vm.Xmx4g    --jvm    --vm.classpath='C:/Users/john/jaminate/Jaminate/app/lib/X3DJSAIL.4.0.full.jar;C:/Users/john/jaminate/Jaminate/app/lib/saxon-he-12.1.jar"    src/main/resources/takesX3DJSAIL.js
 
 		    // "node", "-cp", "./lib/X3DJSAIL.4.0.full.jar:./lib/saxon-he-12.1.jar:.", "takes.js"});
