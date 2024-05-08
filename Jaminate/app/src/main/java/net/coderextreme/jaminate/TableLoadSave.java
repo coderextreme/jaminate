@@ -71,6 +71,7 @@ import org.web3d.x3d.jsail.Interpolation.PositionInterpolator;
 import org.web3d.x3d.jsail.Rendering.Coordinate;
 import org.web3d.x3d.jsail.Geometry3D.IndexedFaceSet;
 import org.web3d.x3d.jsail.Time.TimeSensor;
+import org.web3d.x3d.jsail.EnvironmentalSensor.ProximitySensor;
 import org.web3d.x3d.sai.Core.X3DNode;
 import org.web3d.x3d.sai.Grouping.X3DGroupingNode;
 import org.web3d.x3d.sai.Rendering.X3DGeometryNode;
@@ -358,22 +359,38 @@ public class TableLoadSave extends Parser {
     }
 
 private void concatenateOrientationInterpolators(X3D X3D0) {
-       ArrayList routes = traverseChildren(X3D0.getScene().getChildren(), NewROUTE.class, 0);
-       LinkedHashSet<OrientationInterpolator> oldois = new LinkedHashSet<OrientationInterpolator>();
-       LinkedHashSet<OrientationInterpolator> newois = new LinkedHashSet<OrientationInterpolator>();
-       LinkedHashSet<ROUTE> oldroutes = new LinkedHashSet<ROUTE>();
-       float cycleInterval = 0.0f;
-       LinkedHashSet<TimeSensor> oldsensors = new LinkedHashSet<TimeSensor>();
+	ArrayList routes = traverseChildren(X3D0.getScene().getChildren(), NewROUTE.class, 0);
+	LinkedHashSet<OrientationInterpolator> oldois = new LinkedHashSet<OrientationInterpolator>();
+	LinkedHashSet<OrientationInterpolator> newois = new LinkedHashSet<OrientationInterpolator>();
+	LinkedHashSet<ROUTE> oldroutes = new LinkedHashSet<ROUTE>();
+	float cycleInterval = 0.0f;
+	LinkedHashSet<TimeSensor> oldsensors = new LinkedHashSet<TimeSensor>();
 	System.err.println("route "+routes.size());
-       LinkedHashMap<TimeSensor, TimeSensor> timing = new LinkedHashMap<TimeSensor, TimeSensor>();
-	HashMap<HAnimJoint, ArrayList<OrientationInterpolator>> joint2oi = new HashMap<HAnimJoint, ArrayList<OrientationInterpolator>>();
-	HashMap<OrientationInterpolator, ArrayList<TimeSensor>> oi2time = new HashMap<OrientationInterpolator, ArrayList<TimeSensor>>();
+	LinkedHashMap<TimeSensor, TimeSensor> timing = new LinkedHashMap<TimeSensor, TimeSensor>();
+	LinkedHashMap<HAnimJoint, ArrayList<OrientationInterpolator>> joint2oi = new LinkedHashMap<HAnimJoint, ArrayList<OrientationInterpolator>>();
+	LinkedHashMap<OrientationInterpolator, ArrayList<TimeSensor>> oi2time = new LinkedHashMap<OrientationInterpolator, ArrayList<TimeSensor>>();
+
+        ProximitySensor prox = new ProximitySensor();
+	prox.setDEF("ShinyNewActivate");
+	prox.setSize(new float[] { 1000000, 1000000, 1000000});
+	X3D0.getScene().addChild(prox);
+
 	TimeSensor sensor = new TimeSensor();
 	sensor.setDEF("ShinyNewTimer");
+	// sensor.setCycleInterval(100.0f);
 	sensor.setEnabled(true);
 	sensor.setLoop(true);
 	X3D0.getScene().addChild(sensor);
-       for (int ri = 0; ri < routes.size(); ri++) {
+
+	ROUTE newRoute3 = new ROUTE();
+	newRoute3.setFromNode("ShinyNewActivate");
+	newRoute3.setFromField("enterTime");
+	newRoute3.setToNode("ShinyNewTimer");
+	newRoute3.setToField("set_startTime");
+	X3D0.getScene().addChild(newRoute3);
+
+	// first, go through all the routes, collecting up information
+	for (int ri = 0; ri < routes.size(); ri++) {
 		NewROUTE route = (NewROUTE)routes.get(ri);
 		// System.err.println("ROUTE "+ri);
 
@@ -416,18 +433,25 @@ private void concatenateOrientationInterpolators(X3D X3D0) {
 				((TimeSensor)from).setEnabled(false);
 				cycleInterval += ((TimeSensor)from).getCycleInterval();
 			} else {
-				System.err.println("OOPS, TimeSensor is null");
+				System.err.println("OOPS, from TimeSensor is null");
+			}
+			if (to != null) {
+				((TimeSensor)to).setEnabled(false);
+			} else {
+				System.err.println("OOPS, to TimeSensor is null");
 			}
 		}
 	}
 	TimeSensor first = null;
 	TimeSensor next = null;
+	// then go through all the joints and interpolators, collecting up keys and values for new OrientationInterpolators
 	for (Map.Entry<HAnimJoint, ArrayList<OrientationInterpolator>> joint2oiEntry : joint2oi.entrySet()) {
 		ArrayList<OrientationInterpolator> oij = joint2oiEntry.getValue();
 		HAnimJoint joint = joint2oiEntry.getKey();
 		OrientationInterpolator newOI = new OrientationInterpolator();
+		ArrayList<float[]> newKeys = new ArrayList<float[]>();
+		ArrayList<float[]> newKeyValues = new ArrayList<float[]>();
 		StringBuffer oiName = new StringBuffer();
-                Integer start = 0;
 		for (Map.Entry<OrientationInterpolator, ArrayList<TimeSensor>> oi2timeEntry : oi2time.entrySet()) {
 			OrientationInterpolator oi = oi2timeEntry.getKey();
 			ArrayList<TimeSensor> sensors = oi2timeEntry.getValue();
@@ -439,33 +463,60 @@ private void concatenateOrientationInterpolators(X3D X3D0) {
 
 				// this OrientationInterpolator is part of this sensor.
 				if (oij.contains(oi)) {
-					for (float k : oi.getKey()) {
-						newOI.addKey(k+start);
-					}
-					float [] keyValue = oi.getKeyValue();
+					newKeys.add(oi.getKey());
+					newKeyValues.add(oi.getKeyValue());
 					oiName.append(oi.getDEF());
-					for (int kv = 0; kv < keyValue.length; kv += 4) {
-						if (keyValue[kv] == 0 && keyValue[kv+1] == 0 && keyValue[kv+2] == 0) {
-							System.err.println("Error, axis is 0,0,0");
-						} else {
-							newOI.addKeyValue(new SFRotation(
-									keyValue[kv],
-									keyValue[kv + 1],
-									keyValue[kv + 2],
-									keyValue[kv + 3]));
-						}
-					}
-					// System.err.println("New OI "+newOI.getKey());
-                                        start += 1; 
+					/*
 				} else {
-					// System.err.println("no match for oi "+oi);
+					newKeys.add(null);
+					newKeyValues.add(null);
+					oiName.append("");
+					*/
 				}
-
 				set.add(next);
 				next = timing.get(next);
 			} while (!set.contains(next));
 		}
+
+		// now actually add keys and values to the new orientation interpolator
+                Integer start = 0;
+		Integer animCount = 0;
+		SFRotation currot = null;
+		for (int ik = 0; ik < newKeys.size(); ik++) {
+			if (newKeys.get(ik) == null) {
+				newOI.addKey(start);
+			} else {
+				for (float k : newKeys.get(ik)) {
+					newOI.addKey(k+start);
+				}
+				animCount++;
+			}
+			if (newKeyValues.get(ik) == null) {
+				if (currot == null) {
+					currot = new SFRotation(0, 0, 1, 0);
+				}
+				newOI.addKeyValue(currot);
+			} else {
+				float [] keyValue = newKeyValues.get(ik);
+				for (int kv = 0; kv < keyValue.length; kv += 4) {
+					if (keyValue[kv] == 0 && keyValue[kv+1] == 0 && keyValue[kv+2] == 0) {
+						System.err.println("Error, axis is 0,0,0, changing to 0,0,1 (default)");
+						keyValue[kv+2] = 1;
+					}
+					currot = new SFRotation(
+							keyValue[kv],
+							keyValue[kv + 1],
+							keyValue[kv + 2],
+							keyValue[kv + 3]);
+					newOI.addKeyValue(currot);
+				}
+			}
+			start += 1; 
+		}
+
 		newOI.setDEF(oiName.toString());
+
+		// make the keys in the interpolator go from 0 to 1
 		float [] key = newOI.getKey();
 		float end = key[key.length-1];
 		if (end != 0) {
@@ -477,10 +528,12 @@ private void concatenateOrientationInterpolators(X3D X3D0) {
 
 
 
+		// search for existing interpolators
 		Iterator<OrientationInterpolator> itr = newois.iterator();
 		boolean found = false;
-		if (start == 1) {  // There's only one interpolator in this list, so no need to provide a new one
+		if (animCount == 1) {  // There's only one interpolator in this list, so no need to provide a new one
 			found = true;
+			System.err.println("Found OI "+newOI.getDEF());
 		}
 		while (itr.hasNext()) {
 			OrientationInterpolator present = itr.next();
@@ -500,6 +553,7 @@ private void concatenateOrientationInterpolators(X3D X3D0) {
 			}
 		}
 
+		// if the interpolator wasn't found above, add it
 		if (!found) {
 			X3D0.getScene().addChild(newOI);
 			newois.add(newOI);
@@ -510,14 +564,13 @@ private void concatenateOrientationInterpolators(X3D X3D0) {
 		newRoute.setFromField("value_changed");
 		newRoute.setToNode(joint.getDEF());
 		newRoute.setToField("set_rotation");
+		X3D0.getScene().addChild(newRoute);
 
 		ROUTE newRoute2 = new ROUTE();
 		newRoute2.setFromNode(sensor.getDEF());
 		newRoute2.setFromField("fraction_changed");
 		newRoute2.setToNode(oiName.toString());
 		newRoute2.setToField("set_fraction");
-
-		X3D0.getScene().addChild(newRoute);
 		X3D0.getScene().addChild(newRoute2);
 	}
 	sensor.setCycleInterval(cycleInterval);
