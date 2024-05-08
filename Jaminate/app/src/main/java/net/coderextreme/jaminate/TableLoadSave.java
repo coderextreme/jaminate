@@ -37,6 +37,7 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Iterator;
@@ -61,6 +62,7 @@ import org.web3d.x3d.jsail.X3DConcreteNode;
 import org.web3d.x3d.jsail.Core.X3D;
 import org.web3d.x3d.jsail.Core.ROUTE;
 import net.coderextreme.remove.NewROUTE;
+import net.coderextreme.remove.NewOrientationInterpolator;
 import net.coderextreme.remove.Remove;
 import org.web3d.x3d.jsail.HAnim.HAnimJoint;
 import org.web3d.x3d.jsail.HAnim.HAnimHumanoid;
@@ -357,14 +359,23 @@ public class TableLoadSave extends Parser {
 
 private void concatenateOrientationInterpolators(X3D X3D0) {
        ArrayList routes = traverseChildren(X3D0.getScene().getChildren(), NewROUTE.class, 0);
-       HashSet<OrientationInterpolator> oldois = new HashSet<OrientationInterpolator>();
+       LinkedHashSet<OrientationInterpolator> oldois = new LinkedHashSet<OrientationInterpolator>();
+       LinkedHashSet<OrientationInterpolator> newois = new LinkedHashSet<OrientationInterpolator>();
+       LinkedHashSet<ROUTE> oldroutes = new LinkedHashSet<ROUTE>();
+       float cycleInterval = 0.0f;
+       LinkedHashSet<TimeSensor> oldsensors = new LinkedHashSet<TimeSensor>();
 	System.err.println("route "+routes.size());
        LinkedHashMap<TimeSensor, TimeSensor> timing = new LinkedHashMap<TimeSensor, TimeSensor>();
 	HashMap<HAnimJoint, ArrayList<OrientationInterpolator>> joint2oi = new HashMap<HAnimJoint, ArrayList<OrientationInterpolator>>();
 	HashMap<OrientationInterpolator, ArrayList<TimeSensor>> oi2time = new HashMap<OrientationInterpolator, ArrayList<TimeSensor>>();
+	TimeSensor sensor = new TimeSensor();
+	sensor.setDEF("ShinyNewTimer");
+	sensor.setEnabled(true);
+	sensor.setLoop(true);
+	X3D0.getScene().addChild(sensor);
        for (int ri = 0; ri < routes.size(); ri++) {
 		NewROUTE route = (NewROUTE)routes.get(ri);
-		System.err.println("ROUTE "+ri);
+		// System.err.println("ROUTE "+ri);
 
 		X3DConcreteElement from = X3D0.findNodeByDEF(route.getFromNode());
 		if (from == null) {
@@ -383,6 +394,7 @@ private void concatenateOrientationInterpolators(X3D X3D0) {
 			}
 			ois.add((OrientationInterpolator)from);
 			oldois.add((OrientationInterpolator)from);
+			oldroutes.add((ROUTE)route);
 			joint2oi.put((HAnimJoint)to, ois);
 		} else if (from instanceof TimeSensor && to instanceof OrientationInterpolator) {
 			// System.err.println("from "+from+" to "+to+" "+route.getFromNode()+"."+route.getFromField()+" TO "+route.getToNode()+"."+route.getToField());
@@ -392,26 +404,36 @@ private void concatenateOrientationInterpolators(X3D X3D0) {
 			}
 			sensors.add((TimeSensor)from);
 			oldois.add((OrientationInterpolator)to);
+			oldroutes.add((ROUTE)route);
+			oldsensors.add((TimeSensor)from);
 			oi2time.put((OrientationInterpolator)to, sensors);
 		} else if (from instanceof TimeSensor && to instanceof TimeSensor && "stopTime_changed".equals(route.getFromField()) && "set_startTime".equals(route.getToField())) {
 			System.err.println("from "+from+" to "+to+" "+route.getFromNode()+"."+route.getFromField()+" TO "+route.getToNode()+"."+route.getToField());
 			timing.put((TimeSensor)from, (TimeSensor)to);
+			oldsensors.add((TimeSensor)from);
+			oldsensors.add((TimeSensor)to);
+			if (from != null) {
+				((TimeSensor)from).setEnabled(false);
+				cycleInterval += ((TimeSensor)from).getCycleInterval();
+			} else {
+				System.err.println("OOPS, TimeSensor is null");
+			}
 		}
 	}
-        ArrayList<OrientationInterpolator> ois = new ArrayList<OrientationInterpolator>();
 	TimeSensor first = null;
 	TimeSensor next = null;
 	for (Map.Entry<HAnimJoint, ArrayList<OrientationInterpolator>> joint2oiEntry : joint2oi.entrySet()) {
 		ArrayList<OrientationInterpolator> oij = joint2oiEntry.getValue();
 		HAnimJoint joint = joint2oiEntry.getKey();
 		OrientationInterpolator newOI = new OrientationInterpolator();
+		StringBuffer oiName = new StringBuffer();
                 Integer start = 0;
 		for (Map.Entry<OrientationInterpolator, ArrayList<TimeSensor>> oi2timeEntry : oi2time.entrySet()) {
 			OrientationInterpolator oi = oi2timeEntry.getKey();
 			ArrayList<TimeSensor> sensors = oi2timeEntry.getValue();
 			first = sensors.get(0);
 			next = first;
-			HashSet<TimeSensor> set = new HashSet<TimeSensor>();
+			LinkedHashSet<TimeSensor> set = new LinkedHashSet<TimeSensor>();
 			// now traverse through all of the sensors for this interpolator
 			do {
 
@@ -421,6 +443,7 @@ private void concatenateOrientationInterpolators(X3D X3D0) {
 						newOI.addKey(k+start);
 					}
 					float [] keyValue = oi.getKeyValue();
+					oiName.append(oi.getDEF());
 					for (int kv = 0; kv < keyValue.length; kv += 4) {
 						if (keyValue[kv] == 0 && keyValue[kv+1] == 0 && keyValue[kv+2] == 0) {
 							System.err.println("Error, axis is 0,0,0");
@@ -432,7 +455,7 @@ private void concatenateOrientationInterpolators(X3D X3D0) {
 									keyValue[kv + 3]));
 						}
 					}
-					System.err.println("New OI "+newOI.getKey());
+					// System.err.println("New OI "+newOI.getKey());
                                         start += 1; 
 				} else {
 					// System.err.println("no match for oi "+oi);
@@ -442,27 +465,65 @@ private void concatenateOrientationInterpolators(X3D X3D0) {
 				next = timing.get(next);
 			} while (!set.contains(next));
 		}
-		ois.add(newOI);
-	}
-	ArrayList children = X3D0.getScene().getChildren();
-	for (OrientationInterpolator oi : oi2time.keySet()) {
-		Iterator itr = children.iterator();
-		while (itr.hasNext()) {
-			if (itr == oi) {
-				System.err.println("removing interpolator");
-				itr.remove();
+		newOI.setDEF(oiName.toString());
+		float [] key = newOI.getKey();
+		float end = key[key.length-1];
+		if (end != 0) {
+			for (int i = 0; i < key.length; i++) {
+				key[i] = key[i]/end;
 			}
-			itr.next();
+			newOI.setKey(key);
 		}
+
+
+
+		Iterator<OrientationInterpolator> itr = newois.iterator();
+		boolean found = false;
+		while (itr.hasNext()) {
+			OrientationInterpolator present = itr.next();
+			if (newOI.getDEF().equals(present.getDEF())) {
+				found = true;
+				System.err.println("Found OI "+newOI.getDEF());
+			}
+		}
+
+       		ArrayList copyois = traverseChildren(X3D0.getScene().getChildren(), NewOrientationInterpolator.class, 0);
+		Iterator<OrientationInterpolator> citr = (Iterator<OrientationInterpolator>)(newois.iterator());
+		while (citr.hasNext()) {
+			OrientationInterpolator present = citr.next();
+			if (newOI.getDEF().equals(present.getDEF())) {
+				found = true;
+				System.err.println("Found OI "+newOI.getDEF());
+			}
+		}
+
+		if (!found) {
+			X3D0.getScene().addChild(newOI);
+			newois.add(newOI);
+		}
+
+		ROUTE newRoute = new ROUTE();
+		newRoute.setFromNode(oiName.toString());
+		newRoute.setFromField("value_changed");
+		newRoute.setToNode(joint.getDEF());
+		newRoute.setToField("set_rotation");
+
+		ROUTE newRoute2 = new ROUTE();
+		newRoute2.setFromNode(sensor.getDEF());
+		newRoute2.setFromField("fraction_changed");
+		newRoute2.setToNode(oiName.toString());
+		newRoute2.setToField("set_fraction");
+
+		X3D0.getScene().addChild(newRoute);
+		X3D0.getScene().addChild(newRoute2);
 	}
-	Iterator<OrientationInterpolator> itr = ois.iterator();
-	while (itr.hasNext()) {
-		OrientationInterpolator oi = itr.next();
-		System.err.println("adding interpolator");
-		X3D0.getScene().addChild(oi);
-	}
-	Remove rem = new Remove();
-	rem.removeChildren(X3D0.getScene().getChildren(), oldois);
+	sensor.setCycleInterval(cycleInterval);
+
+
+	//Remove rem = new Remove();
+	//rem.removeChildren(X3D0.getScene().getChildren(), oldroutes);
+	//rem.removeChildren(X3D0.getScene().getChildren(), oldois);
+	//rem.removeChildren(X3D0.getScene().getChildren(), oldsensors);
 }
 
 private ArrayList traverseChildren(ArrayList<X3DNode> children, Class clazz, int indent) {
