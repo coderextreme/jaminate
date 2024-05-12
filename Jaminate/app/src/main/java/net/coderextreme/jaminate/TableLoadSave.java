@@ -666,6 +666,7 @@ private void concatenateX3DOrientationInterpolators(X3D X3D0) {
 	TimeSensor first = null;
 	TimeSensor next = null;
 	// then go through all the joints and interpolators, collecting up keys and values for new OrientationInterpolators
+	LinkedHashSet<String> handledOIDefs = new LinkedHashSet<String>();
 	for (Map.Entry<HAnimJoint, ArrayList<OrientationInterpolator>> joint2oiEntry : joint2oi.entrySet()) {
 		ArrayList<OrientationInterpolator> oij = joint2oiEntry.getValue();
 		HAnimJoint joint = joint2oiEntry.getKey();
@@ -683,10 +684,11 @@ private void concatenateX3DOrientationInterpolators(X3D X3D0) {
 			do {
 
 				// this OrientationInterpolator is part of this sensor.
-				if (oij.contains(oi)) {
+				if (oij.contains(oi) && !handledOIDefs.contains(oi.getDEF())) {
 					newKeys.add(oi.getKey());
 					newKeyValues.add(oi.getKeyValue());
 					oiName.append(oi.getDEF());
+					handledOIDefs.add(oi.getDEF());
 					/*
 				} else {
 					newKeys.add(null);
@@ -893,7 +895,7 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
         // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.x3d"));
         // loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.js"));
 	//
-        loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4Sites09v.x3d"));
+        loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4Sites09x.x3d"));
         //loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA4.js"));
         // loadAndSave.loadTest(new GenericTableModel(new DefaultTableModel()));
 

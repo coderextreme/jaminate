@@ -234,7 +234,9 @@ function makeChainingAnimation(json) {
 			*/
 		}
 		console.log(X3D0.toFileClassicVRML("takes."+ch+".x3dv"));
+		console.log(X3D0.toFileX3D("takes."+ch+".x3d"));
 		console.log(X3D0_timers.toFileClassicVRML("takes."+ch+".timers.x3dv"));
+		console.log(X3D0_timers.toFileX3D("takes."+ch+".timers.x3d"));
 	}
 }
 
