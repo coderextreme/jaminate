@@ -1,83 +1,104 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
- */
 package net.coderextreme.jaminate;
-import java.lang.reflect.Method;
-import java.lang.Override;
-import java.awt.Toolkit;
+
+//import com.oracle.truffle.js.lang.JavaScriptLanguageProvider;
+//import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
+//import javax.script.Compilable;
+//import javax.script.CompiledScript;
+//import javax.script.Invocable;
+//import javax.script.ScriptEngine;
+//import javax.script.ScriptEngineFactory;
+//import javax.script.ScriptEngineManager;
+//import javax.script.ScriptException;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.function.BiConsumer;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentType;
-import org.xml.sax.InputSource;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import javax.xml.parsers.ParserConfigurationException;
-import org.ccil.cowan.tagsoup.Parser;
-import javax.swing.table.DefaultTableModel;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Iterator;
+import java.lang.*;  // for exceptions
+import java.lang.Override;
+import java.lang.reflect.*;  // for exceptions
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.function.BiConsumer;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.activation.DataHandler;
-//import javax.script.Invocable;
-//import javax.script.ScriptEngine;
-//import javax.script.ScriptEngineManager;
-//import javax.script.ScriptEngineFactory;
-//import javax.script.ScriptException;
-//import javax.script.CompiledScript;
-//import javax.script.Compilable;
-import org.graalvm.polyglot.Context;
-import org.graalvm.polyglot.HostAccess;
-import org.graalvm.polyglot.Engine;
-import org.web3d.x3d.jsail.fields.SFRotation;
-import org.web3d.x3d.jsail.X3DLoaderDOM;
-import org.web3d.x3d.jsail.X3DConcreteElement;
-import org.web3d.x3d.jsail.X3DConcreteNode;
-import org.web3d.x3d.jsail.Core.X3D;
-import org.web3d.x3d.jsail.Core.ROUTE;
-import net.coderextreme.remove.NewROUTE;
+import javax.swing.table.DefaultTableModel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import net.coderextreme.remove.NewOrientationInterpolator;
+import net.coderextreme.remove.NewROUTE;
 import net.coderextreme.remove.Remove;
-import org.web3d.x3d.jsail.HAnim.HAnimJoint;
+import org.ccil.cowan.tagsoup.Parser;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.Engine;
+import org.graalvm.polyglot.HostAccess;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
+import org.web3d.x3d.jsail.Core.ROUTE;
+import org.web3d.x3d.jsail.Core.IS;
+import org.web3d.x3d.jsail.Core.ProtoInstance;
+import org.web3d.x3d.jsail.Core.ProtoBody;
+import org.web3d.x3d.jsail.Core.ProtoDeclare;
+import org.web3d.x3d.jsail.Core.ProtoInterface;
+import org.web3d.x3d.jsail.Core.connect;
+import org.web3d.x3d.jsail.Core.field;
+import org.web3d.x3d.jsail.Core.fieldValue;
+import org.web3d.x3d.jsail.Rendering.ColorRGBA;
+import org.web3d.x3d.jsail.Text.Text;
+import org.web3d.x3d.jsail.Core.X3D;
+import org.web3d.x3d.jsail.EnvironmentalSensor.ProximitySensor;
+import org.web3d.x3d.jsail.Navigation.Billboard;
+import org.web3d.x3d.jsail.fields.SFRotation;
+import org.web3d.x3d.jsail.fields.MFString;
+import org.web3d.x3d.jsail.Geometry3D.IndexedFaceSet;
+import org.web3d.x3d.jsail.Grouping.Group;
+import org.web3d.x3d.jsail.Grouping.Transform;
 import org.web3d.x3d.jsail.HAnim.HAnimHumanoid;
+import org.web3d.x3d.jsail.HAnim.HAnimJoint;
+import org.web3d.x3d.jsail.HAnim.HAnimSite;
 import org.web3d.x3d.jsail.Interpolation.OrientationInterpolator;
 import org.web3d.x3d.jsail.Interpolation.PositionInterpolator;
+import org.web3d.x3d.jsail.Rendering.Color;
 import org.web3d.x3d.jsail.Rendering.Coordinate;
-import org.web3d.x3d.jsail.Geometry3D.IndexedFaceSet;
+import org.web3d.x3d.jsail.Shape.Appearance;
+import org.web3d.x3d.jsail.Shape.Material;
+import org.web3d.x3d.jsail.Shape.Shape;
+import org.web3d.x3d.jsail.Text.FontStyle;
+import org.web3d.x3d.jsail.Texturing.ImageTexture;
 import org.web3d.x3d.jsail.Time.TimeSensor;
-import org.web3d.x3d.jsail.EnvironmentalSensor.ProximitySensor;
+import org.web3d.x3d.jsail.X3DConcreteElement;
+import org.web3d.x3d.jsail.X3DConcreteNode;
+import org.web3d.x3d.jsail.X3DLoaderDOM;
+import org.web3d.x3d.jsail.PointingDeviceSensor.TouchSensor;
 import org.web3d.x3d.sai.Core.X3DNode;
 import org.web3d.x3d.sai.Grouping.X3DGroupingNode;
 import org.web3d.x3d.sai.Rendering.X3DGeometryNode;
 import org.web3d.x3d.sai.Shape.X3DAppearanceNode;
-//import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
-//import com.oracle.truffle.js.lang.JavaScriptLanguageProvider;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 public class TableLoadSave extends Parser {
 
@@ -314,7 +335,77 @@ public class TableLoadSave extends Parser {
             e.printStackTrace(System.err);
         }
     }
+    private ProtoDeclare addBillboardProto() {
+	    ProtoDeclare pd = new ProtoDeclare().setName("TouchAndBillboard")
+		    .setProtoInterface(new ProtoInterface()
+		    	.addField(new field().setType("MFString").setName("string").setAccessType(field.ACCESSTYPE_INPUTOUTPUT).setValue("\"-1\""))
+		    	.addField(new field().setType("SFString").setName("description").setAccessType(field.ACCESSTYPE_INPUTOUTPUT).setValue("HAnim Feature Point Description")))
+		    .setProtoBody(new ProtoBody()
+		    	.addChild(new Group()
+			    .addChild(new TouchSensor()
+				    .setIS(new IS()
+					    .addConnect(new connect().setNodeField("description").setProtoField("description"))))
+			    .addChild(new Shape()
+				.setGeometry(new IndexedFaceSet()
+					.setCreaseAngle(0.5)
+					.setSolid(false)
+					.setCoordIndex(new int[]{0, 1, 2, -1, 0, 2, 3, -1, 0, 3, 4, -1, 0, 4, 1, -1, 5, 2, 1, -1, 5, 3, 2, -1, 5, 4, 3, -1, 5, 1, 4, -1})
+					.setColor(new ColorRGBA().setColor(new float[]{1, 1, 0, 1, 1, 1, 0, 0.1f, 1, 1, 0, 1, 1, 1, 0, 0.1f, 1, 1, 0, 1, 1, 1, 0, 0.1f}))
+					.setCoord(new Coordinate().setPoint(new float[]{0, 0.01f, 0, -0.01f, 0, 0, 0, 0, 0.01f, 0.01f, 0, 0, 0, 0, -0.01f, 0, -0.01f, 0})))
+				.setAppearance(new Appearance()
+					.setMaterial(new Material()
+						.setDiffuseColor(new float[]{1, 1, 1})
+						.setTransparency(0))))
+			    .addChild(new Billboard()
+				.setAxisOfRotation(new float[]{0, 0, 0})
+				.addChild(new Shape()
+					.setGeometry(new Text()
+						.setFontStyle(new FontStyle()
+								.setSize(0.035))
+						.setIS(new IS()
+						    .addConnect(new connect().setNodeField("string").setProtoField("string"))))))));
+	    return pd;
 
+    }
+    private void addBillboard(X3D X3D0) {
+	// prepend the PROTO
+ 	ArrayList children = X3D0.getScene().getChildren();
+	children.add(0, addBillboardProto());
+ 	X3D0.getScene().setChildren(children);
+	ArrayList sites = traverseChildren(X3D0.getScene().getChildren(), HAnimSite.class, 0);
+	for (int s = 0; s < sites.size(); s++) {
+		HAnimSite site = (HAnimSite)sites.get(s);
+		int siteIndex = HAnimSite.getNameIndex(site.getName());
+		String siteIndexOrName = ""+siteIndex;
+		if (siteIndex == -1) {
+			siteIndexOrName = site.getName();
+		}
+		site.addChild(new ProtoInstance().setName("TouchAndBillboard")
+				.addFieldValue(new fieldValue().setName("description").setValue("HAnimSite "+siteIndexOrName+" "+site.getDEF()))
+				.addFieldValue(new fieldValue().setName("string").setValue("\""+siteIndexOrName+"\"")));
+		/*
+		site.addChild(new TouchSensor().setDescription("HAnimSite "+siteIndexOrName+" "+site.getDEF()))
+		    .addChild(new Shape()
+			.setGeometry(new IndexedFaceSet()
+				.setCreaseAngle(0.5)
+				.setSolid(false)
+				.setCoordIndex(new int[]{0, 1, 2, -1, 0, 2, 3, -1, 0, 3, 4, -1, 0, 4, 1, -1, 5, 2, 1, -1, 5, 3, 2, -1, 5, 4, 3, -1, 5, 1, 4, -1})
+				.setColor(new ColorRGBA().setColor(new float[]{1, 1, 0, 1, 1, 1, 0, 0.1f, 1, 1, 0, 1, 1, 1, 0, 0.1f, 1, 1, 0, 1, 1, 1, 0, 0.1f}))
+				.setCoord(new Coordinate().setPoint(new float[]{0, 0.01f, 0, -0.01f, 0, 0, 0, 0, 0.01f, 0.01f, 0, 0, 0, 0, -0.01f, 0, -0.01f, 0})))
+			.setAppearance(new Appearance()
+				.setMaterial(new Material()
+					.setDiffuseColor(new float[]{1, 1, 1})
+					.setTransparency(0))))
+		    .addChild(new Billboard()
+		        .setAxisOfRotation(new float[]{0, 0, 0})
+			.addChild(new Shape()
+				.setGeometry(new Text()
+					.setString(siteIndexOrName)
+					.setFontStyle(new FontStyle()
+						.setSize(0.035)))));
+		*/
+	}
+    }
     private void loadX3dFile(GenericTableModel model, File selectedFile) {
         this.model = model;
 	System.err.println("Opening file "+selectedFile);
@@ -342,10 +433,13 @@ public class TableLoadSave extends Parser {
 			//List<X3DNode> coordinates = rotateCoordinates(X3D0);
 			//System.err.println("read "+coordinates.size()+" coordinates");
 			try {
-				concatenateX3DOrientationInterpolators(X3D0);
-				X3D0.toFileClassicVRML("x3dconcatenated.x3dv");
-				System.err.println("writing XML");
-				X3D0.toFileX3D("x3dconcatenated.x3d");
+				// concatenateX3DOrientationInterpolators(X3D0);
+				// X3D0.toFileClassicVRML("x3dconcatenated.x3dv");
+				// System.err.println("writing XML");
+				// X3D0.toFileX3D("x3dconcatenated.x3d");
+				// unUSE(X3D0);
+				addBillboard(X3D0);
+				X3D0.toFileX3D("billboarded.x3d");
 			} catch (Exception e) {
 				e.printStackTrace(System.err);
 			}
@@ -355,6 +449,89 @@ public class TableLoadSave extends Parser {
             e.printStackTrace(System.err);
         }
     }
+
+private void unUSE(X3D X3D0) {
+	ArrayList imagetextures = traverseChildren(X3D0.getScene().getChildren(), ImageTexture.class, 0);
+	ArrayList colors = traverseChildren(X3D0.getScene().getChildren(), Color.class, 0);
+	ArrayList materials = traverseChildren(X3D0.getScene().getChildren(), Material.class, 0);
+	ArrayList appearances = traverseChildren(X3D0.getScene().getChildren(), Appearance.class, 0);
+	ArrayList fontStyles = traverseChildren(X3D0.getScene().getChildren(), FontStyle.class, 0);
+	ArrayList shapes = traverseChildren(X3D0.getScene().getChildren(), Shape.class, 0);
+	ArrayList transform = traverseChildren(X3D0.getScene().getChildren(), Transform.class, 0);
+	ArrayList groups = traverseChildren(X3D0.getScene().getChildren(), Group.class, 0);
+	ArrayList[] lists = new ArrayList[] { imagetextures, colors, materials, appearances, fontStyles, shapes, transform, groups };
+	HashMap defs = new HashMap();
+	for (int l = 0; l < lists.length; l++) {
+		ArrayList list = lists[l];
+		Iterator nodeitr = list.iterator();
+		while (nodeitr.hasNext()) {
+			Object node = nodeitr.next();
+			X3DConcreteNode x3dDEFNode = (X3DConcreteNode)node;
+			String def = x3dDEFNode.getDEF();
+			if (def != null && !def.trim().equals("")) {
+				defs.put(def, x3dDEFNode);
+			}
+		}
+	}
+	for (int l = 0; l < lists.length; l++) {
+		ArrayList list = lists[l];
+		Iterator nodeitr = list.iterator();
+		while (nodeitr.hasNext()) {
+			Object node = nodeitr.next();
+			X3DConcreteNode x3dUSENode = (X3DConcreteNode)node;
+			String use = x3dUSENode.getUSE();
+			if (use != null && !use.trim().equals("")) {
+				X3DConcreteNode x3dDEFNode = (X3DConcreteNode)(defs.get(use));
+				x3dUSENode.setUSE(null);
+				Class clazz = x3dDEFNode.getClass();
+				Method[] methods = clazz.getMethods();
+				HashMap valueMap = new HashMap();
+				for (int m = 0; m < methods.length; m++) {
+					Method method = methods[m];
+					String methodName = method.getName();
+					if (methodName.startsWith("get") && method.getParameterCount() == 0) {
+						try {
+							String retTypeName = method.getReturnType().getName();
+							if (retTypeName.equals("boolean") || retTypeName.equals("int")) {
+								valueMap.put(methodName, method.invoke(x3dDEFNode));
+							} else {
+								valueMap.put(methodName, method.getReturnType().cast(method.invoke(x3dDEFNode)));
+							}
+							// System.err.println("Retrieved with "+methodName+" "+valueMap.get(methodName));
+						} catch (IllegalAccessException | InvocationTargetException e) {
+							e.printStackTrace(System.err);
+						}
+					}
+				}
+				for (int m = 0; m < methods.length; m++) {
+					Method method = methods[m];
+					String methodName = method.getName();
+					if (methodName.startsWith("set") && !methodName.equals("setUSE") && !methodName.equals("setDEF")) {
+						try {
+							String getMethodName = "g"+methodName.substring(1);
+							// System.err.println("Saving with "+methodName+" "+valueMap.get(getMethodName));
+							Object o = valueMap.get(getMethodName);
+							if (o != null) {
+								if (o.getClass() == method.getParameterTypes()[0]) {
+									if (!"".equals(o.toString().trim())) {
+										method.invoke(x3dUSENode, valueMap.get(getMethodName));
+										// System.err.println("Set "+o.toString()+" with "+methodName);
+									}
+								} else {
+									// System.err.println("Bad types with "+o.getClass().getName()+" != "+method.getParameterTypes()[0].getName());
+								}
+							} else {
+								// System.err.println("Value from "+getMethodName+" is null");
+							}
+						} catch (IllegalAccessException | InvocationTargetException e) {
+							e.printStackTrace(System.err);
+						}
+					}
+				}
+			}
+		}
+	}
+}
 
 private void concatenateOrientationInterpolators(X3D X3D0) {
 	ArrayList routes = traverseChildren(X3D0.getScene().getChildren(), NewROUTE.class, 0);
@@ -531,13 +708,13 @@ private void concatenateOrientationInterpolators(X3D X3D0) {
 		boolean found = false;
 		if (animCount == 1) {  // There's only one interpolator in this list, so no need to provide a new one
 			found = true;
-			System.err.println("Found OI "+newOI.getDEF());
+			// System.err.println("Found OI "+newOI.getDEF());
 		}
 		while (itr.hasNext()) {
 			OrientationInterpolator present = itr.next();
 			if (newOI.getDEF().equals(present.getDEF())) {
 				found = true;
-				System.err.println("Found OI "+newOI.getDEF());
+				// System.err.println("Found OI "+newOI.getDEF());
 			}
 		}
 
@@ -547,7 +724,7 @@ private void concatenateOrientationInterpolators(X3D X3D0) {
 			OrientationInterpolator present = citr.next();
 			if (newOI.getDEF().equals(present.getDEF())) {
 				found = true;
-				System.err.println("Found OI "+newOI.getDEF());
+				// System.err.println("Found OI "+newOI.getDEF());
 			}
 		}
 
@@ -741,12 +918,16 @@ private void concatenateX3DOrientationInterpolators(X3D X3D0) {
 
 		// make the keys in the interpolator go from 0 to 1
 		float [] key = newOI.getKey();
-		float end = key[key.length-1];
-		if (end != 0) {
-			for (int i = 0; i < key.length; i++) {
-				key[i] = key[i]/end;
+		if (key.length > 0)  {
+			float end = key[key.length-1];
+			if (end != 0) {
+				for (int i = 0; i < key.length; i++) {
+					key[i] = key[i]/end;
+				}
+				newOI.setKey(key);
 			}
-			newOI.setKey(key);
+		} else {
+			System.err.println("Warning, key length = 0 for "+oiName.toString());
 		}
 
 
@@ -756,13 +937,13 @@ private void concatenateX3DOrientationInterpolators(X3D X3D0) {
 		boolean found = false;
 		if (animCount == 1) {  // There's only one interpolator in this list, so no need to provide a new one
 			found = true;
-			System.err.println("Found OI "+newOI.getDEF());
+			// System.err.println("Found OI "+newOI.getDEF());
 		}
 		while (itr.hasNext()) {
 			OrientationInterpolator present = itr.next();
 			if (newOI.getDEF().equals(present.getDEF())) {
 				found = true;
-				System.err.println("Found OI "+newOI.getDEF());
+				// System.err.println("Found OI "+newOI.getDEF());
 			}
 		}
 
@@ -772,7 +953,7 @@ private void concatenateX3DOrientationInterpolators(X3D X3D0) {
 			OrientationInterpolator present = citr.next();
 			if (newOI.getDEF().equals(present.getDEF())) {
 				found = true;
-				System.err.println("Found OI "+newOI.getDEF());
+				// System.err.println("Found OI "+newOI.getDEF());
 			}
 		}
 
@@ -782,19 +963,22 @@ private void concatenateX3DOrientationInterpolators(X3D X3D0) {
 			newois.add(newOI);
 		}
 
-		ROUTE newRoute = new ROUTE();
-		newRoute.setFromNode(oiName.toString());
-		newRoute.setFromField("value_changed");
-		newRoute.setToNode(joint.getDEF());
-		newRoute.setToField("set_rotation");
-		X3D0.getScene().addChild(newRoute);
+		if (!"".equals(oiName.toString())) {
+			ROUTE newRoute = new ROUTE();
+			newRoute.setFromNode(oiName.toString());
+			newRoute.setFromField("value_changed");
+			newRoute.setToNode(joint.getDEF());
+			newRoute.setToField("set_rotation");
+			X3D0.getScene().addChild(newRoute);
 
-		ROUTE newRoute2 = new ROUTE();
-		newRoute2.setFromNode(sensor.getDEF());
-		newRoute2.setFromField("fraction_changed");
-		newRoute2.setToNode(oiName.toString());
-		newRoute2.setToField("set_fraction");
-		X3D0.getScene().addChild(newRoute2);
+			ROUTE newRoute2 = new ROUTE();
+			newRoute2.setFromNode(sensor.getDEF());
+			newRoute2.setFromField("fraction_changed");
+			newRoute2.setToNode(oiName.toString());
+			newRoute2.setToField("set_fraction");
+			X3D0.getScene().addChild(newRoute2);
+		}
+
 	}
 	sensor.setCycleInterval(cycleInterval);
 
@@ -895,7 +1079,19 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
         // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.x3d"));
         // loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.js"));
 	//
-        loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4Sites09x.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4Sites10h.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA4.scaled1joe06c.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4Sites08o.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA4scaled1joe06gForJohn2.x3d"));
+        //loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4OnlyMarkers11c.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4OnlyMarkers11f.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4OnlyMarkers11g.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA1.x3d"));
+
+	
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA4.x3d"));
+        loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4MinimumSkeleton20f.x3d"));
+
         //loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA4.js"));
         // loadAndSave.loadTest(new GenericTableModel(new DefaultTableModel()));
 

@@ -4661,5 +4661,19 @@ None
     <ROUTE fromField='touchTime' fromNode='Stop_Touch' toField='set_stopTime' toNode='KickTimer'/>
     <ROUTE fromField='touchTime' fromNode='Stop_Touch' toField='set_startTime' toNode='StopTimer'/>
 
+    <ROUTE fromField='stopTime' fromNode='DefaultTimer' toField='set_startTime' toNode='TestTimer'/>
+    <ROUTE fromField='stopTime' fromNode='TestTimer' toField='set_startTime' toNode='Pitch1Timer'/>
+    <ROUTE fromField='stopTime' fromNode='Pitch1Timer' toField='set_startTime' toNode='Pitch2Timer'/>
+    <ROUTE fromField='stopTime' fromNode='Pitch2Timer' toField='set_startTime' toNode='Yaw1Timer'/>
+    <ROUTE fromField='stopTime' fromNode='Yaw1Timer' toField='set_startTime' toNode='Yaw2Timer'/>
+    <ROUTE fromField='stopTime' fromNode='Yaw2Timer' toField='set_startTime' toNode='Roll1Timer'/>
+    <ROUTE fromField='stopTime' fromNode='Roll1Timer' toField='set_startTime' toNode='Roll2Timer'/>
+    <ROUTE fromField='stopTime' fromNode='Roll2Timer' toField='set_startTime' toNode='WalkTimer'/>
+    <ROUTE fromField='stopTime' fromNode='WalkTimer' toField='set_startTime' toNode='RunTimer'/>
+    <ROUTE fromField='stopTime' fromNode='RunTimer' toField='set_startTime' toNode='JumpTimer'/>
+    <ROUTE fromField='stopTime' fromNode='JumpTimer' toField='set_startTime' toNode='Kick1Timer'/>
+    <ROUTE fromField='stopTime' fromNode='Kick1Timer' toField='set_startTime' toNode='Kick2Timer'/>
+    <ROUTE fromField='stopTime' fromNode='Kick2Timer' toField='set_startTime' toNode='DefaultTimer'/>
+
   </Scene>
 </X3D>
