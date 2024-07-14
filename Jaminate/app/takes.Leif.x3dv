@@ -1,0 +1,207 @@
+#X3D V4.0 utf8
+PROFILE Immersive
+# head
+COMPONENT HAnim:1
+META "title" "takes.Leif.x3dv"
+META "creator" "John Carlson, Joe Williams and Andreas Plesch"
+META "translator" "X3DJSAIL"
+META "version" "3.0"
+META "description" "Create Chaining animation from a JSON file"
+META "generator" "Jaminate, V3.0, https://github.com/coderextreme/jaminate/tree/main/Jaminate/app/src/main/resources/takesX3DJSAIL.js"
+META "license" "https://github.com/coderextreme/jaminate/blob/main/LICENSE"
+# Scene
+  children [
+  WorldInfo { 
+     title "takes.Leif.x3dv"
+     }
+DEF Leif_Stand1BooleanSequencer BooleanSequencer { 
+     key [ 0 0.223 0.433 0.63 0.73 0.9 1 ]
+     keyValue [ true false false false false false false ]
+     }
+# [ Leif_Stand1 Leif_Run1 Leif_Turn1 Leif_Walk1 Leif_Skip1 Leif_Stand1 Leif_Stand1 ]
+    DEF Leif_Stand1SPLITTERBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Stand1FINALEBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Stand1NEGATERBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Stand1OffTimeTrigger TimeTrigger { 
+     }
+DEF Leif_Stand1OnTimeTrigger TimeTrigger { 
+     }
+ROUTE Leif_z100sTimer.isActive TO Leif_Stand1SPLITTERBooleanFilter.set_boolean
+    ROUTE Leif_z100sTimer.fraction_changed TO Leif_Stand1BooleanSequencer.set_fraction
+    ROUTE Leif_Stand1BooleanSequencer.value_changed TO Leif_Stand1SPLITTERBooleanFilter.set_boolean
+    ROUTE Leif_Stand1SPLITTERBooleanFilter.inputTrue TO Leif_Stand1OnTimeTrigger.set_boolean
+    ROUTE Leif_Stand1SPLITTERBooleanFilter.inputFalse TO Leif_Stand1OffTimeTrigger.set_boolean
+    ROUTE Leif_Stand1SPLITTERBooleanFilter.inputTrue TO Leif_Stand1Timer.set_enabled
+    ROUTE Leif_Stand1SPLITTERBooleanFilter.inputFalse TO Leif_Stand1Timer.set_enabled
+    ROUTE Leif_Stand1OffTimeTrigger.triggerTime TO Leif_Stand1Timer.set_stopTime
+    ROUTE Leif_Stand1OnTimeTrigger.triggerTime TO Leif_Stand1Timer.set_startTime
+    DEF Leif_Run1BooleanSequencer BooleanSequencer { 
+     key [ 0 0.223 0.433 0.63 0.73 0.9 1 ]
+     keyValue [ false true false false false false false ]
+     }
+# [ Leif_Stand1 Leif_Run1 Leif_Turn1 Leif_Walk1 Leif_Skip1 Leif_Stand1 Leif_Stand1 ]
+    DEF Leif_Run1SPLITTERBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Run1FINALEBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Run1NEGATERBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Run1OffTimeTrigger TimeTrigger { 
+     }
+DEF Leif_Run1OnTimeTrigger TimeTrigger { 
+     }
+ROUTE Leif_z100sTimer.fraction_changed TO Leif_Run1BooleanSequencer.set_fraction
+    ROUTE Leif_Run1BooleanSequencer.value_changed TO Leif_Run1SPLITTERBooleanFilter.set_boolean
+    ROUTE Leif_Run1SPLITTERBooleanFilter.inputTrue TO Leif_Run1OnTimeTrigger.set_boolean
+    ROUTE Leif_Run1SPLITTERBooleanFilter.inputFalse TO Leif_Run1OffTimeTrigger.set_boolean
+    ROUTE Leif_Run1SPLITTERBooleanFilter.inputTrue TO Leif_Run1Timer.set_enabled
+    ROUTE Leif_Run1SPLITTERBooleanFilter.inputFalse TO Leif_Run1Timer.set_enabled
+    ROUTE Leif_Run1OffTimeTrigger.triggerTime TO Leif_Run1Timer.set_stopTime
+    ROUTE Leif_Run1OnTimeTrigger.triggerTime TO Leif_Run1Timer.set_startTime
+    DEF Leif_Turn1BooleanSequencer BooleanSequencer { 
+     key [ 0 0.223 0.433 0.63 0.73 0.9 1 ]
+     keyValue [ false false true false false false false ]
+     }
+# [ Leif_Stand1 Leif_Run1 Leif_Turn1 Leif_Walk1 Leif_Skip1 Leif_Stand1 Leif_Stand1 ]
+    DEF Leif_Turn1SPLITTERBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Turn1FINALEBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Turn1NEGATERBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Turn1OffTimeTrigger TimeTrigger { 
+     }
+DEF Leif_Turn1OnTimeTrigger TimeTrigger { 
+     }
+ROUTE Leif_z100sTimer.fraction_changed TO Leif_Turn1BooleanSequencer.set_fraction
+    ROUTE Leif_Turn1BooleanSequencer.value_changed TO Leif_Turn1SPLITTERBooleanFilter.set_boolean
+    ROUTE Leif_Turn1SPLITTERBooleanFilter.inputTrue TO Leif_Turn1OnTimeTrigger.set_boolean
+    ROUTE Leif_Turn1SPLITTERBooleanFilter.inputFalse TO Leif_Turn1OffTimeTrigger.set_boolean
+    ROUTE Leif_Turn1SPLITTERBooleanFilter.inputTrue TO Leif_Turn1Timer.set_enabled
+    ROUTE Leif_Turn1SPLITTERBooleanFilter.inputFalse TO Leif_Turn1Timer.set_enabled
+    ROUTE Leif_Turn1OffTimeTrigger.triggerTime TO Leif_Turn1Timer.set_stopTime
+    ROUTE Leif_Turn1OnTimeTrigger.triggerTime TO Leif_Turn1Timer.set_startTime
+    DEF Leif_Walk1BooleanSequencer BooleanSequencer { 
+     key [ 0 0.223 0.433 0.63 0.73 0.9 1 ]
+     keyValue [ false false false true false false false ]
+     }
+# [ Leif_Stand1 Leif_Run1 Leif_Turn1 Leif_Walk1 Leif_Skip1 Leif_Stand1 Leif_Stand1 ]
+    DEF Leif_Walk1SPLITTERBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Walk1FINALEBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Walk1NEGATERBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Walk1OffTimeTrigger TimeTrigger { 
+     }
+DEF Leif_Walk1OnTimeTrigger TimeTrigger { 
+     }
+ROUTE Leif_z100sTimer.fraction_changed TO Leif_Walk1BooleanSequencer.set_fraction
+    ROUTE Leif_Walk1BooleanSequencer.value_changed TO Leif_Walk1SPLITTERBooleanFilter.set_boolean
+    ROUTE Leif_Walk1SPLITTERBooleanFilter.inputTrue TO Leif_Walk1OnTimeTrigger.set_boolean
+    ROUTE Leif_Walk1SPLITTERBooleanFilter.inputFalse TO Leif_Walk1OffTimeTrigger.set_boolean
+    ROUTE Leif_Walk1SPLITTERBooleanFilter.inputTrue TO Leif_Walk1Timer.set_enabled
+    ROUTE Leif_Walk1SPLITTERBooleanFilter.inputFalse TO Leif_Walk1Timer.set_enabled
+    ROUTE Leif_Walk1OffTimeTrigger.triggerTime TO Leif_Walk1Timer.set_stopTime
+    ROUTE Leif_Walk1OnTimeTrigger.triggerTime TO Leif_Walk1Timer.set_startTime
+    DEF Leif_Skip1BooleanSequencer BooleanSequencer { 
+     key [ 0 0.223 0.433 0.63 0.73 0.9 1 ]
+     keyValue [ false false false false true false false ]
+     }
+# [ Leif_Stand1 Leif_Run1 Leif_Turn1 Leif_Walk1 Leif_Skip1 Leif_Stand1 Leif_Stand1 ]
+    DEF Leif_Skip1SPLITTERBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Skip1FINALEBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Skip1NEGATERBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Skip1OffTimeTrigger TimeTrigger { 
+     }
+DEF Leif_Skip1OnTimeTrigger TimeTrigger { 
+     }
+ROUTE Leif_z100sTimer.fraction_changed TO Leif_Skip1BooleanSequencer.set_fraction
+    ROUTE Leif_Skip1BooleanSequencer.value_changed TO Leif_Skip1SPLITTERBooleanFilter.set_boolean
+    ROUTE Leif_Skip1SPLITTERBooleanFilter.inputTrue TO Leif_Skip1OnTimeTrigger.set_boolean
+    ROUTE Leif_Skip1SPLITTERBooleanFilter.inputFalse TO Leif_Skip1OffTimeTrigger.set_boolean
+    ROUTE Leif_Skip1SPLITTERBooleanFilter.inputTrue TO Leif_Skip1Timer.set_enabled
+    ROUTE Leif_Skip1SPLITTERBooleanFilter.inputFalse TO Leif_Skip1Timer.set_enabled
+    ROUTE Leif_Skip1OffTimeTrigger.triggerTime TO Leif_Skip1Timer.set_stopTime
+    ROUTE Leif_Skip1OnTimeTrigger.triggerTime TO Leif_Skip1Timer.set_startTime
+    DEF Leif_Stand1BooleanSequencer BooleanSequencer { 
+     key [ 0 0.223 0.433 0.63 0.73 0.9 1 ]
+     keyValue [ false false false false false true false ]
+     }
+# [ Leif_Stand1 Leif_Run1 Leif_Turn1 Leif_Walk1 Leif_Skip1 Leif_Stand1 Leif_Stand1 ]
+    DEF Leif_Stand1SPLITTERBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Stand1FINALEBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Stand1NEGATERBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Stand1OffTimeTrigger TimeTrigger { 
+     }
+DEF Leif_Stand1OnTimeTrigger TimeTrigger { 
+     }
+ROUTE Leif_z100sTimer.fraction_changed TO Leif_Stand1BooleanSequencer.set_fraction
+    ROUTE Leif_Stand1BooleanSequencer.value_changed TO Leif_Stand1SPLITTERBooleanFilter.set_boolean
+    ROUTE Leif_Stand1SPLITTERBooleanFilter.inputTrue TO Leif_Stand1OnTimeTrigger.set_boolean
+    ROUTE Leif_Stand1SPLITTERBooleanFilter.inputFalse TO Leif_Stand1OffTimeTrigger.set_boolean
+    ROUTE Leif_Stand1SPLITTERBooleanFilter.inputTrue TO Leif_Stand1Timer.set_enabled
+    ROUTE Leif_Stand1SPLITTERBooleanFilter.inputFalse TO Leif_Stand1Timer.set_enabled
+    ROUTE Leif_Stand1OffTimeTrigger.triggerTime TO Leif_Stand1Timer.set_stopTime
+    ROUTE Leif_Stand1OnTimeTrigger.triggerTime TO Leif_Stand1Timer.set_startTime
+    DEF Leif_Stand1BooleanSequencer BooleanSequencer { 
+     key [ 0 0.223 0.433 0.63 0.73 0.9 1 ]
+     keyValue [ false false false false false false true ]
+     }
+# [ Leif_Stand1 Leif_Run1 Leif_Turn1 Leif_Walk1 Leif_Skip1 Leif_Stand1 Leif_Stand1 ]
+    DEF Leif_Stand1SPLITTERBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Stand1FINALEBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Stand1NEGATERBooleanFilter BooleanFilter { 
+     }
+DEF Leif_Stand1OffTimeTrigger TimeTrigger { 
+     }
+DEF Leif_Stand1OnTimeTrigger TimeTrigger { 
+     }
+ROUTE Leif_z100sTimer.cycleTime TO Leif_Stand1Timer.set_stopTime
+    ROUTE Leif_z100sTimer.isActive TO Leif_Stand1Timer.set_enabled
+    DEF Leif_Stand1FINALETimeTrigger TimeTrigger { 
+     }
+ROUTE Leif_Stand1FINALEBooleanFilter.inputFalse TO Leif_Stand1FINALETimeTrigger.set_boolean
+    ROUTE Leif_Stand1FINALETimeTrigger.triggerTime TO Leif_Stand1Timer.set_stopTime
+    ROUTE Leif_z100sTimer.fraction_changed TO Leif_Stand1BooleanSequencer.set_fraction
+    ROUTE Leif_Stand1BooleanSequencer.value_changed TO Leif_Stand1SPLITTERBooleanFilter.set_boolean
+    ROUTE Leif_Stand1SPLITTERBooleanFilter.inputTrue TO Leif_Stand1OnTimeTrigger.set_boolean
+    ROUTE Leif_Stand1SPLITTERBooleanFilter.inputFalse TO Leif_Stand1OffTimeTrigger.set_boolean
+    ROUTE Leif_Stand1SPLITTERBooleanFilter.inputTrue TO Leif_Stand1Timer.set_enabled
+    ROUTE Leif_Stand1SPLITTERBooleanFilter.inputFalse TO Leif_Stand1Timer.set_enabled
+    ROUTE Leif_Stand1OffTimeTrigger.triggerTime TO Leif_Stand1Timer.set_stopTime
+    ROUTE Leif_Stand1OnTimeTrigger.triggerTime TO Leif_Stand1Timer.set_startTime
+    # ###########################################################################################
+    ROUTE Leif_Stand1Timer.stopTime TO Leif_Run1Timer.set_startTime
+    ROUTE Leif_Stand1Timer.isActive TO Leif_Run1NEGATERBooleanFilter.set_boolean
+    ROUTE Leif_Run1NEGATERBooleanFilter.inputNegate TO Leif_Stand1BooleanSequencer.next
+    ROUTE Leif_Run1Timer.stopTime TO Leif_Turn1Timer.set_startTime
+    ROUTE Leif_Run1Timer.isActive TO Leif_Turn1NEGATERBooleanFilter.set_boolean
+    ROUTE Leif_Turn1NEGATERBooleanFilter.inputNegate TO Leif_Run1BooleanSequencer.next
+    ROUTE Leif_Turn1Timer.stopTime TO Leif_Walk1Timer.set_startTime
+    ROUTE Leif_Turn1Timer.isActive TO Leif_Walk1NEGATERBooleanFilter.set_boolean
+    ROUTE Leif_Walk1NEGATERBooleanFilter.inputNegate TO Leif_Turn1BooleanSequencer.next
+    ROUTE Leif_Walk1Timer.stopTime TO Leif_Skip1Timer.set_startTime
+    ROUTE Leif_Walk1Timer.isActive TO Leif_Skip1NEGATERBooleanFilter.set_boolean
+    ROUTE Leif_Skip1NEGATERBooleanFilter.inputNegate TO Leif_Walk1BooleanSequencer.next
+    ROUTE Leif_Skip1Timer.stopTime TO Leif_Stand1Timer.set_startTime
+    ROUTE Leif_Skip1Timer.isActive TO Leif_Stand1NEGATERBooleanFilter.set_boolean
+    ROUTE Leif_Stand1NEGATERBooleanFilter.inputNegate TO Leif_Skip1BooleanSequencer.next
+    ROUTE Leif_Stand1Timer.stopTime TO Leif_Stand1Timer.set_startTime
+    ROUTE Leif_Stand1Timer.isActive TO Leif_Stand1NEGATERBooleanFilter.set_boolean
+    ROUTE Leif_Stand1NEGATERBooleanFilter.inputNegate TO Leif_Stand1BooleanSequencer.next
+    ROUTE Leif_Stand1Timer.stopTime TO Leif_Stand1Timer.set_startTime
+    ROUTE Leif_Stand1Timer.isActive TO Leif_Stand1NEGATERBooleanFilter.set_boolean
+    ROUTE Leif_Stand1NEGATERBooleanFilter.inputNegate TO Leif_Stand1BooleanSequencer.next
+      ]

@@ -1,0 +1,17 @@
+{
+"Tufani": {
+"TimesPerCharacter": [0.0, 0.09, 0.11, 0.227, 0.437, 0.55, 0.63, 0.73, 0.85, 0.9, 1.0],
+"MovesPerCharacter": ["Tufani_Stand1", "Tufani_Stand1", "Tufani_Stand1", "Tufani_Run1", "Tufani_Turn1", "Tufani_Walk1", "Tufani_Walk1", "Tufani_Skip1", "Tufani_Stand1", "Tufani_Stand1", "Tufani_Stand1"]}
+,
+"Leif": {
+"TimesPerCharacter": [0.0, 0.09, 0.11, 0.223, 0.433, 0.55, 0.63, 0.73, 0.85, 0.9, 1.0],
+"MovesPerCharacter": ["Leif_Stand1", "Leif_Stand1", "Leif_Stand1", "Leif_Run1", "Leif_Turn1", "Leif_Walk1", "Leif_Walk1", "Leif_Skip1", "Leif_Stand1", "Leif_Stand1", "Leif_Stand1"]}
+,
+"Gramps": {
+"TimesPerCharacter": [0.0, 0.09, 0.11, 0.22, 0.55, 0.63, 0.73, 0.85, 0.9, 1.0],
+"MovesPerCharacter": ["Gramps_Stand1", "Gramps_Stand1", "Gramps_Walk1", "Gramps_Stand2", "Gramps_Walk1", "Gramps_Walk2", "Gramps_Skip1", "Gramps_Stand3", "Gramps_Stand3", "Gramps_Stand3"]}
+,
+"Lily": {
+"TimesPerCharacter": [0.0, 0.09, 0.11, 0.225, 0.435, 0.55, 0.63, 0.73, 0.85, 0.9, 1.0],
+"MovesPerCharacter": ["Lily_Stand1", "Lily_Stand1", "Lily_Stand1", "Lily_Run1", "Lily_Turn1", "Lily_Walk1", "Lily_Walk1", "Lily_Skip1", "Lily_Stand1", "Lily_Stand1", "Lily_Stand1"]}
+}

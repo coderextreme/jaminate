@@ -383,27 +383,6 @@ public class TableLoadSave extends Parser {
 		site.addChild(new ProtoInstance().setName("TouchAndBillboard")
 				.addFieldValue(new fieldValue().setName("description").setValue("HAnimSite "+siteIndexOrName+" "+site.getDEF()))
 				.addFieldValue(new fieldValue().setName("string").setValue("\""+siteIndexOrName+"\"")));
-		/*
-		site.addChild(new TouchSensor().setDescription("HAnimSite "+siteIndexOrName+" "+site.getDEF()))
-		    .addChild(new Shape()
-			.setGeometry(new IndexedFaceSet()
-				.setCreaseAngle(0.5)
-				.setSolid(false)
-				.setCoordIndex(new int[]{0, 1, 2, -1, 0, 2, 3, -1, 0, 3, 4, -1, 0, 4, 1, -1, 5, 2, 1, -1, 5, 3, 2, -1, 5, 4, 3, -1, 5, 1, 4, -1})
-				.setColor(new ColorRGBA().setColor(new float[]{1, 1, 0, 1, 1, 1, 0, 0.1f, 1, 1, 0, 1, 1, 1, 0, 0.1f, 1, 1, 0, 1, 1, 1, 0, 0.1f}))
-				.setCoord(new Coordinate().setPoint(new float[]{0, 0.01f, 0, -0.01f, 0, 0, 0, 0, 0.01f, 0.01f, 0, 0, 0, 0, -0.01f, 0, -0.01f, 0})))
-			.setAppearance(new Appearance()
-				.setMaterial(new Material()
-					.setDiffuseColor(new float[]{1, 1, 1})
-					.setTransparency(0))))
-		    .addChild(new Billboard()
-		        .setAxisOfRotation(new float[]{0, 0, 0})
-			.addChild(new Shape()
-				.setGeometry(new Text()
-					.setString(siteIndexOrName)
-					.setFontStyle(new FontStyle()
-						.setSize(0.035)))));
-		*/
 	}
     }
     private void loadX3dFile(GenericTableModel model, File selectedFile) {

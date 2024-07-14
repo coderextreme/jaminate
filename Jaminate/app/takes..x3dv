@@ -1,0 +1,31 @@
+#X3D V4.0 utf8
+PROFILE Immersive
+# head
+COMPONENT HAnim:1
+META "title" "takes..x3dv"
+META "creator" "John Carlson, Joe Williams and Andreas Plesch"
+META "translator" "X3DJSAIL"
+META "version" "3.0"
+META "description" "Create Chaining animation from a JSON file"
+META "generator" "Jaminate, V3.0, https://github.com/coderextreme/jaminate/tree/main/Jaminate/app/src/main/resources/takesX3DJSAIL.js"
+META "license" "https://github.com/coderextreme/jaminate/blob/main/LICENSE"
+# Scene
+  children [
+  WorldInfo { 
+     title "takes..x3dv"
+     }
+# ###########################################################################################
+    ROUTE DefaultTimer.stopTime TO TestTimer.set_startTime
+    ROUTE TestTimer.stopTime TO Pitch1Timer.set_startTime
+    ROUTE Pitch1Timer.stopTime TO Pitch2Timer.set_startTime
+    ROUTE Pitch2Timer.stopTime TO Yaw1Timer.set_startTime
+    ROUTE Yaw1Timer.stopTime TO Yaw2Timer.set_startTime
+    ROUTE Yaw2Timer.stopTime TO Roll1Timer.set_startTime
+    ROUTE Roll1Timer.stopTime TO Roll2Timer.set_startTime
+    ROUTE Roll2Timer.stopTime TO WalkTimer.set_startTime
+    ROUTE WalkTimer.stopTime TO RunTimer.set_startTime
+    ROUTE RunTimer.stopTime TO JumpTimer.set_startTime
+    ROUTE JumpTimer.stopTime TO Kick1Timer.set_startTime
+    ROUTE Kick1Timer.stopTime TO Kick2Timer.set_startTime
+    ROUTE Kick2Timer.stopTime TO DefaultTimer.set_startTime
+      ]
