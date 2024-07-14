@@ -81,6 +81,7 @@ import org.web3d.x3d.jsail.HAnim.HAnimSite;
 import org.web3d.x3d.jsail.Interpolation.OrientationInterpolator;
 import org.web3d.x3d.jsail.Interpolation.PositionInterpolator;
 import org.web3d.x3d.jsail.Rendering.Color;
+import org.web3d.x3d.jsail.Rendering.LineSet;
 import org.web3d.x3d.jsail.Rendering.Coordinate;
 import org.web3d.x3d.jsail.Shape.Appearance;
 import org.web3d.x3d.jsail.Shape.Material;
@@ -416,9 +417,11 @@ public class TableLoadSave extends Parser {
 				// X3D0.toFileClassicVRML("x3dconcatenated.x3dv");
 				// System.err.println("writing XML");
 				// X3D0.toFileX3D("x3dconcatenated.x3d");
+				unUSE(X3D0);
 				// unUSE(X3D0);
-				addBillboard(X3D0);
-				X3D0.toFileX3D("billboarded.x3d");
+				X3D0.toFileX3D("unuse.x3d");
+				// addBillboard(X3D0);
+				// X3D0.toFileX3D("billboarded.x3d");
 			} catch (Exception e) {
 				e.printStackTrace(System.err);
 			}
@@ -432,13 +435,18 @@ public class TableLoadSave extends Parser {
 private void unUSE(X3D X3D0) {
 	ArrayList imagetextures = traverseChildren(X3D0.getScene().getChildren(), ImageTexture.class, 0);
 	ArrayList colors = traverseChildren(X3D0.getScene().getChildren(), Color.class, 0);
+	System.err.println("Found "+colors.size()+" colors");
 	ArrayList materials = traverseChildren(X3D0.getScene().getChildren(), Material.class, 0);
+	System.err.println("Found "+materials.size()+" materials");
 	ArrayList appearances = traverseChildren(X3D0.getScene().getChildren(), Appearance.class, 0);
 	ArrayList fontStyles = traverseChildren(X3D0.getScene().getChildren(), FontStyle.class, 0);
 	ArrayList shapes = traverseChildren(X3D0.getScene().getChildren(), Shape.class, 0);
 	ArrayList transform = traverseChildren(X3D0.getScene().getChildren(), Transform.class, 0);
 	ArrayList groups = traverseChildren(X3D0.getScene().getChildren(), Group.class, 0);
-	ArrayList[] lists = new ArrayList[] { imagetextures, colors, materials, appearances, fontStyles, shapes, transform, groups };
+	ArrayList linesets = traverseChildren(X3D0.getScene().getChildren(), LineSet.class, 0);
+	ArrayList indexedfacesets = traverseChildren(X3D0.getScene().getChildren(), IndexedFaceSet.class, 0);
+	ArrayList[] lists = new ArrayList[] { imagetextures, colors, materials, appearances, fontStyles, shapes, transform, groups, linesets, indexedfacesets };
+	// populate defs map
 	HashMap defs = new HashMap();
 	for (int l = 0; l < lists.length; l++) {
 		ArrayList list = lists[l];
@@ -448,22 +456,30 @@ private void unUSE(X3D X3D0) {
 			X3DConcreteNode x3dDEFNode = (X3DConcreteNode)node;
 			String def = x3dDEFNode.getDEF();
 			if (def != null && !def.trim().equals("")) {
+				System.err.println("Found "+def);
 				defs.put(def, x3dDEFNode);
 			}
 		}
 	}
+	int counter = 0;
 	for (int l = 0; l < lists.length; l++) {
 		ArrayList list = lists[l];
 		Iterator nodeitr = list.iterator();
 		while (nodeitr.hasNext()) {
 			Object node = nodeitr.next();
 			X3DConcreteNode x3dUSENode = (X3DConcreteNode)node;
+			// check to see if this node is one to copy over fields
 			String use = x3dUSENode.getUSE();
 			if (use != null && !use.trim().equals("")) {
+				// System.err.println("Replacing "+use);
 				X3DConcreteNode x3dDEFNode = (X3DConcreteNode)(defs.get(use));
 				x3dUSENode.setUSE(null);
+				// x3dUSENode.setDEF(use+"_"+counter);
+				counter++;
 				Class clazz = x3dDEFNode.getClass();
+				System.err.println("Class is "+clazz.getCanonicalName());
 				Method[] methods = clazz.getMethods();
+				// create map to hold field values
 				HashMap valueMap = new HashMap();
 				for (int m = 0; m < methods.length; m++) {
 					Method method = methods[m];
@@ -471,7 +487,8 @@ private void unUSE(X3D X3D0) {
 					if (methodName.startsWith("get") && method.getParameterCount() == 0) {
 						try {
 							String retTypeName = method.getReturnType().getName();
-							if (retTypeName.equals("boolean") || retTypeName.equals("int")) {
+							// populate field value map
+							if (retTypeName.equals("boolean") || retTypeName.equals("float") || retTypeName.equals("int")) {
 								valueMap.put(methodName, method.invoke(x3dDEFNode));
 							} else {
 								valueMap.put(methodName, method.getReturnType().cast(method.invoke(x3dDEFNode)));
@@ -482,31 +499,65 @@ private void unUSE(X3D X3D0) {
 						}
 					}
 				}
+				// populate USE node fields
 				for (int m = 0; m < methods.length; m++) {
 					Method method = methods[m];
 					String methodName = method.getName();
 					if (methodName.startsWith("set") && !methodName.equals("setUSE") && !methodName.equals("setDEF")) {
 						try {
 							String getMethodName = "g"+methodName.substring(1);
-							// System.err.println("Saving with "+methodName+" "+valueMap.get(getMethodName));
+							System.err.println("Saving with "+methodName+" "+valueMap.get(getMethodName));
 							Object o = valueMap.get(getMethodName);
 							if (o != null) {
-								if (o.getClass() == method.getParameterTypes()[0]) {
+								if (method.getParameterTypes()[0].isAssignableFrom(o.getClass())) {
+									System.err.println("Setting "+o.toString()+" with "+methodName);
 									if (!"".equals(o.toString().trim())) {
-										method.invoke(x3dUSENode, valueMap.get(getMethodName));
-										// System.err.println("Set "+o.toString()+" with "+methodName);
+										method.invoke(x3dUSENode, o);
+										System.err.println("Set "+o.toString()+" with "+methodName);
+									} else {
+										System.err.println("Didn't set  "+o.toString());
 									}
 								} else {
-									// System.err.println("Bad types with "+o.getClass().getName()+" != "+method.getParameterTypes()[0].getName());
+									System.err.println("Bad types with parameter 0 type "+method.getParameterTypes()[0].getCanonicalName()+" not assignable from "+o.getClass().getCanonicalName()+" type with "+clazz.getCanonicalName()+"."+methodName);
 								}
 							} else {
-								// System.err.println("Value from "+getMethodName+" is null");
+								System.err.println("Value from "+getMethodName+" is null");
 							}
 						} catch (IllegalAccessException | InvocationTargetException e) {
 							e.printStackTrace(System.err);
 						}
 					}
 				}
+				replaceDEFs(x3dUSENode);
+			}
+		}
+	}
+}
+
+private void replaceDEFs(X3DConcreteNode x3dUSENode) {
+	ArrayList imagetextures = traverseChild((X3DNode)x3dUSENode, ImageTexture.class, 0);
+	ArrayList colors = traverseChild((X3DNode)x3dUSENode, Color.class, 0);
+	System.err.println("Found "+colors.size()+" colors");
+	ArrayList materials = traverseChild((X3DNode)x3dUSENode, Material.class, 0);
+	System.err.println("Found "+materials.size()+" materials");
+	ArrayList appearances = traverseChild((X3DNode)x3dUSENode, Appearance.class, 0);
+	ArrayList fontStyles = traverseChild((X3DNode)x3dUSENode, FontStyle.class, 0);
+	ArrayList shapes = traverseChild((X3DNode)x3dUSENode, Shape.class, 0);
+	ArrayList transform = traverseChild((X3DNode)x3dUSENode, Transform.class, 0);
+	ArrayList groups = traverseChild((X3DNode)x3dUSENode, Group.class, 0);
+	ArrayList linesets = traverseChild((X3DNode)x3dUSENode, LineSet.class, 0);
+	ArrayList indexedfacesets = traverseChild((X3DNode)x3dUSENode, IndexedFaceSet.class, 0);
+	ArrayList[] lists = new ArrayList[] { imagetextures, colors, materials, appearances, fontStyles, shapes, transform, groups, linesets, indexedfacesets };
+	for (int l = 0; l < lists.length; l++) {
+		ArrayList list = lists[l];
+		Iterator nodeitr = list.iterator();
+		while (nodeitr.hasNext()) {
+			Object node = nodeitr.next();
+			X3DConcreteNode x3dDEFNode = (X3DConcreteNode)node;
+			String def = x3dDEFNode.getDEF();
+			if (def != null && !def.trim().equals("")) {
+				x3dDEFNode.setUSE(def);
+				x3dDEFNode.setDEF(null);
 			}
 		}
 	}
@@ -990,7 +1041,7 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
 			return collection;
 		}
 		try {
-			String [] methods = new String [] {"getChildren", /*"getGeometry", "getAppearance", */ "getSkeleton", "getCoord", "getSkinCoord", "getSkin"};
+			String [] methods = new String [] {"getChildren", "getGeometry", "getAppearance",  "getSkeleton", "getCoord", "getColor", "getFontStyle", "getMaterial", "getSkinCoord", "getSkin"};
 			for (int m = 0; m < methods.length; m++) {
 				try {
 					Method method = clazzchild.getMethod(methods[m]);
@@ -1018,18 +1069,33 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
 								collection.addAll(traverseChild((HAnimJoint)children, clazz, indent+1));
 								//break;
 							} else if (children instanceof HAnimHumanoid) {
-								collection.addAll(traverseChild((HAnimJoint)children, clazz, indent+1));
+								collection.addAll(traverseChild((HAnimHumanoid)children, clazz, indent+1));
 								//break;
 							} else if (children instanceof IndexedFaceSet) {
 								System.err.println("IFS");
-								collection.addAll(traverseChild((HAnimJoint)children, clazz, indent+1));
+								collection.addAll(traverseChild((IndexedFaceSet)children, clazz, indent+1));
+								//break;
+							} else if (children instanceof Color) {
+								System.err.println("Color");
+								collection.addAll(traverseChild((Color)children, clazz, indent+1));
+								//break;
+							} else if (children instanceof FontStyle) {
+								System.err.println("FontStyle");
+								collection.addAll(traverseChild((FontStyle)children, clazz, indent+1));
+								//break;
+							} else if (children instanceof Material) {
+								System.err.println("Material");
+								collection.addAll(traverseChild((Material)children, clazz, indent+1));
+								//break;
+							} else if (children instanceof float[]) {
+								System.err.println("float[]");
 								//break;
 							} else if (children instanceof Coordinate) {
-								System.err.println("IFS");
+								System.err.println("Coordinate");
 								collection.addAll(traverseChild((Coordinate)children, clazz, indent+1));
 								//break;
 							} else {
-								System.err.println(children.getClass().getName());
+								System.err.println(children.getClass().getCanonicalName());
 								for (int ci = 0; ci < ((X3DNode[])children).length; ci++) {
 									collection.addAll(traverseChild(((X3DNode[])children)[ci], clazz, indent+1));
 								}
@@ -1038,12 +1104,12 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
 						}
 					}
 				} catch (NoSuchMethodException e) {
-					// System.err.println(child.getClass().getName()+":"+e.getMessage());
+					// System.err.println(child.getClass().getCanonicalName()+":"+e.getMessage());
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace(System.err);
-			// System.err.println(child.getClass().getName()+":"+e.getMessage());
+			// System.err.println(child.getClass().getCanonicalName()+":"+e.getMessage());
 		}
 
 	}
@@ -1054,24 +1120,25 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
     public static void main(String[] args) {
  
         TableLoadSave loadAndSave = new TableLoadSave();
-        // loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/New2TemplateNoBoxes.js"));
-        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.x3d"));
-        // loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/resources/Leif8Final.js"));
+	String home = "C:/Users/jcarl/";
+        // loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/resources/New2TemplateNoBoxes.js"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/resources/Leif8Final.x3d"));
+        // loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/resources/Leif8Final.js"));
 	//
-        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4Sites10h.x3d"));
-        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA4.scaled1joe06c.x3d"));
-        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4Sites08o.x3d"));
-        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA4scaled1joe06gForJohn2.x3d"));
-        //loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4OnlyMarkers11c.x3d"));
-        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4OnlyMarkers11f.x3d"));
-        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4OnlyMarkers11g.x3d"));
-        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA1.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4Sites10h.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinLOA4.scaled1joe06c.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4Sites08o.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinLOA4scaled1joe06gForJohn2.x3d"));
+        //loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4OnlyMarkers11c.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4OnlyMarkers11f.x3d"));
+        loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4OnlyMarkers11g.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinLOA1.x3d"));
 
 	
-        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA4.x3d"));
-        loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4MinimumSkeleton20f.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinLOA4.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4MinimumSkeleton20f.x3d"));
 
-        //loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File("C:/Users/john/jaminate/Jaminate/app/src/main/javascript/JinLOA4.js"));
+        //loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinLOA4.js"));
         // loadAndSave.loadTest(new GenericTableModel(new DefaultTableModel()));
 
     }
@@ -1280,9 +1347,9 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
         try (PrintWriter pw = new PrintWriter(new FileWriter(selectedFile));) {
             json = saveJson(model, pw);
 	    System.err.println("Starting");
-            // Process p = Runtime.getRuntime().exec(new String[] { "js", "--experimental-options", "--polyglot", "--vm.Djs.allowAllAccess=true", "--vm.Xss1g", "--vm.Xmx4g", "--jvm", "--vm.classpath=C:/Users/john/jaminate/Jaminate/app/lib/X3DJSAIL.4.0.full.jar;C:/Users/john/jaminate/Jaminate/app/lib/saxon-he-12.1.jar", "src/main/resources/takesX3DJSAIL.js"});
-            Process p = Runtime.getRuntime().exec(new String[] { "js", "--experimental-options", "--polyglot", "--vm.Djs.allowAllAccess=true", "--vm.Xss1g", "--vm.Xmx4g", "--jvm", "--vm.classpath=C:/Users/john/jaminate/Jaminate/app/lib/X3DJSAIL.4.0.full.jar;C:/Users/john/jaminate/Jaminate/app/lib/saxon-he-12.1.jar", "src/main/resources/takesSimple.js"});
-	                                                       // js    --experimental-options    --polyglot    --vm.Djs.allowAllAccess=true    --vm.Xss1g    --vm.Xmx4g    --jvm    --vm.classpath='C:/Users/john/jaminate/Jaminate/app/lib/X3DJSAIL.4.0.full.jar;C:/Users/john/jaminate/Jaminate/app/lib/saxon-he-12.1.jar"    src/main/resources/takesX3DJSAIL.js
+            // Process p = Runtime.getRuntime().exec(new String[] { "js", "--experimental-options", "--polyglot", "--vm.Djs.allowAllAccess=true", "--vm.Xss1g", "--vm.Xmx4g", "--jvm", "--vm.classpath=/c/Users/jcarl/jaminate/Jaminate/app/lib/X3DJSAIL.4.0.full.jar;/c/Users/jcarl/jaminate/Jaminate/app/lib/saxon-he-12.1.jar", "src/main/resources/takesX3DJSAIL.js"});
+            Process p = Runtime.getRuntime().exec(new String[] { "js", "--experimental-options", "--polyglot", "--vm.Djs.allowAllAccess=true", "--vm.Xss1g", "--vm.Xmx4g", "--jvm", "--vm.classpath=/c/Users/jcarl/jaminate/Jaminate/app/lib/X3DJSAIL.4.0.full.jar;/c/Users/jcarl/jaminate/Jaminate/app/lib/saxon-he-12.1.jar", "src/main/resources/takesSimple.js"});
+	                                                       // js    --experimental-options    --polyglot    --vm.Djs.allowAllAccess=true    --vm.Xss1g    --vm.Xmx4g    --jvm    --vm.classpath='/c/Users/jcarl/jaminate/Jaminate/app/lib/X3DJSAIL.4.0.full.jar;/c/Users/jcarl/jaminate/Jaminate/app/lib/saxon-he-12.1.jar"    src/main/resources/takesX3DJSAIL.js
 
 		    // "node", "-cp", "./lib/X3DJSAIL.4.0.full.jar:./lib/saxon-he-12.1.jar:.", "takes.js"});
             nopw = new PrintWriter(p.getOutputStream());
