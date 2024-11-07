@@ -65,21 +65,23 @@ import org.web3d.x3d.jsail.Core.ProtoInterface;
 import org.web3d.x3d.jsail.Core.connect;
 import org.web3d.x3d.jsail.Core.field;
 import org.web3d.x3d.jsail.Core.fieldValue;
-import org.web3d.x3d.jsail.Rendering.ColorRGBA;
 import org.web3d.x3d.jsail.Text.Text;
 import org.web3d.x3d.jsail.Core.X3D;
 import org.web3d.x3d.jsail.EnvironmentalSensor.ProximitySensor;
 import org.web3d.x3d.jsail.Navigation.Billboard;
 import org.web3d.x3d.jsail.fields.SFRotation;
 import org.web3d.x3d.jsail.fields.MFString;
+import org.web3d.x3d.jsail.fields.MFVec3f;
 import org.web3d.x3d.jsail.Geometry3D.IndexedFaceSet;
 import org.web3d.x3d.jsail.Grouping.Group;
 import org.web3d.x3d.jsail.Grouping.Transform;
 import org.web3d.x3d.jsail.HAnim.HAnimHumanoid;
 import org.web3d.x3d.jsail.HAnim.HAnimJoint;
+import org.web3d.x3d.jsail.HAnim.HAnimSegment;
 import org.web3d.x3d.jsail.HAnim.HAnimSite;
 import org.web3d.x3d.jsail.Interpolation.OrientationInterpolator;
 import org.web3d.x3d.jsail.Interpolation.PositionInterpolator;
+import org.web3d.x3d.jsail.Rendering.ColorRGBA;
 import org.web3d.x3d.jsail.Rendering.Color;
 import org.web3d.x3d.jsail.Rendering.LineSet;
 import org.web3d.x3d.jsail.Rendering.Coordinate;
@@ -96,6 +98,7 @@ import org.web3d.x3d.jsail.PointingDeviceSensor.TouchSensor;
 import org.web3d.x3d.sai.Core.X3DNode;
 import org.web3d.x3d.sai.Grouping.X3DGroupingNode;
 import org.web3d.x3d.sai.Rendering.X3DGeometryNode;
+import org.web3d.x3d.sai.Rendering.X3DColorNode;
 import org.web3d.x3d.sai.Shape.X3DAppearanceNode;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -386,6 +389,65 @@ public class TableLoadSave extends Parser {
 				.addFieldValue(new fieldValue().setName("string").setValue("\""+siteIndexOrName+"\"")));
 	}
     }
+    private void addBillboardNoProto(X3D X3D0) {
+	ArrayList sites = traverseChildren(X3D0.getScene().getChildren(), HAnimSite.class, 0);
+	for (int s = 0; s < sites.size(); s++) {
+		HAnimSite site = (HAnimSite)sites.get(s);
+		int siteIndex = HAnimSite.getNameIndex(site.getName());
+		String siteIndexOrName = ""+siteIndex;
+		if (siteIndex == -1) {
+			siteIndexOrName = site.getName();
+		}
+		site.addChild(new TouchSensor().setDescription("HAnimSite "+siteIndexOrName+" "+site.getDEF()))
+			    .addChild(new Shape()
+				.setGeometry(new IndexedFaceSet()
+					.setCreaseAngle(0.5)
+					.setSolid(false)
+					.setCoordIndex(new int[]{0, 1, 2, -1, 0, 2, 3, -1, 0, 3, 4, -1, 0, 4, 1, -1, 5, 2, 1, -1, 5, 3, 2, -1, 5, 4, 3, -1, 5, 1, 4, -1})
+					.setColor(new ColorRGBA().setColor(new float[]{1, 1, 0, 1, 1, 1, 0, 0.1f, 1, 1, 0, 1, 1, 1, 0, 0.1f, 1, 1, 0, 1, 1, 1, 0, 0.1f}))
+					.setCoord(new Coordinate().setPoint(new float[]{0, 0.01f, 0, -0.01f, 0, 0, 0, 0, 0.01f, 0.01f, 0, 0, 0, 0, -0.01f, 0, -0.01f, 0})))
+				.setAppearance(new Appearance()
+					.setMaterial(new Material()
+						.setDiffuseColor(new float[]{1, 1, 1})
+						.setTransparency(0))))
+			    .addChild(new Billboard()
+				.setAxisOfRotation(new float[]{0, 0, 0})
+				.addChild(new Shape()
+					.setGeometry(new Text()
+						.setFontStyle(new FontStyle()
+								.setSize(0.035))
+						.setString(siteIndexOrName))));
+	}
+    }
+    private void addSegmentGeometry(X3D X3D0) {
+	// prepend the PROTO
+ 	ArrayList children = X3D0.getScene().getChildren();
+ 	X3D0.getScene().setChildren(children);
+	ArrayList<X3DNode> joints = traverseChildren(X3D0.getScene().getChildren(), HAnimJoint.class, 0);
+	System.err.println("joints "+ joints.size() + " " + joints);
+	for (int j = 0; j < joints.size(); j++) {
+		HAnimJoint joint = (HAnimJoint)joints.get(j);
+		X3DNode[] segments = joint.getChildren();
+		for (int s = 0; s < segments.length; s++) {
+			Object o = segments[s];
+			if (o instanceof HAnimSegment) {
+				HAnimSegment segment = (HAnimSegment)o;
+				System.err.println("segment " + s + " " + segment);
+				System.err.println("joint "+ j + " "+ joint);
+				MFVec3f point = new MFVec3f(joint.getCenter());
+				// TODO should be child
+				if (joint.getParent() instanceof HAnimJoint) {
+					point.append(((HAnimJoint)joint.getParent()).getCenter());
+					segment.addChild(new Shape()
+						.setGeometry(new LineSet().setVertexCount(new int[]{2})
+							.setCoord(new Coordinate().setPoint(point))
+						.setColor(new ColorRGBA().setColor(new float[]{1, 1, 0, 1, 1, 1, 0, 1}))));
+				}
+			}
+		}
+
+	}
+    }
     private void loadX3dFile(GenericTableModel model, File selectedFile) {
         this.model = model;
 	System.err.println("Opening file "+selectedFile);
@@ -417,11 +479,15 @@ public class TableLoadSave extends Parser {
 				// X3D0.toFileClassicVRML("x3dconcatenated.x3dv");
 				// System.err.println("writing XML");
 				// X3D0.toFileX3D("x3dconcatenated.x3d");
-				unUSE(X3D0);
 				// unUSE(X3D0);
-				X3D0.toFileX3D("unuse.x3d");
-				// addBillboard(X3D0);
-				// X3D0.toFileX3D("billboarded.x3d");
+				// unUSE(X3D0);
+				// X3D0.toFileX3D("unuse.x3d");
+				// addBillboardNoProto(X3D0);
+				// X3D0.toFileX3D("billboardednoproto.x3d");
+				// addSegmentGeometry(X3D0);
+				// X3D0.toFileX3D("billboardedsegment.x3d");
+				createUSENodes(X3D0);
+				X3D0.toFileX3D("useHAnim.x3d");
 			} catch (Exception e) {
 				e.printStackTrace(System.err);
 			}
@@ -563,6 +629,28 @@ private void replaceDEFs(X3DConcreteNode x3dUSENode) {
 	}
 }
 
+private void createUSENodes(X3D X3D0) {
+	ArrayList joints = traverseChildren(X3D0.getScene().getChildren(), HAnimJoint.class, 0);
+	ArrayList segments = traverseChildren(X3D0.getScene().getChildren(), HAnimSegment.class, 0);
+	ArrayList sites = traverseChildren(X3D0.getScene().getChildren(), HAnimSite.class, 0);
+	ArrayList humanoids = traverseChildren(X3D0.getScene().getChildren(), HAnimHumanoid.class, 0);
+	HAnimHumanoid humanoid = (HAnimHumanoid)humanoids.get(0);
+	for (int i = 0; i < joints.size(); i++) {
+		HAnimJoint existing = (HAnimJoint)joints.get(i);
+        	X3DConcreteNode joint = new HAnimJoint().setUSE(existing.getDEF()).setContainerFieldOverride("joints");
+		humanoid.addJoints((HAnimJoint)joint);
+	}
+	for (int i = 0; i < segments.size(); i++) {
+		HAnimSegment existing = (HAnimSegment)segments.get(i);
+        	X3DConcreteNode segment = new HAnimSegment().setUSE(existing.getDEF()).setContainerFieldOverride("segments");
+		humanoid.addSegments((HAnimSegment)segment);
+	}
+	for (int i = 0; i < sites.size(); i++) {
+		HAnimSite existing = (HAnimSite)sites.get(i);
+        	X3DConcreteNode site = new HAnimSite().setUSE(existing.getDEF()).setContainerFieldOverride("sites");
+		humanoid.addSites((HAnimSite)site);
+	}
+}
 private void concatenateOrientationInterpolators(X3D X3D0) {
 	ArrayList routes = traverseChildren(X3D0.getScene().getChildren(), NewROUTE.class, 0);
 	LinkedHashSet<OrientationInterpolator> oldois = new LinkedHashSet<OrientationInterpolator>();
@@ -1029,6 +1117,16 @@ private ArrayList traverseChildren(ArrayList<X3DNode> children, Class clazz, int
 	return collection;
 }
 
+private ArrayList traverseChildren(X3DNode[] children, Class clazz, int indent) {
+	var collection = new ArrayList();
+	if (children != null) {
+		for (int ci = 0; ci < children.length; ci++) {
+			collection.addAll(traverseChild(children[ci], clazz, indent+1));
+		}
+	}
+	return collection;
+}
+
 private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent) {
 	var collection = new ArrayList<X3DNode>();
 	if (child != null) {
@@ -1065,6 +1163,12 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
 							} else if (children instanceof X3DAppearanceNode) {
 								collection.addAll(traverseChild((X3DAppearanceNode)children, clazz, indent+1));
 								//break;
+							} else if (children instanceof HAnimSite) {
+								collection.addAll(traverseChild((HAnimSite)children, clazz, indent+1));
+								//break;
+							} else if (children instanceof HAnimSegment) {
+								collection.addAll(traverseChild((HAnimSegment)children, clazz, indent+1));
+								//break;
 							} else if (children instanceof HAnimJoint) {
 								collection.addAll(traverseChild((HAnimJoint)children, clazz, indent+1));
 								//break;
@@ -1072,26 +1176,27 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
 								collection.addAll(traverseChild((HAnimHumanoid)children, clazz, indent+1));
 								//break;
 							} else if (children instanceof IndexedFaceSet) {
-								System.err.println("IFS");
 								collection.addAll(traverseChild((IndexedFaceSet)children, clazz, indent+1));
 								//break;
 							} else if (children instanceof Color) {
-								System.err.println("Color");
 								collection.addAll(traverseChild((Color)children, clazz, indent+1));
 								//break;
+							} else if (children instanceof Color) {
+								collection.addAll(traverseChild((ColorRGBA)children, clazz, indent+1));
+								//break;
+							} else if (children instanceof X3DColorNode) {
+								collection.addAll(traverseChild((ColorRGBA)children, clazz, indent+1));
+								//break;
 							} else if (children instanceof FontStyle) {
-								System.err.println("FontStyle");
 								collection.addAll(traverseChild((FontStyle)children, clazz, indent+1));
 								//break;
 							} else if (children instanceof Material) {
-								System.err.println("Material");
 								collection.addAll(traverseChild((Material)children, clazz, indent+1));
 								//break;
 							} else if (children instanceof float[]) {
-								System.err.println("float[]");
+								// System.err.println("float[]");
 								//break;
 							} else if (children instanceof Coordinate) {
-								System.err.println("Coordinate");
 								collection.addAll(traverseChild((Coordinate)children, clazz, indent+1));
 								//break;
 							} else {
@@ -1131,11 +1236,14 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
         // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinLOA4scaled1joe06gForJohn2.x3d"));
         //loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4OnlyMarkers11c.x3d"));
         // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4OnlyMarkers11f.x3d"));
-        loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4OnlyMarkers11g.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4OnlyMarkers11g.x3d"));
         // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinLOA1.x3d"));
 
 	
         // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinLOA4.x3d"));
+        // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"/X3DJSONLD/blend/JinLOA4.scaled1.x3d"));
+        loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"/X3DJSONLD/blend/JoeSkinTexcoordDisplacerKickUpdate2.x3d"));
+
         // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4MinimumSkeleton20f.x3d"));
 
         //loadAndSave.loadJsFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinLOA4.js"));

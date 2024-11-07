@@ -24,6 +24,9 @@ application {
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+    maven {
+        url = uri("https://maven.research.rackspacecloud.com/content/groups/public")
+    }
     mavenLocal()   // for X3DJSAIL
     //jcenter() // for schemagen
 }
@@ -61,7 +64,12 @@ dependencies {
     implementation 'org.graalvm.shadowed:icu4j:24.0.0'
     implementation 'org.graalvm.truffle:truffle-runtime:24.0.0'
     
-    implementation 'org.web3d.x3d:X3DJSAIL:4.0.full'
+    implementation 'com.siemens.ct.exi:exificient:0.9.7-SNAPSHOT-source1.6'  // from x3d sourceforge project
+    implementation 'com.siemens.ct.exi:exificient-core:0.9.7'
+    implementation 'com.siemens.ct.exi:exificient-grammars:0.9.7'
+    implementation 'org.openexi:Nagasena:0000.0001.0270.0'
+    implementation 'net.sf.saxon:Saxon-HE:12.5'
+    implementation 'org.web3d.x3d:X3DJSAIL:4.0.classes'
 
     // https://mvnrepository.com/artifact/org.openjfx/javafx-graphics
     // implementation 'org.openjfx:javafx-graphics:22'
