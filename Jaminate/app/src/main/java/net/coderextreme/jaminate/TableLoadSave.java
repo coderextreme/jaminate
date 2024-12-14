@@ -1242,7 +1242,7 @@ private ArrayList<X3DNode> traverseChild(X3DNode child, Class clazz, int indent)
 	
         // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinLOA4.x3d"));
         // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"/X3DJSONLD/blend/JinLOA4.scaled1.x3d"));
-        loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"/X3DJSONLD/blend/JoeSkinTexcoordDisplacerKickUpdate2.x3d"));
+        loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JoeSkinTexcoordDisplacerKickUpdate2.x3d"));
 
         // loadAndSave.loadX3dFile(new GenericTableModel(new DefaultTableModel()), new File(home+"jaminate/Jaminate/app/src/main/javascript/JinScaledV2L1LOA4MinimumSkeleton20f.x3d"));
 

@@ -1,0 +1,1384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 4.0//EN" "http://www.web3d.org/specifications/x3d-4.0.dtd">
+<X3D profile="Immersive" version="4.0"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance"
+     xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-4.0.xsd">
+<head>
+	<component name="H-Anim" level="1" />
+	<meta name="modified" content="9 July 2020" />
+	<meta name="creator" content="Joe Williams" />
+	<meta name="generator" content="castle-model-viewer, https://castle-engine.io/castle-model-viewer" />
+	<meta name="translators" content="Roy Walmsley and Don Brutzman" />
+	<meta name="created" content="9 January 2014" />
+	<meta name="description" content="The Joe model is a Humanoid with textured skin." />
+	<meta name="source" content="JoeSkinUSE.x3d" />
+	<meta name="info" content="Joe No Reservations 20200709 fix hier20161206 20161111 20160720 20121221 20040109 x3d/hanim" />
+	<meta name="generator-previous" content="X3D-Edit 3.3, https://savage.nps.edu/X3D-Edit" />
+	<meta name="TODO" content="Record information about skin coordinates (found in comment at end of scene) as a structured MetadataSet containing MetadataString nodes" />
+	<meta name="translated" content="12 January 2017" />
+	<meta name="license" content="../license.html" />
+	<meta name="title" content="JoeSkinTexcoordDisplacerKick.x3d" />
+	<meta name="identifier" content="https://www.web3d.org/x3d/content/examples/Basic/HumanoidAnimation/JoeSkinTexcoordDisplacerKick.x3d" />
+</head>
+<Scene>
+	<WorldInfo
+		info='"X3D Humanoid V1 LOA3 skeleton" "skin from hanim sites, surface features, and some added points" "390 points"'
+		title="X3D HANIM LOA3 Skeleton, 390 point Skin, texcoords, Displacer, teTrans for Joe_ by Joe" />
+	<NavigationInfo DEF="Start_NavigationInfo"
+		avatarSize="0.25 1.60000002384186 0.75"
+		type='"EXAMINE" "ANY"'
+		speed="2.5"
+		headlight="false" />
+	<Background DEF="blue_Background" />
+	<SpotLight DEF="light0"
+		global="true"
+		location="0 1 5"
+		beamWidth="1.5"
+		direction="0 0 0"
+		ambientIntensity="1" />
+	<SpotLight DEF="light1"
+		global="true"
+		location="0 1 -5"
+		beamWidth="1.5"
+		direction="0 0 0"
+		ambientIntensity="1" />
+	<Viewpoint DEF="Front_View"
+		position="0 2 10"
+		description="Front View" />
+	<Group DEF="Joe_Humanoid">
+		<HAnimHumanoid DEF="Joe_humanoid"
+			name="humanoid"
+			version="2.0">
+			<HAnimJoint DEF="Joe_humanoid_root" containerField="skeleton"
+				rotation="-1 0 0 0.414926528930664"
+				stiffness="0 0 0"
+				translation="-0.118321746587753 0.0851121470332146 -0.042536735534668"
+				name="humanoid_root"
+				center="0 0.875 0">
+				<HAnimSegment DEF="Joe_sacrum"
+					momentsOfInertia="0 0 0 0 0 0 0 0 0"
+					name="sacrum">
+					<HAnimSite DEF="Joe_RootFront"
+						name="RootFront">
+						<Transform DEF="hanimcordsys"
+							scale="0.174999997019768 0.174999997019768 0.174999997019768">
+							<Shape DEF="AxisLinesShape">
+								<IndexedLineSet
+									colorIndex="0 1 2"
+									coordIndex="0 1 -1 0 2 -1 0 3 -1"
+									colorPerVertex="false">
+									<Color
+										color="1 0 0 0 0.600000023841858 0 0 0 1" />
+									<Coordinate
+										point="0 0 0 1 0 0 0 1 0 0 0 1" />
+								</IndexedLineSet>
+							</Shape>
+						</Transform>
+					</HAnimSite>
+				</HAnimSegment>
+				<HAnimJoint DEF="Joe_sacroiliac"
+					stiffness="0 0 0"
+					name="sacroiliac"
+					center="-0.118321746587753 1.00129365921021 -0.0606772601604462"
+					skinCoordIndex="17 19 20 21 22 23 26 27 73 82 89 91 93"
+					skinCoordWeight="1 1 1 1 1 1 1 1 1 1 0.349999994039536 0.349999994039536 1">
+					<HAnimJoint DEF="Joe_l_hip"
+						rotation="1 0 0 0.597693920135498"
+						stiffness="0 0 0"
+						name="l_hip"
+						center="-0.0183217450976372 1.00129377841949 -0.0606772601604462"
+						skinCoordIndex="89 90 94 95 96 97"
+						skinCoordWeight="0.649999976158142 1 1 1 1 1">
+						<HAnimJoint DEF="Joe_l_knee"
+							rotation="0.831552982330322 0 0.55544638633728 0.571442723274231"
+							stiffness="0 0 0"
+							name="l_knee"
+							center="-0.00332174450159073 0.554855346679688 -0.143192484974861"
+							skinCoordIndex="334 335 336 337 338 339 340 341"
+							skinCoordWeight="1 1 1 1 1 1 1 1">
+							<HAnimJoint DEF="Joe_l_ankle"
+								rotation="0.999999761581421 0 0 0.40995118021965"
+								stiffness="0 0 0"
+								name="l_ankle"
+								center="0.115941368043423 0.2589430809021 -0.37945768237114"
+								skinCoordIndex="342 343 344 345"
+								skinCoordWeight="1 1 1 1">
+								<HAnimJoint DEF="Joe_l_subtalar"
+									stiffness="0 0 0"
+									name="l_subtalar"
+									center="0.130910754203796 0.216582372784615 -0.397499054670334"
+									skinCoordIndex="346 347 348 71"
+									skinCoordWeight="1 1 1 1">
+									<HAnimJoint DEF="Joe_l_midtarsal"
+										stiffness="0 0 0"
+										name="l_midtarsal"
+										center="0.140655264258385 0.168175727128983 -0.36288920044899"
+										skinCoordIndex="349 350 351 352"
+										skinCoordWeight="1 1 1 1">
+										<HAnimJoint DEF="Joe_l_metatarsal"
+											stiffness="0 0 0"
+											name="l_metatarsal"
+											center="0.150827020406723 0.133413016796112 -0.361845135688782"
+											skinCoordIndex="353 354 355 356 357 358 359 360 361"
+											skinCoordWeight="1 1 1 1 1 1 1 1 1" />
+									</HAnimJoint>
+								</HAnimJoint>
+							</HAnimJoint>
+						</HAnimJoint>
+					</HAnimJoint>
+					<HAnimJoint DEF="Joe_r_hip"
+						rotation="-1 0 0 1"
+						stiffness="0 0 0"
+						name="r_hip"
+						center="-0.218321740627289 1.00129377841949 -0.0606772601604462"
+						skinCoordIndex="91 92 98 99 100 101 362 363"
+						skinCoordWeight="0.649999976158142 1 0.800000011920929 1 1 1 0.400000005960464 0.800000011920929">
+						<HAnimJoint DEF="Joe_r_knee"
+							rotation="1 0 0 1"
+							stiffness="0 0 0"
+							name="r_knee"
+							center="-0.168321743607521 0.930815100669861 0.387818843126297"
+							skinCoordIndex="362 363 364 365 366 367 368 369 98"
+							skinCoordWeight="0.600000023841858 0.200000002980232 1 1 1 1 1 1 0.200000002980232">
+							<HAnimJoint DEF="Joe_r_ankle"
+								rotation="1 0 0 1"
+								stiffness="0 0 0"
+								name="r_ankle"
+								center="-0.233321756124496 0.56750214099884 0.547858476638794"
+								skinCoordIndex="370 371 372 373"
+								skinCoordWeight="1 1 1 1">
+								<HAnimJoint DEF="Joe_r_subtalar"
+									stiffness="0 0 0"
+									name="r_subtalar"
+									center="-0.218321740627289 0.528006434440613 0.509699523448944"
+									skinCoordIndex="374 375 376"
+									skinCoordWeight="1 1 1">
+									<HAnimJoint DEF="Joe_r_midtarsal"
+										stiffness="0 0 0"
+										name="r_midtarsal"
+										center="-0.233321756124496 0.491121172904968 0.605216383934021"
+										skinCoordIndex="377 378 379 380"
+										skinCoordWeight="1 1 1 1">
+										<HAnimJoint DEF="Joe_r_metatarsal"
+											stiffness="0 0 0"
+											name="r_metatarsal"
+											center="-0.218321740627289 0.440999001264572 0.631988942623138"
+											skinCoordIndex="381 382 383 384 385 386 387 388 389"
+											skinCoordWeight="1 1 1 1 1 1 1 1 1" />
+									</HAnimJoint>
+								</HAnimJoint>
+							</HAnimJoint>
+						</HAnimJoint>
+					</HAnimJoint>
+				</HAnimJoint>
+				<HAnimJoint DEF="Joe_vl5"
+					stiffness="0 0 0"
+					name="vl5"
+					center="-0.118321746587753 1.07739019393921 -0.198006451129913"
+					skinCoordIndex="28 76"
+					skinCoordWeight="1 1">
+					<HAnimJoint DEF="Joe_vl4"
+						stiffness="0 0 0"
+						name="vl4"
+						center="-0.118321746587753 1.10246980190277 -0.198126792907715">
+						<HAnimJoint DEF="Joe_vl3"
+							stiffness="0 0 0"
+							name="vl3"
+							center="-0.118321746587753 1.12947237491608 -0.196362435817719">
+							<HAnimJoint DEF="Joe_vl2"
+								stiffness="0 0 0"
+								name="vl2"
+								center="-0.118321746587753 1.15811991691589 -0.200786292552948"
+								skinCoordIndex="16 18 25 83 84 85 86 87 88"
+								skinCoordWeight="1 1 1 1 1 1 0.699999988079071 1 0.800000011920929">
+								<HAnimJoint DEF="Joe_vl1"
+									stiffness="0 0 0"
+									name="vl1"
+									center="-0.118321746587753 1.18283009529114 -0.20893931388855">
+									<HAnimJoint DEF="Joe_vt12"
+										stiffness="0 0 0"
+										name="vt12"
+										center="-0.118321746587753 1.21090424060822 -0.227315962314606">
+										<HAnimJoint DEF="Joe_vt11"
+											stiffness="0 0 0"
+											name="vt11"
+											center="-0.118321746587753 1.28701996803284 -0.275050461292267">
+											<HAnimJoint DEF="Joe_vt10"
+												stiffness="0 0 0"
+												name="vt10"
+												center="-0.118321746587753 1.25968968868256 -0.272845864295959"
+												skinCoordIndex="15"
+												skinCoordWeight="1">
+												<HAnimJoint DEF="Joe_vt9"
+													stiffness="0 0 0"
+													name="vt9"
+													center="-0.118321746587753 1.27945220470428 -0.292478561401367"
+													skinCoordIndex="13 14"
+													skinCoordWeight="1 1">
+													<HAnimJoint DEF="Joe_vt8"
+														stiffness="0 0 0"
+														name="vt8"
+														center="-0.118321746587753 1.2992148399353 -0.31211119890213">
+														<HAnimJoint DEF="Joe_vt7"
+															stiffness="0 0 0"
+															name="vt7"
+															center="-0.118321746587753 1.32353687286377 -0.328835010528564">
+															<HAnimJoint DEF="Joe_vt6"
+																stiffness="0 0 0"
+																name="vt6"
+																center="-0.118321746587753 1.34826195240021 -0.344643771648407">
+																<HAnimJoint DEF="Joe_vt5"
+																	stiffness="0 0 0"
+																	name="vt5"
+																	center="-0.118321746587753 1.37339043617249 -0.359537363052368">
+																	<HAnimJoint DEF="Joe_vt4"
+																		stiffness="0 0 0"
+																		name="vt4"
+																		center="-0.118321746587753 1.39992952346802 -0.371227920055389"
+																		skinCoordIndex="81"
+																		skinCoordWeight="1">
+																		<HAnimJoint DEF="Joe_vt3"
+																			stiffness="0 0 0"
+																			name="vt3"
+																			center="-0.118321746587753 1.42696452140808 -0.37931227684021">
+																			<HAnimJoint DEF="Joe_vt2"
+																				stiffness="0 0 0"
+																				name="vt2"
+																				center="-0.118321746587753 1.46046590805054 -0.37767881155014">
+																				<HAnimJoint DEF="Joe_vt1"
+																					stiffness="0 0 0"
+																					name="vt1"
+																					center="-0.118321746587753 1.49305188655853 -0.37564218044281"
+																					skinCoordIndex="11 24"
+																					skinCoordWeight="1 1">
+																					<HAnimJoint DEF="Joe_vc7"
+																						stiffness="0 0 0"
+																						name="vc7"
+																						center="-0.118321746587753 1.52593219280243 -0.370456993579865"
+																						skinCoordIndex="74 75"
+																						skinCoordWeight="1 1">
+																						<HAnimJoint DEF="Joe_vc6"
+																							stiffness="0 0 0"
+																							name="vc6"
+																							center="-0.118321746587753 1.54852795600891 -0.356370627880096">
+																							<HAnimJoint DEF="Joe_vc5"
+																								stiffness="0 0 0"
+																								name="vc5"
+																								center="-0.118321746587753 1.56555676460266 -0.347480893135071">
+																								<HAnimJoint DEF="Joe_vc4"
+																									rotation="0.989517629146576 0 0.144413188099861 0.654312789440155"
+																									stiffness="0 0 0"
+																									name="vc4"
+																									center="-0.118321746587753 1.58353078365326 -0.345126926898956">
+																									<HAnimJoint DEF="Joe_vc3"
+																										stiffness="0 0 0"
+																										name="vc3"
+																										center="-0.11940860748291 1.59619271755219 -0.334808439016342">
+																										<HAnimJoint DEF="Joe_vc2"
+																											stiffness="0 0 0"
+																											name="vc2"
+																											center="-0.120499730110168 1.60831677913666 -0.330886900424957">
+																											<HAnimJoint DEF="Joe_vc1"
+																												stiffness="0 0 0"
+																												name="vc1"
+																												center="-0.121744304895401 1.62227666378021 -0.32498574256897">
+																												<HAnimJoint DEF="Joe_skullbase"
+																													stiffness="0 0 0"
+																													name="skullbase"
+																													center="-0.123354583978653 1.64050722122192 -0.315496146678925"
+																													skinCoordIndex="0 1 2 3 4 5 6 7 8 9"
+																													skinCoordWeight="1 1 1 1 1 1 1 1 1 1">
+																													<HAnimJoint DEF="Joe_l_eyelid_joint"
+																														stiffness="0 0 0"
+																														name="l_eyelid_joint"
+																														center="-0.0899839475750923 1.65567767620087 -0.240975946187973" />
+																													<HAnimJoint DEF="Joe_l_eyeball_joint"
+																														stiffness="0 0 0"
+																														name="l_eyeball_joint"
+																														center="-0.0899839475750923 1.65567767620087 -0.240975946187973" />
+																													<HAnimJoint DEF="Joe_l_eyebrow_joint"
+																														stiffness="0 0 0"
+																														name="l_eyebrow_joint"
+																														center="-0.0899839475750923 1.65567767620087 -0.240975946187973" />
+																													<HAnimJoint DEF="Joe_r_eyelid_joint"
+																														stiffness="0 0 0"
+																														name="l_eyelid_joint"
+																														center="-0.157691046595573 1.64939916133881 -0.240403264760971" />
+																													<HAnimJoint DEF="Joe_r_eyeball_joint"
+																														stiffness="0 0 0"
+																														name="l_eyeball_joint"
+																														center="-0.157691046595573 1.64939916133881 -0.240403264760971" />
+																													<HAnimJoint DEF="Joe_r_eyebrow_joint"
+																														stiffness="0 0 0"
+																														name="l_eyebrow_joint"
+																														center="-0.157691046595573 1.64939916133881 -0.240403264760971" />
+																													<HAnimJoint DEF="Joe_temporomandibular"
+																														stiffness="0 0 0"
+																														name="temporomandibular"
+																														center="-0.0899839475750923 1.65567767620087 -0.240975946187973" />
+																													<HAnimDisplacer DEF="Joe_skull_tipTest"
+																														weight="0.165970608592033"
+																														name="skull_tip_raiser_action"
+																														coordIndex="0 1 2 3 4 5 6 7 8 9"
+																														displacements="0 0.150000005960464 0 0 0 0.150000005960464 -0.100000001490116 0 0.150000005960464 0.100000001490116 0 0.0500000007450581 0 -0.0199999995529652 0.0500000007450581 -0.150000005960464 0 0 -0.0500000007450581 0 0 0.150000005960464 0 0 0.0500000007450581 0 0 0 0 -0.150000005960464" />
+																												</HAnimJoint>
+																											</HAnimJoint>
+																										</HAnimJoint>
+																									</HAnimJoint>
+																								</HAnimJoint>
+																							</HAnimJoint>
+																						</HAnimJoint>
+																						<HAnimJoint DEF="Joe_l_sternoclavicular"
+																							stiffness="0 0 0"
+																							name="l_sternoclavicular"
+																							center="-0.0363217443227768 1.47099256515503 -0.306153178215027"
+																							skinCoordIndex="12"
+																							skinCoordWeight="1">
+																							<HAnimJoint DEF="Joe_l_acromioclavicular"
+																								stiffness="0 0 0"
+																								name="l_acromioclavicular"
+																								center="-0.022121749818325 1.44808888435364 -0.303822338581085"
+																								skinCoordIndex="79"
+																								skinCoordWeight="1">
+																								<HAnimJoint DEF="Joe_l_shoulder"
+																									rotation="-0.219828560948372 0 0.975538671016693 1.50241804122925"
+																									stiffness="0 0 0"
+																									name="l_shoulder"
+																									center="0.0816782563924789 1.46104466915131 -0.306906938552856"
+																									skinCoordIndex="41 42 44 80 102 103 104 105"
+																									skinCoordWeight="1 1 1 1 1 1 1 1">
+																									<HAnimJoint DEF="Joe_l_elbow"
+																										rotation="-0.998270571231842 -0.0587863028049469 0 0.706448972225189"
+																										stiffness="0 0 0"
+																										name="l_elbow"
+																										center="0.374823689460754 1.46884047985077 -0.23815843462944"
+																										skinCoordIndex="45 46 47 109 110 111 112 113 115 116 117 118"
+																										skinCoordWeight="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1">
+																										<HAnimJoint DEF="Joe_l_wrist"
+																											rotation="0 0.754801571369171 0.655953049659729 0.792838633060455"
+																											stiffness="0 0 0"
+																											name="l_wrist"
+																											center="0.538810968399048 1.57309699058533 -0.0524377226829529"
+																											skinCoordIndex="119 120 121 122 123 124 125 126"
+																											skinCoordWeight="1 1 1 1 1 1 1 1">
+																											<HAnimJoint DEF="Joe_l_thumb1"
+																												stiffness="0 0 0"
+																												name="l_thumb1"
+																												center="0.562323272228241 1.57724416255951 -0.0387583374977112"
+																												skinCoordIndex="127 128"
+																												skinCoordWeight="1 1">
+																												<HAnimJoint DEF="Joe_l_thumb2"
+																													stiffness="0 0 0"
+																													name="l_thumb2"
+																													center="0.52574211359024 1.65034520626068 -0.0349500477313995"
+																													skinCoordIndex="138 139 140 141 142 143"
+																													skinCoordWeight="0.5 0.5 0.5 1 1 1">
+																													<HAnimJoint DEF="Joe_l_thumb3"
+																														stiffness="0 0 0"
+																														name="l_thumb3"
+																														center="0.515325009822845 1.67059206962585 -0.0335934162139893"
+																														skinCoordIndex="144 145 146 147 148 149 150 151 152"
+																														skinCoordWeight="1 1 1 1 1 1 1 1 1" />
+																												</HAnimJoint>
+																											</HAnimJoint>
+																											<HAnimJoint DEF="Joe_l_index0"
+																												stiffness="0 0 0"
+																												name="l_index0"
+																												center="0.576847970485687 1.62656545639038 -0.0321660339832306"
+																												skinCoordIndex="129 130"
+																												skinCoordWeight="1 1">
+																												<HAnimJoint DEF="Joe_l_index1"
+																													stiffness="0 0 0"
+																													name="l_index1"
+																													center="0.591288924217224 1.64052402973175 -0.0263845026493073"
+																													skinCoordIndex="138 139 140 153 154 155 163"
+																													skinCoordWeight="0.5 0.5 0.5 1 1 1 0.5">
+																													<HAnimJoint DEF="Joe_l_index2"
+																														stiffness="0 0 0"
+																														name="l_index2"
+																														center="0.620988488197327 1.67365670204163 -0.0171646177768707"
+																														skinCoordIndex="166 167 168 169"
+																														skinCoordWeight="1 1 1 1">
+																														<HAnimJoint DEF="Joe_l_index3"
+																															stiffness="0 0 0"
+																															name="l_index3"
+																															center="0.635856032371521 1.68968832492828 -0.0120314061641693"
+																															skinCoordIndex="170 171 172 173 174 175 176 177 178"
+																															skinCoordWeight="1 1 1 1 1 1 1 1 1" />
+																													</HAnimJoint>
+																												</HAnimJoint>
+																											</HAnimJoint>
+																											<HAnimJoint DEF="Joe_l_middle0"
+																												stiffness="0 0 0"
+																												name="l_middle0"
+																												center="0.593931496143341 1.60830593109131 -0.0325598120689392"
+																												skinCoordIndex="131 132"
+																												skinCoordWeight="1 1">
+																												<HAnimJoint DEF="Joe_l_middle1"
+																													stiffness="0 0 0"
+																													name="l_middle1"
+																													center="0.608510673046112 1.62239813804626 -0.0267229676246643"
+																													skinCoordIndex="156 157 163 164"
+																													skinCoordWeight="1 1 0.5 0.5">
+																													<HAnimJoint DEF="Joe_l_middle2"
+																														stiffness="0 0 0"
+																														name="l_middle2"
+																														center="0.644820928573608 1.66123127937317 -0.0141591131687164"
+																														skinCoordIndex="179 180 181 182"
+																														skinCoordWeight="1 1 1 1">
+																														<HAnimJoint DEF="Joe_l_middle3"
+																															stiffness="0 0 0"
+																															name="l_middle3"
+																															center="0.662562847137451 1.67962253093719 -0.00816532969474792"
+																															skinCoordIndex="183 184 185 186 187 188 189 190 191"
+																															skinCoordWeight="1 1 1 1 1 1 1 1 1" />
+																													</HAnimJoint>
+																												</HAnimJoint>
+																											</HAnimJoint>
+																											<HAnimJoint DEF="Joe_l_ring0"
+																												stiffness="0 0 0"
+																												name="l_ring0"
+																												center="0.612313747406006 1.58938086032867 -0.0291680991649628"
+																												skinCoordIndex="133 134"
+																												skinCoordWeight="1 1">
+																												<HAnimJoint DEF="Joe_l_ring1"
+																													stiffness="0 0 0"
+																													name="l_ring1"
+																													center="0.626409292221069 1.6030056476593 -0.0235248804092407"
+																													skinCoordIndex="158 159 164 165"
+																													skinCoordWeight="1 1 0.5 0.5">
+																													<HAnimJoint DEF="Joe_l_ring2"
+																														stiffness="0 0 0"
+																														name="l_ring2"
+																														center="0.662056505680084 1.63981378078461 -0.0105612576007843"
+																														skinCoordIndex="192 193 194 195"
+																														skinCoordWeight="1 1 1 1">
+																														<HAnimJoint DEF="Joe_l_ring3"
+																															stiffness="0 0 0"
+																															name="l_ring3"
+																															center="0.67828631401062 1.65688478946686 -0.00483298301696777"
+																															skinCoordIndex="196 197 198 199 200 201 202 203 204"
+																															skinCoordWeight="1 1 1 1 1 1 1 1 1" />
+																													</HAnimJoint>
+																												</HAnimJoint>
+																											</HAnimJoint>
+																											<HAnimJoint DEF="Joe_l_pinky0"
+																												stiffness="0 0 0"
+																												name="l_pinky0"
+																												center="0.625231027603149 1.56823301315308 -0.0273645222187042"
+																												skinCoordIndex="135 136 137 165"
+																												skinCoordWeight="1 1 1 0.5">
+																												<HAnimJoint DEF="Joe_l_pinky1"
+																													stiffness="0 0 0"
+																													name="l_pinky1"
+																													center="0.639050126075745 1.58159053325653 -0.0218319296836853"
+																													skinCoordIndex="160 161 162"
+																													skinCoordWeight="1 1 1">
+																													<HAnimJoint DEF="Joe_l_pinky2"
+																														stiffness="0 0 0"
+																														name="l_pinky2"
+																														center="0.667086362838745 1.61034965515137 -0.0116349458694458"
+																														skinCoordIndex="205 206 207 208"
+																														skinCoordWeight="1 1 1 1">
+																														<HAnimJoint DEF="Joe_l_pinky3"
+																															stiffness="0 0 0"
+																															name="l_pinky3"
+																															center="0.678894996643066 1.62272977828979 -0.00775852799415588"
+																															skinCoordIndex="209 210 211 212 213 214 215 216 217"
+																															skinCoordWeight="1 1 1 1 1 1 1 1 1" />
+																													</HAnimJoint>
+																												</HAnimJoint>
+																											</HAnimJoint>
+																										</HAnimJoint>
+																									</HAnimJoint>
+																								</HAnimJoint>
+																							</HAnimJoint>
+																						</HAnimJoint>
+																						<HAnimJoint DEF="Joe_r_sternoclavicular"
+																							stiffness="0 0 0"
+																							name="r_sternoclavicular"
+																							center="-0.148321747779846 1.49547255039215 -0.278363525867462"
+																							skinCoordIndex="10"
+																							skinCoordWeight="1">
+																							<HAnimJoint DEF="Joe_r_acromioclavicular"
+																								stiffness="0 0 0"
+																								name="r_acromioclavicular"
+																								center="-0.208321750164032 1.40537166595459 -0.358873426914215"
+																								skinCoordIndex="77 29"
+																								skinCoordWeight="1 0.899999976158142">
+																								<HAnimJoint DEF="Joe_r_shoulder"
+																									rotation="0 0 -1 1.52873158454895"
+																									stiffness="0 0 0"
+																									name="r_shoulder"
+																									center="-0.318321764469147 1.46104466915131 -0.306906938552856"
+																									skinCoordIndex="29 30 32 78 218 219 220 221 86 88"
+																									skinCoordWeight="0.100000001490116 1 1 1 1 1 1 1 0.300000011920929 0.200000002980232">
+																									<HAnimJoint DEF="Joe_r_elbow"
+																										rotation="-0.998270571231842 -0.0587863028049469 0 0.706448972225189"
+																										stiffness="0 0 0"
+																										name="r_elbow"
+																										center="-0.619254946708679 1.44945299625397 -0.301800817251205"
+																										skinCoordIndex="33 34 35 225 226 227 228 229 231 232 233 234"
+																										skinCoordWeight="1 1 1 1 1 1 1 1 1 1 1 1">
+																										<HAnimJoint DEF="Joe_r_wrist"
+																											rotation="0 0 -1.00000286102295 0.287315666675568"
+																											stiffness="0 0 0"
+																											name="r_wrist"
+																											center="-0.808695018291473 1.51035070419312 -0.15245109796524"
+																											skinCoordIndex="235 236 237 238 239 240 241 242"
+																											skinCoordWeight="1 1 1 1 1 1 1 1">
+																											<HAnimJoint DEF="Joe_r_thumb1"
+																												stiffness="0 0 0"
+																												name="r_thumb1"
+																												center="-0.812704980373383 1.54457402229309 -0.107588171958923"
+																												skinCoordIndex="243 244"
+																												skinCoordWeight="1 1">
+																												<HAnimJoint DEF="Joe_r_thumb2"
+																													stiffness="0 0 0"
+																													name="r_thumb2"
+																													center="-0.815712571144104 1.57024145126343 -0.0739409625530243"
+																													skinCoordIndex="254 255 256 257 258 259"
+																													skinCoordWeight="0.5 0.5 0.5 1 1 1">
+																													<HAnimJoint DEF="Joe_r_thumb3"
+																														stiffness="0 0 0"
+																														name="r_thumb3"
+																														center="-0.817717552185059 1.58735311031342 -0.0515094697475433"
+																														skinCoordIndex="260 261 262 263 264 265 266 267 268"
+																														skinCoordWeight="1 1 1 1 1 1 1 1 1" />
+																												</HAnimJoint>
+																											</HAnimJoint>
+																											<HAnimJoint DEF="Joe_r_index0"
+																												rotation="0 0 1 0.22985315322876"
+																												stiffness="0 0 0"
+																												name="r_index0"
+																												center="-0.829853415489197 1.54396796226501 -0.113116681575775"
+																												skinCoordIndex="245 246"
+																												skinCoordWeight="1 1">
+																												<HAnimJoint DEF="Joe_r_index1"
+																													rotation="0 0 1 0.34477972984314"
+																													stiffness="0 0 0"
+																													name="r_index1"
+																													center="-0.865732192993164 1.55787587165833 -0.0861300230026245"
+																													skinCoordIndex="254 255 256 269 270 271 279"
+																													skinCoordWeight="0.5 0.5 0.5 1 1 1 0.5">
+																													<HAnimJoint DEF="Joe_r_index2"
+																														rotation="0 0 1 0.34477972984314"
+																														stiffness="0 0 0"
+																														name="r_index2"
+																														center="-0.900019526481628 1.55693280696869 -0.052551805973053"
+																														skinCoordIndex="282 283 284 285"
+																														skinCoordWeight="1 1 1 1">
+																														<HAnimJoint DEF="Joe_r_index3"
+																															rotation="0 0 1 0.34477972984314"
+																															stiffness="0 0 0"
+																															name="r_index3"
+																															center="-0.914549350738525 1.54861032962799 -0.0339876413345337"
+																															skinCoordIndex="286 287 288 289 290 291 292 293 294"
+																															skinCoordWeight="1 1 1 1 1 1 1 1 1" />
+																													</HAnimJoint>
+																												</HAnimJoint>
+																											</HAnimJoint>
+																											<HAnimJoint DEF="Joe_r_middle0"
+																												rotation="0 0 1 0.22985315322876"
+																												stiffness="0 0 0"
+																												name="r_middle0"
+																												center="-0.849729776382446 1.53725171089172 -0.127601981163025"
+																												skinCoordIndex="247 248"
+																												skinCoordWeight="1 1">
+																												<HAnimJoint DEF="Joe_r_middle1"
+																													rotation="0 0 1 0.34477972984314"
+																													stiffness="0 0 0"
+																													name="r_middle1"
+																													center="-0.885608553886414 1.55115962028503 -0.100615322589874"
+																													skinCoordIndex="272 273 279 280"
+																													skinCoordWeight="1 1 0.5 0.5">
+																													<HAnimJoint DEF="Joe_r_middle2"
+																														rotation="0 0 1 0.34477972984314"
+																														stiffness="0 0 0"
+																														name="r_middle2"
+																														center="-0.919895946979523 1.5502165555954 -0.067037045955658"
+																														skinCoordIndex="295 296 297 298"
+																														skinCoordWeight="1 1 1 1">
+																														<HAnimJoint DEF="Joe_r_middle3"
+																															rotation="0 0 1 0.34477972984314"
+																															stiffness="0 0 0"
+																															name="r_middle3"
+																															center="-0.934890568256378 1.54162788391113 -0.0478788614273071"
+																															skinCoordIndex="299 300 301 302 303 304 305 306 307"
+																															skinCoordWeight="1 1 1 1 1 1 1 1 1" />
+																													</HAnimJoint>
+																												</HAnimJoint>
+																											</HAnimJoint>
+																											<HAnimJoint DEF="Joe_r_ring0"
+																												rotation="0 0 1 0.22985315322876"
+																												stiffness="0 0 0"
+																												name="r_ring0"
+																												center="-0.865875720977783 1.5280898809433 -0.144346237182617"
+																												skinCoordIndex="249 250"
+																												skinCoordWeight="1 1">
+																												<HAnimJoint DEF="Joe_r_ring1"
+																													rotation="0 0 1 0.34477972984314"
+																													stiffness="0 0 0"
+																													name="r_ring1"
+																													center="-0.897937595844269 1.5405181646347 -0.120230495929718"
+																													skinCoordIndex="274 275 280 281"
+																													skinCoordWeight="1 1 0.5 0.5">
+																													<HAnimJoint DEF="Joe_r_ring2"
+																														rotation="0 0 1 0.34477972984314"
+																														stiffness="0 0 0"
+																														name="r_ring2"
+																														center="-0.935796618461609 1.53947687149048 -0.0831546187400818"
+																														skinCoordIndex="308 309 310 311"
+																														skinCoordWeight="1 1 1 1">
+																														<HAnimJoint DEF="Joe_r_ring3"
+																															rotation="0 0 1 0.34477972984314"
+																															stiffness="0 0 0"
+																															name="r_ring3"
+																															center="-0.948757231235504 1.53205323219299 -0.0665953159332275"
+																															skinCoordIndex="312 313 314 315 316 317 318 319 320"
+																															skinCoordWeight="1 1 1 1 1 1 1 1 1" />
+																													</HAnimJoint>
+																												</HAnimJoint>
+																											</HAnimJoint>
+																											<HAnimJoint DEF="Joe_r_pinky0"
+																												rotation="0 0 1 0.22985315322876"
+																												stiffness="0 0 0"
+																												name="r_pinky0"
+																												center="-0.875061929225922 1.51831483840942 -0.160000681877136"
+																												skinCoordIndex="251 252 253 281"
+																												skinCoordWeight="1 1 1 0.5">
+																												<HAnimJoint DEF="Joe_r_pinky1"
+																													rotation="0 0 1 0.34477972984314"
+																													stiffness="0 0 0"
+																													name="r_pinky1"
+																													center="-0.913230836391449 1.53311049938202 -0.131291449069977"
+																													skinCoordIndex="276 277 278"
+																													skinCoordWeight="1 1 1">
+																													<HAnimJoint DEF="Joe_r_pinky2"
+																														rotation="0 0 1 0.34477972984314"
+																														stiffness="0 0 0"
+																														name="r_pinky2"
+																														center="-0.938232123851776 1.53242290019989 -0.106807231903076"
+																														skinCoordIndex="321 322 323 324"
+																														skinCoordWeight="1 1 1 1">
+																														<HAnimJoint DEF="Joe_r_pinky3"
+																															rotation="0 0 1 0.34477972984314"
+																															stiffness="0 0 0"
+																															name="r_pinky3"
+																															center="-0.953085005283356 1.5239325761795 -0.0953048467636108"
+																															skinCoordIndex="325 326 327 328 329 330 331 332 333"
+																															skinCoordWeight="1 1 1 1 1 1 1 1 1" />
+																													</HAnimJoint>
+																												</HAnimJoint>
+																											</HAnimJoint>
+																										</HAnimJoint>
+																									</HAnimJoint>
+																								</HAnimJoint>
+																							</HAnimJoint>
+																						</HAnimJoint>
+																					</HAnimJoint>
+																				</HAnimJoint>
+																			</HAnimJoint>
+																		</HAnimJoint>
+																	</HAnimJoint>
+																</HAnimJoint>
+															</HAnimJoint>
+														</HAnimJoint>
+													</HAnimJoint>
+												</HAnimJoint>
+											</HAnimJoint>
+										</HAnimJoint>
+									</HAnimJoint>
+								</HAnimJoint>
+							</HAnimJoint>
+						</HAnimJoint>
+					</HAnimJoint>
+				</HAnimJoint>
+			</HAnimJoint>
+			<HAnimJoint USE="Joe_humanoid_root" containerField="joints" />
+			<HAnimJoint USE="Joe_sacroiliac" containerField="joints" />
+			<HAnimJoint USE="Joe_l_hip" containerField="joints" />
+			<HAnimJoint USE="Joe_l_knee" containerField="joints" />
+			<HAnimJoint USE="Joe_l_ankle" containerField="joints" />
+			<HAnimJoint USE="Joe_l_subtalar" containerField="joints" />
+			<HAnimJoint USE="Joe_l_midtarsal" containerField="joints" />
+			<HAnimJoint USE="Joe_l_metatarsal" containerField="joints" />
+			<HAnimJoint USE="Joe_r_hip" containerField="joints" />
+			<HAnimJoint USE="Joe_r_knee" containerField="joints" />
+			<HAnimJoint USE="Joe_r_ankle" containerField="joints" />
+			<HAnimJoint USE="Joe_r_subtalar" containerField="joints" />
+			<HAnimJoint USE="Joe_r_midtarsal" containerField="joints" />
+			<HAnimJoint USE="Joe_r_metatarsal" containerField="joints" />
+			<HAnimJoint USE="Joe_vl5" containerField="joints" />
+			<HAnimJoint USE="Joe_vl4" containerField="joints" />
+			<HAnimJoint USE="Joe_vl3" containerField="joints" />
+			<HAnimJoint USE="Joe_vl2" containerField="joints" />
+			<HAnimJoint USE="Joe_vl1" containerField="joints" />
+			<HAnimJoint USE="Joe_vt12" containerField="joints" />
+			<HAnimJoint USE="Joe_vt11" containerField="joints" />
+			<HAnimJoint USE="Joe_vt10" containerField="joints" />
+			<HAnimJoint USE="Joe_vt9" containerField="joints" />
+			<HAnimJoint USE="Joe_vt8" containerField="joints" />
+			<HAnimJoint USE="Joe_vt7" containerField="joints" />
+			<HAnimJoint USE="Joe_vt6" containerField="joints" />
+			<HAnimJoint USE="Joe_vt5" containerField="joints" />
+			<HAnimJoint USE="Joe_vt4" containerField="joints" />
+			<HAnimJoint USE="Joe_vt3" containerField="joints" />
+			<HAnimJoint USE="Joe_vt2" containerField="joints" />
+			<HAnimJoint USE="Joe_vt1" containerField="joints" />
+			<HAnimJoint USE="Joe_vc7" containerField="joints" />
+			<HAnimJoint USE="Joe_vc6" containerField="joints" />
+			<HAnimJoint USE="Joe_vc5" containerField="joints" />
+			<HAnimJoint USE="Joe_vc4" containerField="joints" />
+			<HAnimJoint USE="Joe_vc3" containerField="joints" />
+			<HAnimJoint USE="Joe_vc2" containerField="joints" />
+			<HAnimJoint USE="Joe_vc1" containerField="joints" />
+			<HAnimJoint USE="Joe_skullbase" containerField="joints" />
+			<HAnimJoint USE="Joe_l_eyelid_joint" containerField="joints" />
+			<HAnimJoint USE="Joe_l_eyeball_joint" containerField="joints" />
+			<HAnimJoint USE="Joe_l_eyebrow_joint" containerField="joints" />
+			<HAnimJoint USE="Joe_r_eyelid_joint" containerField="joints" />
+			<HAnimJoint USE="Joe_r_eyeball_joint" containerField="joints" />
+			<HAnimJoint USE="Joe_r_eyebrow_joint" containerField="joints" />
+			<HAnimJoint USE="Joe_temporomandibular" containerField="joints" />
+			<HAnimJoint USE="Joe_l_sternoclavicular" containerField="joints" />
+			<HAnimJoint USE="Joe_l_acromioclavicular" containerField="joints" />
+			<HAnimJoint USE="Joe_l_shoulder" containerField="joints" />
+			<HAnimJoint USE="Joe_l_elbow" containerField="joints" />
+			<HAnimJoint USE="Joe_l_wrist" containerField="joints" />
+			<HAnimJoint USE="Joe_l_thumb1" containerField="joints" />
+			<HAnimJoint USE="Joe_l_thumb2" containerField="joints" />
+			<HAnimJoint USE="Joe_l_thumb3" containerField="joints" />
+			<HAnimJoint USE="Joe_l_index0" containerField="joints" />
+			<HAnimJoint USE="Joe_l_index1" containerField="joints" />
+			<HAnimJoint USE="Joe_l_index2" containerField="joints" />
+			<HAnimJoint USE="Joe_l_index3" containerField="joints" />
+			<HAnimJoint USE="Joe_l_middle0" containerField="joints" />
+			<HAnimJoint USE="Joe_l_middle1" containerField="joints" />
+			<HAnimJoint USE="Joe_l_middle2" containerField="joints" />
+			<HAnimJoint USE="Joe_l_middle3" containerField="joints" />
+			<HAnimJoint USE="Joe_l_ring0" containerField="joints" />
+			<HAnimJoint USE="Joe_l_ring1" containerField="joints" />
+			<HAnimJoint USE="Joe_l_ring2" containerField="joints" />
+			<HAnimJoint USE="Joe_l_ring3" containerField="joints" />
+			<HAnimJoint USE="Joe_l_pinky0" containerField="joints" />
+			<HAnimJoint USE="Joe_l_pinky1" containerField="joints" />
+			<HAnimJoint USE="Joe_l_pinky2" containerField="joints" />
+			<HAnimJoint USE="Joe_l_pinky3" containerField="joints" />
+			<HAnimJoint USE="Joe_r_sternoclavicular" containerField="joints" />
+			<HAnimJoint USE="Joe_r_acromioclavicular" containerField="joints" />
+			<HAnimJoint USE="Joe_r_shoulder" containerField="joints" />
+			<HAnimJoint USE="Joe_r_elbow" containerField="joints" />
+			<HAnimJoint USE="Joe_r_wrist" containerField="joints" />
+			<HAnimJoint USE="Joe_r_thumb1" containerField="joints" />
+			<HAnimJoint USE="Joe_r_thumb2" containerField="joints" />
+			<HAnimJoint USE="Joe_r_thumb3" containerField="joints" />
+			<HAnimJoint USE="Joe_r_index0" containerField="joints" />
+			<HAnimJoint USE="Joe_r_index1" containerField="joints" />
+			<HAnimJoint USE="Joe_r_index2" containerField="joints" />
+			<HAnimJoint USE="Joe_r_index3" containerField="joints" />
+			<HAnimJoint USE="Joe_r_middle0" containerField="joints" />
+			<HAnimJoint USE="Joe_r_middle1" containerField="joints" />
+			<HAnimJoint USE="Joe_r_middle2" containerField="joints" />
+			<HAnimJoint USE="Joe_r_middle3" containerField="joints" />
+			<HAnimJoint USE="Joe_r_ring0" containerField="joints" />
+			<HAnimJoint USE="Joe_r_ring1" containerField="joints" />
+			<HAnimJoint USE="Joe_r_ring2" containerField="joints" />
+			<HAnimJoint USE="Joe_r_ring3" containerField="joints" />
+			<HAnimJoint USE="Joe_r_pinky0" containerField="joints" />
+			<HAnimJoint USE="Joe_r_pinky1" containerField="joints" />
+			<HAnimJoint USE="Joe_r_pinky2" containerField="joints" />
+			<HAnimJoint USE="Joe_r_pinky3" containerField="joints" />
+			<HAnimSegment USE="Joe_sacrum" containerField="segments" />
+			<HAnimSite USE="Joe_RootFront" containerField="sites" />
+			<Shape DEF="Joe_Shape" containerField="skin">
+				<Appearance DEF="Joe_skin_Appearance">
+					<Material DEF="Joe_skin_Material"
+						diffuseColor="0.300000011920929 0.300000011920929 0.600000023841858"
+						emissiveColor="0.300000011920929 0.300000011920929 0.600000023841858" />
+					<ImageTexture DEF="JoeSkinImageTexture"
+						url='"bodytexture28.png"' />
+					<TextureTransform DEF="kicktextrans" />
+				</Appearance>
+				<IndexedFaceSet DEF="Joe_skin_IndexedFaceSet"
+					coordIndex="0 9 5 -1 0 7 9 -1 0 5 1 -1 1 5 2 -1 1 3 7 -1 2 4 3 -1 0 1 7 -1 1 2 3 -1 5 6 2 -1 7 3 8 -1 6 4 2 -1 3 4 8 -1 9 6 5 -1 9 7 8 -1 4 6 10 -1 4 10 12 -1 4 12 8 -1 10 11 12 -1 9 75 24 -1 9 24 74 -1 9 8 75 -1 9 74 6 -1 10 6 74 -1 12 75 8 -1 74 24 29 -1 24 77 29 -1 10 74 29 -1 77 32 29 -1 32 78 29 -1 78 30 29 -1 30 10 29 -1 41 24 75 -1 41 75 12 -1 41 12 42 -1 41 42 80 -1 41 80 44 -1 41 44 79 -1 41 79 24 -1 81 24 79 -1 81 77 24 -1 81 25 77 -1 81 79 25 -1 25 79 44 -1 25 32 77 -1 25 83 32 -1 25 26 83 -1 25 27 26 -1 25 84 27 -1 25 44 84 -1 11 10 30 -1 11 30 13 -1 11 13 15 -1 11 15 14 -1 11 14 42 -1 11 42 12 -1 15 13 16 -1 15 18 14 -1 15 16 76 -1 15 76 18 -1 76 16 17 -1 76 17 82 -1 76 82 19 -1 76 19 18 -1 22 18 19 -1 22 87 18 -1 22 27 84 -1 22 84 87 -1 87 84 85 -1 85 84 44 -1 85 42 14 -1 87 14 18 -1 87 85 14 -1 20 83 26 -1 20 17 16 -1 20 16 88 -1 20 88 83 -1 88 16 13 -1 88 13 86 -1 88 86 83 -1 86 13 30 -1 86 32 83 -1 23 89 22 -1 89 27 22 -1 89 91 27 -1 91 26 27 -1 91 20 26 -1 21 20 91 -1 21 17 20 -1 21 92 17 -1 82 17 92 -1 82 90 19 -1 23 22 19 -1 23 19 90 -1 82 92 101 -1 82 101 99 -1 82 99 93 -1 82 93 95 -1 82 95 97 -1 82 97 90 -1 23 90 97 -1 23 97 94 -1 23 94 89 -1 89 94 96 -1 89 96 95 -1 89 95 93 -1 89 93 91 -1 91 93 99 -1 91 99 100 -1 91 100 98 -1 21 91 98 -1 21 98 101 -1 21 101 92 -1 85 105 42 -1 85 103 105 -1 85 44 103 -1 103 44 104 -1 80 42 105 -1 80 105 102 -1 80 102 104 -1 80 104 44 -1 105 109 102 -1 102 109 47 -1 47 104 102 -1 104 47 45 -1 104 45 103 -1 103 45 46 -1 103 46 109 -1 103 109 105 -1 109 112 110 -1 109 110 47 -1 47 110 111 -1 47 111 45 -1 45 111 113 -1 113 46 45 -1 46 113 112 -1 112 109 46 -1 112 118 110 -1 110 118 115 -1 110 115 111 -1 111 115 117 -1 111 117 113 -1 113 117 116 -1 113 116 112 -1 112 116 118 -1 115 118 119 -1 119 118 122 -1 118 116 122 -1 122 116 120 -1 116 117 120 -1 120 117 121 -1 117 115 121 -1 115 119 121 -1 119 127 123 -1 119 122 127 -1 122 126 127 -1 122 128 126 -1 122 120 128 -1 120 124 128 -1 120 121 124 -1 121 125 124 -1 121 119 125 -1 119 123 125 -1 127 129 123 -1 127 126 129 -1 129 126 141 -1 141 126 143 -1 126 142 143 -1 126 128 142 -1 128 124 130 -1 142 128 130 -1 124 132 130 -1 124 134 132 -1 125 134 124 -1 125 136 134 -1 125 137 136 -1 125 135 137 -1 125 133 135 -1 125 123 133 -1 123 131 133 -1 123 129 131 -1 131 129 138 -1 129 141 138 -1 138 141 144 -1 141 143 144 -1 143 146 144 -1 142 146 143 -1 142 145 146 -1 139 145 142 -1 130 139 142 -1 139 130 132 -1 139 132 154 -1 132 157 154 -1 132 159 157 -1 132 134 159 -1 134 136 159 -1 136 161 159 -1 136 137 161 -1 137 162 161 -1 160 162 137 -1 135 160 137 -1 133 160 135 -1 133 158 160 -1 131 158 133 -1 156 158 131 -1 153 156 131 -1 131 138 153 -1 138 155 153 -1 140 155 138 -1 138 144 140 -1 144 147 140 -1 140 147 145 -1 140 145 139 -1 139 155 140 -1 154 155 139 -1 146 149 144 -1 146 151 149 -1 145 151 146 -1 150 151 145 -1 145 152 150 -1 147 152 145 -1 147 149 152 -1 147 144 149 -1 148 149 151 -1 148 152 149 -1 148 150 152 -1 148 151 150 -1 160 207 162 -1 160 205 207 -1 165 208 205 -1 160 165 205 -1 158 165 160 -1 161 162 207 -1 161 207 206 -1 165 206 208 -1 206 165 161 -1 161 165 159 -1 207 209 211 -1 205 209 207 -1 205 212 209 -1 205 208 212 -1 206 212 208 -1 206 210 212 -1 206 207 210 -1 207 211 210 -1 209 212 213 -1 212 216 213 -1 212 214 216 -1 210 214 212 -1 210 215 214 -1 210 211 215 -1 209 215 211 -1 209 213 215 -1 217 213 216 -1 217 215 213 -1 217 214 215 -1 217 216 214 -1 158 194 165 -1 192 194 158 -1 164 195 192 -1 158 164 192 -1 156 164 158 -1 159 194 165 -1 159 194 193 -1 159 193 195 -1 159 195 164 -1 159 164 157 -1 157 164 180 -1 192 198 194 -1 192 196 198 -1 192 195 196 -1 195 199 196 -1 196 199 200 -1 199 203 200 -1 193 199 195 -1 193 197 199 -1 193 198 197 -1 193 194 198 -1 199 201 203 -1 197 201 199 -1 197 198 201 -1 198 202 201 -1 196 202 198 -1 200 202 196 -1 204 202 200 -1 204 201 202 -1 204 203 201 -1 204 200 203 -1 156 181 164 -1 156 179 181 -1 156 182 179 -1 156 163 182 -1 163 180 182 -1 157 180 163 -1 164 181 180 -1 179 182 183 -1 182 186 183 -1 182 184 186 -1 180 184 182 -1 180 181 184 -1 181 185 184 -1 179 185 181 -1 183 185 179 -1 183 186 187 -1 186 190 187 -1 184 190 186 -1 184 188 190 -1 184 185 188 -1 185 189 188 -1 185 183 189 -1 183 187 189 -1 191 189 187 -1 191 188 189 -1 191 190 188 -1 191 187 190 -1 153 163 156 -1 153 168 163 -1 153 166 168 -1 153 169 166 -1 155 169 153 -1 155 167 169 -1 154 167 155 -1 154 163 167 -1 154 157 163 -1 163 168 167 -1 166 169 170 -1 169 173 170 -1 169 171 173 -1 169 167 171 -1 167 168 171 -1 168 172 171 -1 168 170 172 -1 170 168 166 -1 170 173 174 -1 173 177 174 -1 173 175 177 -1 173 171 175 -1 171 172 175 -1 172 176 175 -1 172 174 176 -1 170 174 172 -1 178 176 174 -1 178 175 176 -1 178 177 175 -1 178 174 177 -1 86 30 221 -1 86 221 219 -1 86 219 32 -1 32 219 220 -1 78 32 220 -1 78 220 218 -1 78 218 221 -1 78 221 30 -1 221 225 219 -1 219 225 35 -1 35 33 219 -1 33 220 219 -1 33 34 220 -1 220 34 218 -1 221 218 34 -1 34 225 221 -1 225 226 228 -1 225 228 35 -1 35 228 229 -1 35 229 33 -1 33 229 227 -1 33 227 34 -1 34 227 226 -1 34 226 225 -1 226 234 228 -1 228 234 232 -1 232 229 228 -1 232 233 229 -1 229 233 227 -1 227 233 231 -1 227 231 226 -1 226 231 234 -1 231 235 234 -1 235 238 234 -1 234 238 232 -1 238 236 232 -1 232 236 233 -1 236 237 233 -1 233 237 231 -1 231 237 235 -1 235 239 243 -1 235 243 238 -1 238 243 242 -1 238 242 244 -1 238 244 236 -1 236 244 240 -1 236 240 237 -1 237 240 241 -1 237 241 235 -1 235 241 239 -1 243 239 245 -1 243 245 242 -1 245 257 242 -1 257 259 242 -1 242 259 258 -1 242 258 244 -1 244 246 240 -1 258 246 244 -1 240 246 248 -1 240 248 250 -1 241 240 250 -1 241 250 252 -1 241 252 253 -1 241 253 251 -1 241 251 249 -1 241 249 239 -1 239 249 247 -1 239 247 245 -1 247 254 245 -1 245 254 257 -1 254 260 257 -1 257 260 259 -1 259 260 262 -1 258 259 262 -1 258 262 261 -1 255 258 261 -1 246 258 255 -1 255 248 246 -1 255 270 248 -1 248 270 273 -1 248 273 275 -1 248 275 250 -1 250 275 252 -1 252 275 277 -1 252 277 253 -1 253 277 278 -1 276 253 278 -1 251 253 276 -1 249 251 276 -1 249 276 274 -1 247 249 274 -1 272 247 274 -1 269 247 272 -1 247 269 254 -1 254 269 271 -1 256 254 271 -1 254 256 260 -1 260 256 263 -1 256 261 263 -1 256 255 261 -1 255 256 271 -1 270 255 271 -1 262 260 265 -1 262 265 267 -1 261 262 267 -1 266 261 267 -1 261 266 268 -1 263 261 268 -1 263 268 265 -1 263 265 260 -1 264 267 265 -1 264 265 268 -1 264 268 266 -1 264 266 267 -1 276 278 323 -1 276 323 321 -1 281 321 324 -1 276 321 281 -1 274 276 281 -1 277 323 278 -1 277 322 323 -1 281 324 322 -1 322 277 281 -1 277 275 281 -1 323 327 325 -1 321 323 325 -1 321 325 328 -1 321 328 324 -1 322 324 328 -1 322 328 326 -1 322 326 323 -1 323 326 327 -1 325 329 328 -1 328 329 332 -1 328 332 330 -1 326 328 330 -1 326 330 331 -1 326 331 327 -1 325 327 331 -1 325 331 329 -1 333 332 329 -1 333 329 331 -1 333 331 330 -1 333 330 332 -1 274 281 310 -1 308 274 310 -1 280 308 311 -1 274 308 280 -1 272 274 280 -1 275 310 281 -1 275 309 310 -1 275 311 309 -1 275 280 311 -1 275 273 280 -1 273 296 280 -1 308 310 314 -1 308 314 312 -1 308 312 311 -1 311 312 315 -1 312 316 315 -1 315 316 319 -1 309 311 315 -1 309 315 313 -1 309 313 314 -1 309 314 310 -1 315 319 317 -1 313 315 317 -1 313 317 314 -1 314 317 318 -1 312 314 318 -1 316 312 318 -1 320 316 318 -1 320 318 317 -1 320 317 319 -1 320 319 316 -1 272 280 297 -1 272 297 295 -1 272 295 298 -1 272 298 279 -1 279 298 296 -1 273 279 296 -1 280 296 297 -1 295 299 298 -1 298 299 302 -1 298 302 300 -1 296 298 300 -1 296 300 297 -1 297 300 301 -1 295 297 301 -1 299 295 301 -1 299 303 302 -1 302 303 306 -1 300 302 306 -1 300 306 304 -1 300 304 301 -1 301 304 305 -1 301 305 299 -1 299 305 303 -1 307 303 305 -1 307 305 304 -1 307 304 306 -1 307 306 303 -1 269 272 279 -1 269 279 284 -1 269 284 282 -1 269 282 285 -1 271 269 285 -1 271 285 283 -1 270 271 283 -1 270 283 279 -1 270 279 273 -1 279 283 284 -1 282 286 285 -1 285 286 289 -1 285 289 287 -1 285 287 283 -1 283 287 284 -1 284 287 288 -1 284 288 286 -1 286 282 284 -1 286 290 289 -1 289 290 293 -1 289 293 291 -1 289 291 287 -1 287 291 288 -1 288 291 292 -1 288 292 290 -1 286 288 290 -1 294 290 292 -1 294 292 291 -1 294 291 293 -1 294 293 290 -1 97 334 336 -1 97 336 94 -1 94 336 96 -1 336 335 96 -1 96 335 95 -1 95 335 337 -1 95 337 334 -1 95 334 97 -1 334 341 336 -1 336 341 338 -1 336 338 335 -1 335 338 340 -1 335 340 337 -1 337 340 339 -1 337 339 334 -1 334 339 341 -1 341 345 342 -1 341 342 338 -1 338 342 340 -1 340 342 344 -1 340 344 339 -1 339 344 343 -1 339 343 345 -1 339 345 341 -1 345 349 342 -1 342 349 351 -1 342 351 346 -1 342 346 344 -1 71 346 348 -1 71 344 346 -1 71 348 347 -1 71 347 344 -1 344 347 343 -1 343 347 352 -1 343 352 349 -1 343 349 345 -1 349 352 356 -1 349 356 353 -1 349 353 355 -1 349 355 351 -1 354 356 352 -1 354 352 350 -1 354 350 351 -1 354 351 355 -1 353 356 357 -1 353 357 358 -1 353 358 359 -1 353 359 360 -1 353 360 361 -1 353 361 355 -1 354 357 356 -1 350 346 351 -1 348 346 347 -1 350 347 346 -1 350 352 347 -1 354 358 357 -1 354 359 358 -1 354 360 359 -1 354 361 360 -1 354 355 361 -1 101 362 365 -1 101 365 99 -1 99 365 100 -1 100 365 363 -1 100 363 98 -1 98 363 364 -1 98 364 101 -1 101 364 362 -1 362 369 367 -1 362 367 365 -1 365 367 363 -1 363 367 368 -1 363 367 368 -1 363 368 366 -1 363 366 364 -1 364 366 362 -1 362 366 369 -1 369 373 371 -1 369 371 367 -1 367 371 368 -1 368 371 372 -1 368 372 366 -1 366 372 370 -1 366 370 369 -1 369 370 373 -1 373 377 380 -1 373 380 375 -1 373 375 371 -1 371 375 372 -1 372 375 376 -1 372 376 374 -1 372 374 370 -1 370 374 379 -1 373 370 379 -1 373 379 377 -1 377 379 383 -1 377 383 381 -1 377 381 384 -1 377 384 380 -1 381 383 389 -1 381 389 388 -1 381 388 387 -1 381 387 386 -1 381 386 385 -1 381 385 384 -1 376 375 374 -1 378 379 374 -1 378 374 375 -1 378 375 380 -1 382 386 387 -1 382 387 388 -1 382 388 389 -1 382 389 383 -1 382 383 379 -1 382 379 378 -1 382 378 380 -1 382 380 384 -1 382 384 385 -1 382 385 386 -1"
+					creaseAngle="3.14000010490417">
+					<Coordinate DEF="Joe_SkinCoord"
+						point="-0.135364308953285 1.77385950088501 -0.273390084505081 -0.123479440808296 1.65146577358246 -0.210116386413574 -0.152470722794533 1.60550653934479 -0.223164081573486 -0.0867549926042557 1.61160051822662 -0.223719954490662 -0.113165274262428 1.53843426704407 -0.229902267456055 -0.200901836156845 1.64308679103851 -0.312534987926483 -0.170695170760155 1.5814573764801 -0.302294343709946 -0.0475651621818542 1.65730583667755 -0.313831984996796 -0.0657491460442543 1.59118914604187 -0.303182035684586 -0.12534998357296 1.65459895133972 -0.39691287279129 -0.148321747779846 1.50958180427551 -0.246333420276642 -0.118321746587753 1.48926329612732 -0.242846727371216 -0.0883217453956604 1.50958180427551 -0.246333420276642 -0.231821745634079 1.40381848812103 -0.134181201457977 -0.00482174754142761 1.40381848812103 -0.134181201457977 -0.118321746587753 1.34884476661682 -0.0902962684631348 -0.205321744084358 1.28466415405273 -0.087157279253006 -0.211821749806404 1.13219404220581 -0.036384791135788 -0.0313217490911484 1.28466415405273 -0.087157279253006 -0.0248217433691025 1.13219404220581 -0.036384791135788 -0.260821759700775 1.13532030582428 -0.11611008644104 -0.268321752548218 0.978959619998932 -0.0617662370204926 0.0241782516241074 1.13532030582428 -0.11611008644104 0.0316782593727112 0.978959619998932 -0.0617662370204926 -0.118321746587753 1.52567040920258 -0.383454382419586 -0.113421745598316 1.20424771308899 -0.271698594093323 -0.195621743798256 1.04351854324341 -0.210403919219971 -0.0410217493772507 1.04351854324341 -0.210403919219971 -0.113321743905544 1.11426067352295 -0.229655206203461 -0.294182956218719 1.48513066768646 -0.342103034257889 -0.377006769180298 1.45025205612183 -0.250794857740402 -0.188400000333786 0.86760002374649 -0.0359999984502792 -0.376586318016052 1.38709020614624 -0.3693967461586 -0.645088255405426 1.43479406833649 -0.328591585159302 -0.621720969676971 1.48894989490509 -0.321033895015717 -0.617293000221252 1.41803503036499 -0.286501705646515 -0.230000004172325 1.13300001621246 -0.0549999997019768 -0.197699993848801 0.816900014877319 -0.0176999997347593 -0.194100007414818 0.677200019359589 -0.0423000007867813 -0.21170000731945 0.856199979782104 -0.0584000013768673 -0.192900002002716 0.788999974727631 -0.10639999806881 0.0414769649505615 1.42797756195068 -0.317938327789307 0.127282738685608 1.46582043170929 -0.23903626203537 0.190099999308586 0.864499986171722 -0.0414999984204769 0.152522683143616 1.38040959835052 -0.336974740028381 0.406303524971008 1.45292747020721 -0.257021546363831 0.371605217456818 1.43973970413208 -0.218980610370636 0.378870129585266 1.50542402267456 -0.262268006801605 0.230000004172325 1.13300001621246 -0.0549999997019768 0.200900003314018 0.813899993896484 -0.023700000718236 0.205599993467331 0.674300014972687 -0.048200000077486 0.214200004935265 0.85290002822876 -0.064800001680851 0.192900002002716 0.78600001335144 -0.112199999392033 -0.100000001490116 0.491299986839294 -0.0299999993294477 -0.170000001788139 0.465999990701675 0 -0.0500000007450581 0.465999990701675 0 -0.165000006556511 0.00999999977648258 0.119999997317791 -0.150000005960464 0.0700000002980232 0 -0.0850000008940697 0.0860000029206276 0.0125000001862645 -0.0900000035762787 0.0560000017285347 0.0125000001862645 -0.115000002086163 0.0199999995529652 0.122000001370907 -0.115000002086163 0.0399999991059303 -0.0549999997019768 -0.109999999403954 0.0109999999403954 0.189999997615814 0.0992999970912933 0.488099992275238 -0.0308999996632338 0.170000001788139 0.465999990701675 0 0.0500000007450581 0.486699998378754 0 0.165000006556511 0.00999999977648258 0.119999997317791 0.150000005960464 0.0700000002980232 0 0.0850000008940697 0.0860000029206276 0.0125000001862645 0.0900000035762787 0.0560000017285347 0.0125000001862645 0.115000002086163 0.0199999995529652 0.122000001370907 0.112796261906624 0.292908549308777 -0.431442856788635 0.109999999403954 0.0109999999403954 0.189999997615814 -0.118321746587753 0.96011221408844 -0.042536735534668 -0.18292173743248 1.53039538860321 -0.335270464420319 -0.0537217482924461 1.53039538860321 -0.335270464420319 -0.118321746587753 1.17690575122833 -0.0396895706653595 -0.228321745991707 1.40984344482422 -0.390893042087555 -0.339775681495667 1.48320627212524 -0.341255366802216 -0.00832174718379974 1.40984344482422 -0.390893042087555 0.109606027603149 1.47673892974854 -0.340147972106934 -0.118321746587753 1.39126229286194 -0.390903532505035 -0.118321746587753 1.03811931610107 0.0105187892913818 -0.205321744084358 1.21210217475891 -0.251883566379547 -0.0313217490911484 1.21210217475891 -0.251883566379547 0.0536782592535019 1.35525846481323 -0.249380707740784 -0.334336578845978 1.37913775444031 -0.259899616241455 0.0316782593727112 1.2789421081543 -0.199372470378876 -0.31986403465271 1.30661845207214 -0.211563959717751 -0.03932174295187 0.998080134391785 -0.195003762841225 -0.0183217450976372 0.967631936073303 0.0114052295684814 -0.197321727871895 0.891643941402435 -0.119646191596985 -0.218321740627289 1.07227981090546 -0.0292767286300659 -0.118321746587753 0.955536484718323 -0.040521115064621 0.052678257226944 0.735790729522705 -0.1097501963377 -0.0983217507600784 0.735790729522705 -0.1097501963377 -0.0183217450976372 0.750330865383148 -0.188417762517929 -0.0183217450976372 0.723068118095398 -0.0409160703420639 -0.289321750402451 0.987343728542328 0.227568447589874 -0.138321742415428 0.959379136562347 0.206049501895905 -0.218321740627289 0.880349040031433 0.193630337715149 -0.218321740627289 1.02853059768677 0.216916263103485 0.2527996301651 1.50595116615295 -0.296864002943039 0.243731737136841 1.44114065170288 -0.250848978757858 0.257122159004211 1.4361606836319 -0.307381272315979 0.235144257545471 1.50058531761169 -0.220972657203674 0.244000002741814 1.13880002498627 -0.0399999991059303 0.165000006556511 1.13880002498627 -0.0399999991059303 0.200000002980232 1.13880002498627 -0.0799999982118607 0.353575050830841 1.47958147525787 -0.225426077842712 0.438190937042236 1.55539608001709 -0.141809344291687 0.485410511493683 1.53152680397034 -0.170103788375854 0.434512495994568 1.52213823795319 -0.119891703128815 0.481732070446014 1.49826896190643 -0.148186147212982 0.200000002980232 1.13880002498627 -0.0399999991059303 0.510606408119202 1.57449018955231 -0.100682497024536 0.506008386611938 1.53291785717011 -0.0732854604721069 0.527982175350189 1.54375851154327 -0.0987733006477356 0.488632559776306 1.56364953517914 -0.0751945972442627 0.530057430267334 1.56444931030273 -0.081994503736496 0.519926190376282 1.55502939224243 -0.0339463651180267 0.54233980178833 1.54173851013184 -0.0578415393829346 0.507643818855286 1.57774019241333 -0.0580993294715881 0.549367725849152 1.58316659927368 -0.0669689476490021 0.542478442192078 1.57676124572754 -0.0342961847782135 0.559628486633301 1.55149579048157 -0.0522831976413727 0.51105409860611 1.60189819335938 -0.0526441037654877 0.526899456977844 1.6171395778656 -0.0567211806774139 0.521914899349213 1.61250519752502 -0.0330814719200134 0.544623076915741 1.61339473724365 -0.0557994544506073 0.538746953010559 1.60793125629425 -0.0279315114021301 0.565628528594971 1.59892153739929 -0.0552484095096588 0.560968101024628 1.5945885181427 -0.0331462323665619 0.582571268081665 1.58054399490356 -0.0531975626945496 0.578721284866333 1.57696449756622 -0.0349392890930176 0.592386960983276 1.56223881244659 -0.0515947043895721 0.588739633560181 1.55884766578674 -0.0342973470687866 0.597705125808716 1.55353128910065 -0.0438554286956787 0.548641264438629 1.63811802864075 -0.0532271265983582 0.544168710708618 1.64091277122498 -0.0307285785675049 0.550688624382019 1.65691304206848 -0.0314200222492218 0.526810526847839 1.6587769985199 -0.0485769808292389 0.522758007049561 1.65500903129578 -0.0293577015399933 0.508174657821655 1.65335524082184 -0.0431631803512573 0.527156472206116 1.68691194057465 -0.0450694262981415 0.522293448448181 1.68239045143127 -0.0220063328742981 0.515030860900879 1.6850163936615 -0.0355103611946106 0.539970457553864 1.67852580547333 -0.0315241515636444 0.524647891521454 1.72073686122894 -0.0264796018600464 0.527097165584564 1.71467018127441 -0.0396399796009064 0.52223414182663 1.71014869213104 -0.0165768563747406 0.51774126291275 1.71267020702362 -0.0295173525810242 0.537126541137695 1.71332788467407 -0.0253008902072906 0.577705860137939 1.64535009860992 -0.045680820941925 0.572032332420349 1.64007496833801 -0.0187738537788391 0.567727208137512 1.64972448348999 -0.0313179194927216 0.598508596420288 1.63068866729736 -0.0441687703132629 0.592835068702698 1.62541353702545 -0.017261803150177 0.612401843070984 1.60934829711914 -0.0454230308532715 0.606728315353394 1.60407328605652 -0.0185160636901855 0.627339959144592 1.59600925445557 -0.0396851897239685 0.623287439346313 1.59224140644073 -0.0204659402370453 0.632252871990204 1.58692502975464 -0.0300240218639374 0.597206115722656 1.64700090885162 -0.0152298212051392 0.614554166793823 1.62900006771088 -0.0151009261608124 0.624992549419403 1.60432052612305 -0.0177383422851563 0.610263705253601 1.67684292793274 -0.0295197367668152 0.608870387077332 1.66872119903564 -0.00643083453178406 0.615118384361267 1.66702175140381 -0.0179340839385986 0.600546061992645 1.68214249610901 -0.0180423557758331 0.627334952354431 1.6933513879776 -0.0216430723667145 0.622877240180969 1.6892067193985 -0.000501871109008789 0.632184088230133 1.68393468856812 -0.0110199153423309 0.618028163909912 1.69862341880798 -0.0111250877380371 0.644406259059906 1.70985984802246 -0.0137663781642914 0.640353798866272 1.70609200000763 0.00545287132263184 0.649319171905518 1.70077562332153 -0.00410521030426025 0.635440826416016 1.71517634391785 -0.00420832633972168 0.649289548397064 1.71465468406677 -0.00139045715332031 0.631674408912659 1.66274666786194 -0.0308906137943268 0.625595688819885 1.65709471702576 -0.00206169486045837 0.639043807983398 1.64912009239197 -0.0163988173007965 0.618226230144501 1.67072117328644 -0.0165534913539886 0.64848792552948 1.67903590202332 -0.0189487636089325 0.644435405731201 1.67526793479919 0.00027051568031311 0.655482590198517 1.66779136657715 -0.00927209854125977 0.63744068145752 1.68651235103607 -0.00940614938735962 0.672118544578552 1.70187723636627 -0.00948807597160339 0.668066084384918 1.69810926914215 0.00973120331764221 0.677031517028809 1.69279289245605 0.000173121690750122 0.663153111934662 1.70719361305237 0.0000700056552886963 0.67700183391571 1.70667195320129 0.00288784503936768 0.648414492607117 1.64418053627014 -0.0278788208961487 0.643551528453827 1.63965916633606 -0.00481569766998291 0.653338551521301 1.63428747653961 -0.0162926316261292 0.63848865032196 1.64969623088837 -0.0164029598236084 0.66341757774353 1.65869736671448 -0.0197880864143372 0.659365057945251 1.65492951869965 -0.000568807125091553 0.66839987039566 1.64954113960266 -0.0101263821125031 0.654382705688477 1.66408586502075 -0.010230541229248 0.67910224199295 1.67385816574097 -0.0135085880756378 0.675049781799316 1.67009031772614 0.0057106614112854 0.684015154838562 1.66477394104004 -0.00384742021560669 0.67013680934906 1.67917466163635 -0.00395053625106812 0.683985531330109 1.67865300178528 -0.00113266706466675 0.651726007461548 1.61957335472107 -0.0309641659259796 0.647268295288086 1.61542868614197 -0.00982296466827393 0.656575083732605 1.61015665531158 -0.0203410089015961 0.642419099807739 1.62484538555145 -0.0204461812973022 0.665342450141907 1.63274240493774 -0.0244706273078918 0.661289930343628 1.62897455692291 -0.00525134801864624 0.670324742794037 1.62358617782593 -0.0148089230060577 0.656307578086853 1.63813090324402 -0.0149130821228027 0.675706744194031 1.6427606344223 -0.0203211903572083 0.671654224395752 1.63899278640747 -0.00110194087028503 0.680619716644287 1.63367629051209 -0.0106600224971771 0.666741251945496 1.6480770111084 -0.0107631385326386 0.680590033531189 1.64755547046661 -0.00794529914855957 -0.529397249221802 1.48039293289185 -0.315429866313934 -0.526453614234924 1.41638934612274 -0.287236213684082 -0.523140072822571 1.42695224285126 -0.362916111946106 -0.5031578540802 1.47811222076416 -0.24886192381382 -0.244000002741814 1.13880002498627 -0.0399999991059303 -0.165000006556511 1.13880002498627 -0.0399999991059303 -0.200000002980232 1.13880002498627 -0.0799999982118607 -0.585025489330292 1.46887612342834 -0.266302883625031 -0.706965446472168 1.51686203479767 -0.209316670894623 -0.745715618133545 1.49487364292145 -0.249502897262573 -0.704723417758942 1.4809558391571 -0.191832005977631 -0.743473589420319 1.45896744728088 -0.232018232345581 -0.200000002980232 1.13880002498627 -0.0399999991059303 -0.787253797054291 1.52544915676117 -0.181387364864349 -0.784451305866241 1.48056626319885 -0.159531533718109 -0.801998496055603 1.49384582042694 -0.187203764915466 -0.769706666469574 1.51216959953308 -0.153715193271637 -0.804644525051117 1.53013813495636 -0.167183756828308 -0.81274539232254 1.49056327342987 -0.137718439102173 -0.824840903282166 1.50118887424469 -0.169195413589478 -0.792549073696136 1.51951253414154 -0.135706841945648 -0.828161180019379 1.53927087783813 -0.149504542350769 -0.833669781684875 1.51235997676849 -0.129468142986298 -0.842991769313812 1.50913870334625 -0.163508176803589 -0.797783255577087 1.53479182720184 -0.116624236106873 -0.811084806919098 1.5524890422821 -0.113481223583221 -0.815070390701294 1.53301811218262 -0.0989843010902405 -0.830000162124634 1.55455338954926 -0.118767142295837 -0.82964551448822 1.52897191047668 -0.10511189699173 -0.849888741970062 1.54871916770935 -0.133723318576813 -0.849607467651367 1.52843046188354 -0.122893273830414 -0.866010248661041 1.53779304027557 -0.149525821208954 -0.865777850151062 1.52103281021118 -0.140579283237457 -0.875159740447998 1.52537167072296 -0.163767635822296 -0.874939620494843 1.50949358940125 -0.155291974544525 -0.881520330905914 1.51464998722076 -0.166698336601257 -0.836729109287262 1.57448816299438 -0.100790530443192 -0.835968375205994 1.55855536460876 -0.0853409618139267 -0.842669367790222 1.56894588470459 -0.0741134434938431 -0.814092397689819 1.57815647125244 -0.0798340141773224 -0.817332744598389 1.5623265504837 -0.0680479109287262 -0.798708736896515 1.56620311737061 -0.0746900737285614 -0.81577330827713 1.59685111045837 -0.05858114361763 -0.819661736488342 1.57785511016846 -0.0444377958774567 -0.807974100112915 1.58649468421936 -0.0499837100505829 -0.832627713680267 1.58527982234955 -0.0583933889865875 -0.820324122905731 1.60959827899933 -0.0223485231399536 -0.817778408527374 1.61396276950836 -0.036149650812149 -0.821666836738586 1.59496688842773 -0.0220063030719757 -0.812762975692749 1.60385155677795 -0.0279881656169891 -0.832350134849548 1.60642409324646 -0.0299181044101715 -0.869774997234344 1.57182919979095 -0.0898662805557251 -0.862228393554688 1.54578292369843 -0.0828917622566223 -0.859273791313171 1.5615406036377 -0.0794321894645691 -0.889651417732239 1.56511282920837 -0.104351580142975 -0.882104873657227 1.53906667232513 -0.0973770022392273 -0.901980519294739 1.55447137355804 -0.123966813087463 -0.894433856010437 1.5284252166748 -0.116992294788361 -0.915926098823547 1.54241275787354 -0.133782267570496 -0.91053569316864 1.5238082408905 -0.128800392150879 -0.919689178466797 1.52944576740265 -0.137988984584808 -0.887618720531464 1.54481267929077 -0.076541006565094 -0.903721451759338 1.53613388538361 -0.0935913026332855 -0.914250075817108 1.52818822860718 -0.116417586803436 -0.90596079826355 1.56735873222351 -0.0525277256965637 -0.897307693958282 1.5446742773056 -0.0559247732162476 -0.906800985336304 1.55308473110199 -0.0595844388008118 -0.893238425254822 1.56078064441681 -0.045519232749939 -0.921835601329803 1.55636739730835 -0.0312061011791229 -0.907262921333313 1.54085314273834 -0.0367691814899445 -0.921136796474457 1.54487228393555 -0.0408192873001099 -0.90796172618866 1.55234837532043 -0.0271559655666351 -0.930664420127869 1.54048800468445 -0.01400426030159 -0.917416572570801 1.5263843536377 -0.0190615952014923 -0.930498838424683 1.5297714471817 -0.0232306122779846 -0.917582154273987 1.53710091114044 -0.00983521342277527 -0.927836954593658 1.52736663818359 -0.00955104827880859 -0.927322387695313 1.56324911117554 -0.0670069456100464 -0.912469565868378 1.53718400001526 -0.0670671463012695 -0.929583549499512 1.54471945762634 -0.0770836472511292 -0.910208463668823 1.55571365356445 -0.0569905042648315 -0.941514492034912 1.5486798286438 -0.0453501641750336 -0.928266644477844 1.53457593917847 -0.0504074990749359 -0.943286418914795 1.53686368465424 -0.0565858483314514 -0.926494657993317 1.54639196395874 -0.0391718149185181 -0.954498410224915 1.52792167663574 -0.021472156047821 -0.941250562667847 1.51381778717041 -0.0265294909477234 -0.954332828521729 1.51720499992371 -0.0306985378265381 -0.941416144371033 1.52453446388245 -0.0173031091690063 -0.951670944690704 1.51480007171631 -0.0170189440250397 -0.94173789024353 1.5499027967453 -0.0831304788589478 -0.929855585098267 1.52905070781708 -0.0831786394119263 -0.942642629146576 1.5355920791626 -0.0902541279792786 -0.928821742534637 1.54343461990356 -0.0759209990501404 -0.955381274223328 1.53910505771637 -0.0640664994716644 -0.94213342666626 1.52500128746033 -0.0691238343715668 -0.955280303955078 1.52835178375244 -0.0733598470687866 -0.942234456539154 1.53575444221497 -0.0598304867744446 -0.963999271392822 1.52532696723938 -0.0482176542282104 -0.950751423835754 1.51122331619263 -0.0532749891281128 -0.963833749294281 1.51461029052734 -0.0574440360069275 -0.95091700553894 1.52193987369537 -0.0440486371517181 -0.961171865463257 1.51220560073853 -0.0437644422054291 -0.943678140640259 1.54198002815247 -0.106785118579865 -0.932786107063293 1.52286565303802 -0.106829345226288 -0.944819688796997 1.52868485450745 -0.113638937473297 -0.931644558906555 1.53616094589233 -0.0999755859375 -0.956479787826538 1.53281688690186 -0.0894272923469543 -0.94323194026947 1.51871299743652 -0.0944846272468567 -0.956378817558289 1.52206349372864 -0.0987206101417542 -0.94333291053772 1.52946639060974 -0.0851912498474121 -0.962174475193024 1.5237123966217 -0.0789545178413391 -0.948926627635956 1.50960862636566 -0.0840118527412415 -0.962008953094482 1.51299583911896 -0.0881808400154114 -0.949092209339142 1.5203253030777 -0.0747854709625244 -0.959347069263458 1.51059091091156 -0.0745012164115906 0.00108123384416103 0.518613219261169 -0.0955781936645508 -0.00735783576965332 0.588077306747437 -0.186838954687119 0.0299626439809799 0.564727783203125 -0.138755857944489 -0.0651356428861618 0.536520779132843 -0.151431977748871 0.0988504961133003 0.446637600660324 -0.235011622309685 -0.00575761497020721 0.415609896183014 -0.248955339193344 0.0286125354468822 0.457094460725784 -0.283563494682312 0.0359508581459522 0.396690905094147 -0.204206302762032 0.148979499936104 0.269258379936218 -0.374158978462219 0.0855632275342941 0.247371330857277 -0.362472027540207 0.107524760067463 0.297240912914276 -0.401535630226135 0.12232731282711 0.219788357615471 -0.324461072683334 0.147242471575737 0.262921214103699 -0.445636749267578 0.106825701892376 0.250933229923248 -0.451024085283279 0.120823390781879 0.273326337337494 -0.448089241981506 0.136861383914948 0.169850930571556 -0.33815461397171 0.146026581525803 0.168811082839966 -0.404599457979202 0.193575710058212 0.182914569973946 -0.398261398077011 0.12700691819191 0.163169682025909 -0.407134681940079 0.147397875785828 0.135461762547493 -0.340678095817566 0.164888173341751 0.129078596830368 -0.378800839185715 0.202927485108376 0.140361398458481 -0.373730391263962 0.129124909639359 0.116657808423042 -0.382636517286301 0.141366973519325 0.0666481703519821 -0.339530050754547 0.161006972193718 0.0701445788145065 -0.336875677108765 0.177189484238625 0.0794771462678909 -0.337047100067139 0.189193993806839 0.0893835797905922 -0.338706791400909 0.198981687426567 0.100836187601089 -0.342953950166702 -0.233321756124496 0.96903657913208 0.424489855766296 -0.233321771025658 0.882914185523987 0.370921730995178 -0.288321733474731 0.930815100669861 0.387818813323975 -0.168321743607521 0.930815100669861 0.387818813323975 -0.288321733474731 0.778900861740112 0.45473712682724 -0.178321748971939 0.778900861740112 0.45473712682724 -0.218321740627289 0.758744716644287 0.408979833126068 -0.218321740627289 0.799057006835938 0.500494420528412 -0.268321752548218 0.568335771560669 0.548410594463348 -0.203321754932404 0.574771285057068 0.567667663097382 -0.233321756124496 0.592353820800781 0.510343074798584 -0.235321745276451 0.557297706604004 0.614868521690369 -0.255821764469147 0.531548619270325 0.488055765628815 -0.21332174539566 0.531548619270325 0.488055765628815 -0.21332174539566 0.531548619270325 0.488055765628815 -0.233321756124496 0.504773020744324 0.626255095005035 -0.233321756124496 0.471320539712906 0.568109333515167 -0.283321738243103 0.471320539712906 0.568109333515167 -0.21332174539566 0.471320539712906 0.568109333515167 -0.233321756124496 0.471531748771667 0.640220046043396 -0.243321746587753 0.443707495927811 0.60979288816452 -0.283321738243103 0.443707495927811 0.60979288816452 -0.205321744084358 0.4426029920578 0.611460268497467 -0.208321750164032 0.416157841682434 0.673109650611877 -0.228321745991707 0.41421964764595 0.674224734306335 -0.246321752667427 0.41698095202446 0.670056402683258 -0.260321736335754 0.42084676027298 0.664220690727234 -0.272321760654449 0.425535708665848 0.65533173084259" />
+					<TextureCoordinate
+						point="0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5 0.5 0 0 0.5 0 0 0.5 0.5" />
+				</IndexedFaceSet>
+			</Shape>
+			<Coordinate USE="Joe_SkinCoord" containerField="skinCoord" />
+		</HAnimHumanoid>
+	</Group>
+	<Group>
+		<TimeSensor DEF="KickTimer"
+			loop="true"
+			cycleInterval="3.73" />
+		<OrientationInterpolator DEF="HumanoidRootRotInterp"
+			key="0 0.100000001490116 0.400000005960464 0.600000023841858 1"
+			keyValue="1 0 0 0.5 1 0 0 0.5 -1 0 0 0.100000001490116 -1 0 0 0.5 -1 0 0 0.5" />
+		<PositionInterpolator DEF="HumanoidRootTransInterp"
+			key="0 0.200000002980232 0.600000023841858 1"
+			keyValue="1 0.300000011920929 -1 0.400000005960464 -0.0399999991059303 -0.400000005960464 -0.180000007152557 0.100000001490116 0 -0.200000002980232 0.150000005960464 0.150000005960464" />
+		<OrientationInterpolator DEF="sacroiliacRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_hipRotInterp"
+			key="0 0.100000001490116 0.300000011920929 0.449999988079071 1"
+			keyValue="-1 0 0 1.5 -1 0 0 1 0 0 1 0 1 0 0 0.5 1 0 0 1" />
+		<OrientationInterpolator DEF="l_kneeRotInterp"
+			key="0 0.200000002980232 0.349999994039536 0.5 1"
+			keyValue="1 0 0 1 0 0 1 0 0 0 1 0.200000002980232 1 0 1 0.5 1 0 0 1.39999997615814" />
+		<OrientationInterpolator DEF="l_ankleRotInterp"
+			key="0 0.25 1"
+			keyValue="-1 0 0 1 0 0 1 0 1 0 0 1" />
+		<OrientationInterpolator DEF="l_subtalarRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_midtarsalRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_metatarsalRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="r_hipRotInterp"
+			key="0 0.25 0.5 0.75 1"
+			keyValue="1 0 0 1 1 0 0 1 -1 0 0 1 -1 0 0 1 -1 0 0 1" />
+		<OrientationInterpolator DEF="r_kneeRotInterp"
+			key="0 0.25 0.5 0.75 1"
+			keyValue="1 0 0 0.100000001490116 0 0 1 0 1 0 0 1 1 0 0 1 1 0 0 1.5" />
+		<OrientationInterpolator DEF="r_ankleRotInterp"
+			key="0 0.25 0.5 0.75 1"
+			keyValue="-1 0 0 1 0 0 1 0 1 0 0 1 1 0 0 1 1 0 0 0.5" />
+		<OrientationInterpolator DEF="r_subtalarRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="r_midtarsalRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="r_metatarsalRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vl5RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vl4RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vl3RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vl2RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vl1RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vt12RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vt11RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vt10RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vt9RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vt8RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vt7RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vt6RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vt5RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vt4RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vt3RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vt2RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vt1RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vc7RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vc6RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vc5RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vc4RotInterp"
+			key="0 0.300000011920929 0.400000005960464 1"
+			keyValue="1 0 1 0.25 -1 0 -1 0.349999994039536 1 0 0 0.75 1 0 1 0.5" />
+		<OrientationInterpolator DEF="vc3RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vc2RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="vc1RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="skullbaseRotInterp"
+			key="0 0.200000002980232 0.75 1"
+			keyValue="0 -1 0 0.5 0 0 1 0 0 0 1 0 0 1 0 0.349999994039536" />
+		<OrientationInterpolator DEF="l_eyelid_jointRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_eyeball_jointRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_eyebrow_jointRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="r_eyelid_jointRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="r_eyeball_jointRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="r_eyebrow_jointRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="temporomandibularRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_sternoclavicularRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_acromioclavicularRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_shoulderRotInterp"
+			key="0 0.400000005960464 1"
+			keyValue="0 0 1 0 0 0 1 1.5 -1 0 1 1.75" />
+		<OrientationInterpolator DEF="l_elbowRotInterp"
+			key="0 0.5 1"
+			keyValue="-1 0 0 3 -1 0 0 0.75 -1 -1 0 0.5" />
+		<OrientationInterpolator DEF="l_wristRotInterp"
+			key="0 0.400000005960464 0.800000011920929 1"
+			keyValue="0 0 1 0 0 1 0 1.29999995231628 0 -0.5 1 1.29999995231628 0 0 1 0" />
+		<OrientationInterpolator DEF="l_thumb1RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_thumb2RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_thumb3RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_index0RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_index1RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_index2RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_index3RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_middle0RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_middle1RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_middle2RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_middle3RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_ring0RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_ring1RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_ring2RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_ring3RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_pinky0RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_pinky1RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_pinky2RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="l_pinky3RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="r_sternoclavicularRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="r_acromioclavicularRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="r_shoulderRotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 -1 2.5 0 0 -1 1.5 0 0 -1 1.75" />
+		<OrientationInterpolator DEF="r_elbowRotInterp"
+			key="0 0.5 1"
+			keyValue="-1 0 0 3 -1 0 0 0.75 -1 -1 0 0.5" />
+		<OrientationInterpolator DEF="r_wristRotInterp"
+			key="0 0.5 0.699999988079071 1"
+			keyValue="0 1 0 0.300000011920929 0 0 1 0 0 0 -1 1 0 -1 0 0.300000011920929" />
+		<OrientationInterpolator DEF="r_thumb1RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="r_thumb2RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="r_thumb3RotInterp"
+			key="0 0.5 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 0" />
+		<OrientationInterpolator DEF="r_index0RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1 0 0 1 0" />
+		<OrientationInterpolator DEF="r_index1RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1.5 0 0 1 0" />
+		<OrientationInterpolator DEF="r_index2RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1.5 0 0 1 0" />
+		<OrientationInterpolator DEF="r_index3RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1.5 0 0 1 0" />
+		<OrientationInterpolator DEF="r_middle0RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1 0 0 1 0" />
+		<OrientationInterpolator DEF="r_middle1RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1.5 0 0 1 0" />
+		<OrientationInterpolator DEF="r_middle2RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1.5 0 0 1 0" />
+		<OrientationInterpolator DEF="r_middle3RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1.5 0 0 1 0" />
+		<OrientationInterpolator DEF="r_ring0RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1 0 0 1 0" />
+		<OrientationInterpolator DEF="r_ring1RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1.5 0 0 1 0" />
+		<OrientationInterpolator DEF="r_ring2RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1.5 0 0 1 0" />
+		<OrientationInterpolator DEF="r_ring3RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1.5 0 0 1 0" />
+		<OrientationInterpolator DEF="r_pinky0RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1 0 0 1 0" />
+		<OrientationInterpolator DEF="r_pinky1RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1.5 0 0 1 0" />
+		<OrientationInterpolator DEF="r_pinky2RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1.5 0 0 1 0" />
+		<OrientationInterpolator DEF="r_pinky3RotInterp"
+			key="0 0.5 0.75 1"
+			keyValue="0 0 1 0 0 0 1 0 0 0 1 1.5 0 0 1 0" />
+	</Group>
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="HumanoidRootRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="HumanoidRootTransInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="sacroiliacRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_hipRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_kneeRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_ankleRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_subtalarRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_midtarsalRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_metatarsalRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_hipRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_kneeRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_ankleRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_subtalarRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_midtarsalRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_metatarsalRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vl5RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vl4RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vl3RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vl2RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vl1RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vt12RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vt11RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vt10RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vt9RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vt8RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vt7RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vt6RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vt5RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vt4RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vt3RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vt2RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vt1RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vc7RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vc6RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vc5RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vc4RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vc3RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vc2RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="vc1RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="skullbaseRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_eyelid_jointRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_eyeball_jointRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_eyebrow_jointRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_eyelid_jointRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_eyeball_jointRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_eyebrow_jointRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="temporomandibularRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_sternoclavicularRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_acromioclavicularRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_shoulderRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_elbowRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_wristRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_thumb1RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_thumb2RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_thumb3RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_index0RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_index1RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_index2RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_index3RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_middle0RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_middle1RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_middle2RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_middle3RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_ring0RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_ring1RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_ring2RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_ring3RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_pinky0RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_pinky1RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_pinky2RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="l_pinky3RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_sternoclavicularRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_acromioclavicularRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_shoulderRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_elbowRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_wristRotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_thumb1RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_thumb2RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_thumb3RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_index0RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_index1RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_index2RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_index3RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_middle0RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_middle1RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_middle2RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_middle3RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_ring0RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_ring1RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_ring2RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_ring3RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_pinky0RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_pinky1RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_pinky2RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="r_pinky3RotInterp" toField="set_fraction" />
+	<ROUTE fromNode="HumanoidRootRotInterp" fromField="value_changed" toNode="Joe_humanoid_root" toField="set_rotation" />
+	<ROUTE fromNode="HumanoidRootTransInterp" fromField="value_changed" toNode="Joe_humanoid_root" toField="set_translation" />
+	<ROUTE fromNode="sacroiliacRotInterp" fromField="value_changed" toNode="Joe_sacroiliac" toField="set_rotation" />
+	<ROUTE fromNode="l_hipRotInterp" fromField="value_changed" toNode="Joe_l_hip" toField="set_rotation" />
+	<ROUTE fromNode="l_kneeRotInterp" fromField="value_changed" toNode="Joe_l_knee" toField="set_rotation" />
+	<ROUTE fromNode="l_ankleRotInterp" fromField="value_changed" toNode="Joe_l_ankle" toField="set_rotation" />
+	<ROUTE fromNode="l_subtalarRotInterp" fromField="value_changed" toNode="Joe_l_subtalar" toField="set_rotation" />
+	<ROUTE fromNode="l_midtarsalRotInterp" fromField="value_changed" toNode="Joe_l_midtarsal" toField="set_rotation" />
+	<ROUTE fromNode="l_metatarsalRotInterp" fromField="value_changed" toNode="Joe_l_metatarsal" toField="set_rotation" />
+	<ROUTE fromNode="r_hipRotInterp" fromField="value_changed" toNode="Joe_r_hip" toField="set_rotation" />
+	<ROUTE fromNode="r_kneeRotInterp" fromField="value_changed" toNode="Joe_r_knee" toField="set_rotation" />
+	<ROUTE fromNode="r_ankleRotInterp" fromField="value_changed" toNode="Joe_r_ankle" toField="set_rotation" />
+	<ROUTE fromNode="r_subtalarRotInterp" fromField="value_changed" toNode="Joe_r_subtalar" toField="set_rotation" />
+	<ROUTE fromNode="r_midtarsalRotInterp" fromField="value_changed" toNode="Joe_r_midtarsal" toField="set_rotation" />
+	<ROUTE fromNode="r_metatarsalRotInterp" fromField="value_changed" toNode="Joe_r_metatarsal" toField="set_rotation" />
+	<ROUTE fromNode="vl5RotInterp" fromField="value_changed" toNode="Joe_vl5" toField="set_rotation" />
+	<ROUTE fromNode="vl4RotInterp" fromField="value_changed" toNode="Joe_vl4" toField="set_rotation" />
+	<ROUTE fromNode="vl3RotInterp" fromField="value_changed" toNode="Joe_vl3" toField="set_rotation" />
+	<ROUTE fromNode="vl2RotInterp" fromField="value_changed" toNode="Joe_vl2" toField="set_rotation" />
+	<ROUTE fromNode="vl1RotInterp" fromField="value_changed" toNode="Joe_vl1" toField="set_rotation" />
+	<ROUTE fromNode="vt12RotInterp" fromField="value_changed" toNode="Joe_vt12" toField="set_rotation" />
+	<ROUTE fromNode="vt11RotInterp" fromField="value_changed" toNode="Joe_vt11" toField="set_rotation" />
+	<ROUTE fromNode="vt10RotInterp" fromField="value_changed" toNode="Joe_vt10" toField="set_rotation" />
+	<ROUTE fromNode="vt9RotInterp" fromField="value_changed" toNode="Joe_vt9" toField="set_rotation" />
+	<ROUTE fromNode="vt8RotInterp" fromField="value_changed" toNode="Joe_vt8" toField="set_rotation" />
+	<ROUTE fromNode="vt7RotInterp" fromField="value_changed" toNode="Joe_vt7" toField="set_rotation" />
+	<ROUTE fromNode="vt6RotInterp" fromField="value_changed" toNode="Joe_vt6" toField="set_rotation" />
+	<ROUTE fromNode="vt5RotInterp" fromField="value_changed" toNode="Joe_vt5" toField="set_rotation" />
+	<ROUTE fromNode="vt4RotInterp" fromField="value_changed" toNode="Joe_vt4" toField="set_rotation" />
+	<ROUTE fromNode="vt3RotInterp" fromField="value_changed" toNode="Joe_vt3" toField="set_rotation" />
+	<ROUTE fromNode="vt2RotInterp" fromField="value_changed" toNode="Joe_vt2" toField="set_rotation" />
+	<ROUTE fromNode="vt1RotInterp" fromField="value_changed" toNode="Joe_vt1" toField="set_rotation" />
+	<ROUTE fromNode="vc7RotInterp" fromField="value_changed" toNode="Joe_vc7" toField="set_rotation" />
+	<ROUTE fromNode="vc6RotInterp" fromField="value_changed" toNode="Joe_vc6" toField="set_rotation" />
+	<ROUTE fromNode="vc5RotInterp" fromField="value_changed" toNode="Joe_vc5" toField="set_rotation" />
+	<ROUTE fromNode="vc4RotInterp" fromField="value_changed" toNode="Joe_vc4" toField="set_rotation" />
+	<ROUTE fromNode="vc3RotInterp" fromField="value_changed" toNode="Joe_vc3" toField="set_rotation" />
+	<ROUTE fromNode="vc2RotInterp" fromField="value_changed" toNode="Joe_vc2" toField="set_rotation" />
+	<ROUTE fromNode="vc1RotInterp" fromField="value_changed" toNode="Joe_vc1" toField="set_rotation" />
+	<ROUTE fromNode="skullbaseRotInterp" fromField="value_changed" toNode="Joe_skullbase" toField="set_rotation" />
+	<ROUTE fromNode="l_eyelid_jointRotInterp" fromField="value_changed" toNode="Joe_l_eyelid_joint" toField="set_rotation" />
+	<ROUTE fromNode="l_eyeball_jointRotInterp" fromField="value_changed" toNode="Joe_l_eyeball_joint" toField="set_rotation" />
+	<ROUTE fromNode="l_eyebrow_jointRotInterp" fromField="value_changed" toNode="Joe_l_eyebrow_joint" toField="set_rotation" />
+	<ROUTE fromNode="r_eyelid_jointRotInterp" fromField="value_changed" toNode="Joe_r_eyelid_joint" toField="set_rotation" />
+	<ROUTE fromNode="r_eyeball_jointRotInterp" fromField="value_changed" toNode="Joe_r_eyeball_joint" toField="set_rotation" />
+	<ROUTE fromNode="r_eyebrow_jointRotInterp" fromField="value_changed" toNode="Joe_r_eyebrow_joint" toField="set_rotation" />
+	<ROUTE fromNode="temporomandibularRotInterp" fromField="value_changed" toNode="Joe_temporomandibular" toField="set_rotation" />
+	<ROUTE fromNode="l_sternoclavicularRotInterp" fromField="value_changed" toNode="Joe_l_sternoclavicular" toField="set_rotation" />
+	<ROUTE fromNode="l_acromioclavicularRotInterp" fromField="value_changed" toNode="Joe_l_acromioclavicular" toField="set_rotation" />
+	<ROUTE fromNode="l_shoulderRotInterp" fromField="value_changed" toNode="Joe_l_shoulder" toField="set_rotation" />
+	<ROUTE fromNode="l_elbowRotInterp" fromField="value_changed" toNode="Joe_l_elbow" toField="set_rotation" />
+	<ROUTE fromNode="l_wristRotInterp" fromField="value_changed" toNode="Joe_l_wrist" toField="set_rotation" />
+	<ROUTE fromNode="l_thumb1RotInterp" fromField="value_changed" toNode="Joe_l_thumb1" toField="set_rotation" />
+	<ROUTE fromNode="l_thumb2RotInterp" fromField="value_changed" toNode="Joe_l_thumb2" toField="set_rotation" />
+	<ROUTE fromNode="l_thumb3RotInterp" fromField="value_changed" toNode="Joe_l_thumb3" toField="set_rotation" />
+	<ROUTE fromNode="l_index0RotInterp" fromField="value_changed" toNode="Joe_l_index0" toField="set_rotation" />
+	<ROUTE fromNode="l_index1RotInterp" fromField="value_changed" toNode="Joe_l_index1" toField="set_rotation" />
+	<ROUTE fromNode="l_index2RotInterp" fromField="value_changed" toNode="Joe_l_index2" toField="set_rotation" />
+	<ROUTE fromNode="l_index3RotInterp" fromField="value_changed" toNode="Joe_l_index3" toField="set_rotation" />
+	<ROUTE fromNode="l_middle0RotInterp" fromField="value_changed" toNode="Joe_l_middle0" toField="set_rotation" />
+	<ROUTE fromNode="l_middle1RotInterp" fromField="value_changed" toNode="Joe_l_middle1" toField="set_rotation" />
+	<ROUTE fromNode="l_middle2RotInterp" fromField="value_changed" toNode="Joe_l_middle2" toField="set_rotation" />
+	<ROUTE fromNode="l_middle3RotInterp" fromField="value_changed" toNode="Joe_l_middle3" toField="set_rotation" />
+	<ROUTE fromNode="l_ring0RotInterp" fromField="value_changed" toNode="Joe_l_ring0" toField="set_rotation" />
+	<ROUTE fromNode="l_ring1RotInterp" fromField="value_changed" toNode="Joe_l_ring1" toField="set_rotation" />
+	<ROUTE fromNode="l_ring2RotInterp" fromField="value_changed" toNode="Joe_l_ring2" toField="set_rotation" />
+	<ROUTE fromNode="l_ring3RotInterp" fromField="value_changed" toNode="Joe_l_ring3" toField="set_rotation" />
+	<ROUTE fromNode="l_pinky0RotInterp" fromField="value_changed" toNode="Joe_l_pinky0" toField="set_rotation" />
+	<ROUTE fromNode="l_pinky1RotInterp" fromField="value_changed" toNode="Joe_l_pinky1" toField="set_rotation" />
+	<ROUTE fromNode="l_pinky2RotInterp" fromField="value_changed" toNode="Joe_l_pinky2" toField="set_rotation" />
+	<ROUTE fromNode="l_pinky3RotInterp" fromField="value_changed" toNode="Joe_l_pinky3" toField="set_rotation" />
+	<ROUTE fromNode="r_sternoclavicularRotInterp" fromField="value_changed" toNode="Joe_r_sternoclavicular" toField="set_rotation" />
+	<ROUTE fromNode="r_acromioclavicularRotInterp" fromField="value_changed" toNode="Joe_r_acromioclavicular" toField="set_rotation" />
+	<ROUTE fromNode="r_shoulderRotInterp" fromField="value_changed" toNode="Joe_r_shoulder" toField="set_rotation" />
+	<ROUTE fromNode="r_elbowRotInterp" fromField="value_changed" toNode="Joe_r_elbow" toField="set_rotation" />
+	<ROUTE fromNode="r_wristRotInterp" fromField="value_changed" toNode="Joe_r_wrist" toField="set_rotation" />
+	<ROUTE fromNode="r_thumb1RotInterp" fromField="value_changed" toNode="Joe_r_thumb1" toField="set_rotation" />
+	<ROUTE fromNode="r_thumb2RotInterp" fromField="value_changed" toNode="Joe_r_thumb2" toField="set_rotation" />
+	<ROUTE fromNode="r_thumb3RotInterp" fromField="value_changed" toNode="Joe_r_thumb3" toField="set_rotation" />
+	<ROUTE fromNode="r_index0RotInterp" fromField="value_changed" toNode="Joe_r_index0" toField="set_rotation" />
+	<ROUTE fromNode="r_index1RotInterp" fromField="value_changed" toNode="Joe_r_index1" toField="set_rotation" />
+	<ROUTE fromNode="r_index2RotInterp" fromField="value_changed" toNode="Joe_r_index2" toField="set_rotation" />
+	<ROUTE fromNode="r_index3RotInterp" fromField="value_changed" toNode="Joe_r_index3" toField="set_rotation" />
+	<ROUTE fromNode="r_middle0RotInterp" fromField="value_changed" toNode="Joe_r_middle0" toField="set_rotation" />
+	<ROUTE fromNode="r_middle1RotInterp" fromField="value_changed" toNode="Joe_r_middle1" toField="set_rotation" />
+	<ROUTE fromNode="r_middle2RotInterp" fromField="value_changed" toNode="Joe_r_middle2" toField="set_rotation" />
+	<ROUTE fromNode="r_middle3RotInterp" fromField="value_changed" toNode="Joe_r_middle3" toField="set_rotation" />
+	<ROUTE fromNode="r_ring0RotInterp" fromField="value_changed" toNode="Joe_r_ring0" toField="set_rotation" />
+	<ROUTE fromNode="r_ring1RotInterp" fromField="value_changed" toNode="Joe_r_ring1" toField="set_rotation" />
+	<ROUTE fromNode="r_ring2RotInterp" fromField="value_changed" toNode="Joe_r_ring2" toField="set_rotation" />
+	<ROUTE fromNode="r_ring3RotInterp" fromField="value_changed" toNode="Joe_r_ring3" toField="set_rotation" />
+	<ROUTE fromNode="r_pinky0RotInterp" fromField="value_changed" toNode="Joe_r_pinky0" toField="set_rotation" />
+	<ROUTE fromNode="r_pinky1RotInterp" fromField="value_changed" toNode="Joe_r_pinky1" toField="set_rotation" />
+	<ROUTE fromNode="r_pinky2RotInterp" fromField="value_changed" toNode="Joe_r_pinky2" toField="set_rotation" />
+	<ROUTE fromNode="r_pinky3RotInterp" fromField="value_changed" toNode="Joe_r_pinky3" toField="set_rotation" />
+	<Group DEF="DisplacersAnimationGroup">
+		<ScalarInterpolator DEF="skull_tipTest"
+			key="0 0.100000001490116 0.200000002980232 0.349999994039536 0.600000023841858 0.699999988079071 0.850000023841858 0.879999995231628 0.939999997615814 0.970000028610229 1"
+			keyValue="0 0 0 0 0.200000002980232 0.400000005960464 1 0 1 0.400000005960464 0" />
+		<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="skull_tipTest" toField="set_fraction" />
+		<ROUTE fromNode="skull_tipTest" fromField="value_changed" toNode="Joe_skull_tipTest" toField="set_weight" />
+	</Group>
+	<Group DEF="skintexturetransform_animation">
+		<ScalarInterpolator DEF="skinTexTransTest"
+			key="0 0.200000002980232 0.400000005960464 0.5 0.600000023841858 0.699999988079071 0.800000011920929 1"
+			keyValue="0 0 0 0 0 1 2 0" />
+		<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="skinTexTransTest" toField="set_fraction" />
+		<ROUTE fromNode="skinTexTransTest" fromField="value_changed" toNode="kicktextrans" toField="set_rotation" />
+	</Group>
+	<Group>
+		<Transform DEF="SBall"
+			scale="0.230000004172325 0.230000004172325 0.230000004172325"
+			rotation="-0.656235039234161 0.372439354658127 -0.656235039234161 3.17895174026489"
+			translation="0.539853453636169 1.04975521564484 2.54950857162476">
+			<Shape DEF="ball_Shape">
+				<Appearance DEF="ball_Appearance">
+					<Material DEF="ball_Material"
+						diffuseColor="0.300000011920929 0.300000011920929 1"
+						emissiveColor="0.300000011920929 0.300000011920929 0.330000013113022" />
+					<ImageTexture USE="JoeSkinImageTexture" />
+				</Appearance>
+				<IndexedFaceSet DEF="ball_IndexedFaceSet"
+					coordIndex="0 1 2 -1 0 2 3 -1 0 3 4 -1 0 4 5 -1 0 5 6 -1 0 6 7 -1 0 7 8 -1 0 8 9 -1 0 9 10 -1 0 10 11 -1 0 11 12 -1 0 12 1 -1 1 13 14 -1 1 14 2 -1 2 14 15 -1 2 15 3 -1 3 15 16 -1 3 16 4 -1 4 16 17 -1 4 17 5 -1 5 17 18 -1 5 18 6 -1 6 18 19 -1 6 19 7 -1 7 19 20 -1 7 20 8 -1 8 20 21 -1 8 21 9 -1 9 21 22 -1 9 22 10 -1 10 22 23 -1 10 23 11 -1 11 23 24 -1 11 24 12 -1 12 24 13 -1 12 13 1 -1 13 25 26 -1 13 26 14 -1 14 26 27 -1 14 27 15 -1 15 27 28 -1 15 28 16 -1 16 28 29 -1 16 29 17 -1 17 29 30 -1 17 30 18 -1 18 30 31 -1 18 31 19 -1 19 31 32 -1 19 32 20 -1 20 32 33 -1 20 33 21 -1 21 33 34 -1 21 34 22 -1 22 34 35 -1 22 35 23 -1 23 35 36 -1 23 36 24 -1 24 36 25 -1 24 25 13 -1 25 37 38 -1 25 38 26 -1 26 38 39 -1 26 39 27 -1 27 39 40 -1 27 40 28 -1 28 40 41 -1 28 41 29 -1 29 41 42 -1 29 42 30 -1 30 42 43 -1 30 43 31 -1 31 43 44 -1 31 44 32 -1 32 44 45 -1 32 45 33 -1 33 45 46 -1 33 46 34 -1 34 46 47 -1 34 47 35 -1 35 47 48 -1 35 48 36 -1 36 48 37 -1 36 37 25 -1 37 49 50 -1 37 50 38 -1 38 50 51 -1 38 51 39 -1 39 51 52 -1 39 52 40 -1 40 52 53 -1 40 53 41 -1 41 53 54 -1 41 54 42 -1 42 54 55 -1 42 55 43 -1 43 55 56 -1 43 56 44 -1 44 56 57 -1 44 57 45 -1 45 57 58 -1 45 58 46 -1 46 58 59 -1 46 59 47 -1 47 59 60 -1 47 60 48 -1 48 60 49 -1 48 49 37 -1 61 50 49 -1 61 51 50 -1 61 52 51 -1 61 53 52 -1 61 54 53 -1 61 55 54 -1 61 56 55 -1 61 57 56 -1 61 58 57 -1 61 59 58 -1 61 60 59 -1 61 49 60 -1">
+					<Coordinate DEF="Ball_Coordinates"
+						point="0 0.467500001192093 0 0 0.404900014400482 -0.233799993991852 -0.116899996995926 0.404900014400482 -0.202399998903275 -0.202399998903275 0.404900014400482 -0.116899996995926 -0.233799993991852 0.404900014400482 0 -0.202399998903275 0.404900014400482 0.116899996995926 -0.116899996995926 0.404900014400482 0.202399998903275 0 0.404900014400482 0.233799993991852 0.116899996995926 0.404900014400482 0.202399998903275 0.202399998903275 0.404900014400482 0.116899996995926 0.233799993991852 0.404900014400482 0 0.202399998903275 0.404900014400482 -0.116899996995926 0.116899996995926 0.404900014400482 -0.202399998903275 0 0.233799993991852 -0.404900014400482 -0.202399998903275 0.233799993991852 -0.350600004196167 -0.350600004196167 0.233799993991852 -0.202399998903275 -0.404900014400482 0.233799993991852 0 -0.350600004196167 0.233799993991852 0.202399998903275 -0.202399998903275 0.233799993991852 0.350600004196167 0 0.233799993991852 0.404900014400482 0.202399998903275 0.233799993991852 0.350600004196167 0.350600004196167 0.233799993991852 0.202399998903275 0.404900014400482 0.233799993991852 0 0.350600004196167 0.233799993991852 -0.202399998903275 0.202399998903275 0.233799993991852 -0.350600004196167 0 0 -0.467500001192093 -0.233799993991852 0 -0.404900014400482 -0.404900014400482 0 -0.233799993991852 -0.467500001192093 0 0 -0.404900014400482 0 0.233799993991852 -0.233799993991852 0 0.404900014400482 0 0 0.467500001192093 0.233799993991852 0 0.404900014400482 0.404900014400482 0 0.233799993991852 0.467500001192093 0 0 0.404900014400482 0 -0.233799993991852 0.233799993991852 0 -0.404900014400482 0 -0.233799993991852 -0.404900014400482 -0.202399998903275 -0.233799993991852 -0.350600004196167 -0.350600004196167 -0.233799993991852 -0.202399998903275 -0.404900014400482 -0.233799993991852 0 -0.350600004196167 -0.233799993991852 0.202399998903275 -0.202399998903275 -0.233799993991852 0.350600004196167 0 -0.233799993991852 0.404900014400482 0.202399998903275 -0.233799993991852 0.350600004196167 0.350600004196167 -0.233799993991852 0.202399998903275 0.404900014400482 -0.233799993991852 0 0.350600004196167 -0.233799993991852 -0.202399998903275 0.202399998903275 -0.233799993991852 -0.350600004196167 0 -0.404900014400482 -0.233799993991852 -0.116899996995926 -0.404900014400482 -0.202399998903275 -0.202399998903275 -0.404900014400482 -0.116899996995926 -0.233799993991852 -0.404900014400482 0 -0.202399998903275 -0.404900014400482 0.116899996995926 -0.116899996995926 -0.404900014400482 0.202399998903275 0 -0.404900014400482 0.233799993991852 0.116899996995926 -0.404900014400482 0.202399998903275 0.202399998903275 -0.404900014400482 0.116899996995926 0.233799993991852 -0.404900014400482 0 0.202399998903275 -0.404900014400482 -0.116899996995926 0.116899996995926 -0.404900014400482 -0.202399998903275 0 -0.467500001192093 0" />
+				</IndexedFaceSet>
+			</Shape>
+		</Transform>
+		<PositionInterpolator DEF="ballTransInterp"
+			key="0 0.400000005960464 0.409000009298325 1"
+			keyValue="-1 0.400000005960464 -1 0 0.0700000002980232 0 0.0500000007450581 0.0599999986588955 0.0500000007450581 2 4 10" />
+		<OrientationInterpolator DEF="ballRotInterp"
+			key="0 0.400000005960464 0.409999996423721 0.709999978542328 1"
+			keyValue="1 0 1 0.25 -1 0 -1 1.35000002384186 -1 1 -1 3.34999990463257 -1 0.200000002980232 -1 3 -1 0.200000002980232 -1 3" />
+		<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="ballTransInterp" toField="set_fraction" />
+		<ROUTE fromNode="ballTransInterp" fromField="value_changed" toNode="SBall" toField="set_translation" />
+		<ROUTE fromNode="KickTimer" fromField="fraction_changed" toNode="ballRotInterp" toField="set_fraction" />
+		<ROUTE fromNode="ballRotInterp" fromField="value_changed" toNode="SBall" toField="set_rotation" />
+	</Group>
+	<Group>
+		<Transform
+			scale="0.200000002980232 0.200000002980232 0.200000002980232">
+			<Shape USE="AxisLinesShape" />
+		</Transform>
+		<Transform DEF="Circle0"
+			scale="1.17499995231628 1 1.17499995231628">
+			<Shape DEF="circle_Shape">
+				<Appearance DEF="circle0_Appearance">
+					<Material DEF="circle0_Material"
+						diffuseColor="0.899999976158142 0 0.699999988079071"
+						emissiveColor="0.425000011920929 0.486000001430511 1"
+						ambientIntensity="0.899999976158142" />
+				</Appearance>
+				<IndexedLineSet DEF="Orbit1"
+					coordIndex="0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 -1">
+					<Coordinate DEF="circle_Coordinates"
+						point="1 0 0 0.995000004768372 0 -0.104999996721745 0.978999972343445 0 -0.208000004291534 0.950999975204468 0 -0.308999985456467 0.913999974727631 0 -0.407000005245209 0.86599999666214 0 -0.5 0.809000015258789 0 -0.587999999523163 0.742999970912933 0 -0.669000029563904 0.669000029563904 0 -0.742999970912933 0.587999999523163 0 -0.809000015258789 0.5 0 -0.86599999666214 0.407000005245209 0 -0.913999974727631 0.308999985456467 0 -0.950999975204468 0.208000004291534 0 -0.977999985218048 0.104999996721745 0 -0.995000004768372 0 0 -1 -0.104999996721745 0 -0.994521975517273 -0.208000004291534 0 -0.977999985218048 -0.308999985456467 0 -0.950999975204468 -0.407000005245209 0 -0.913999974727631 -0.5 0 -0.86599999666214 -0.587999999523163 0 -0.809000015258789 -0.669000029563904 0 -0.742999970912933 -0.742999970912933 0 -0.669000029563904 -0.809000015258789 0 -0.587999999523163 -0.86599999666214 0 -0.5 -0.913999974727631 0 -0.407000005245209 -0.950999975204468 0 -0.308999985456467 -0.977999985218048 0 -0.208000004291534 -0.995000004768372 0 -0.104999996721745 -1 0 0 -0.995000004768372 0 0.104999996721745 -0.977999985218048 0 0.208000004291534 -0.950999975204468 0 0.308999985456467 -0.913999974727631 0 0.407000005245209 -0.86599999666214 0 0.5 -0.809000015258789 0 0.587999999523163 -0.742999970912933 0 0.669000029563904 -0.669000029563904 0 0.742999970912933 -0.587999999523163 0 0.809000015258789 -0.5 0 0.86599999666214 -0.407000005245209 0 0.913999974727631 -0.308999985456467 0 0.950999975204468 -0.208000004291534 0 0.977999985218048 -0.104999996721745 0 0.995000004768372 0 0 1 0.104999996721745 0 0.995000004768372 0.208000004291534 0 0.977999985218048 0.308999985456467 0 0.950999975204468 0.407000005245209 0 0.913999974727631 0.5 0 0.86599999666214 0.587999999523163 0 0.809000015258789 0.669000029563904 0 0.742999970912933 0.742999970912933 0 0.669000029563904 0.809000015258789 0 0.587999999523163 0.86599999666214 0 0.5 0.913999974727631 0 0.407000005245209 0.950999975204468 0 0.308999985456467 0.977999985218048 0 0.208000004291534 0.995000004768372 0 0.104000002145767 1 0 0" />
+				</IndexedLineSet>
+			</Shape>
+		</Transform>
+		<Transform DEF="Circle1"
+			scale="0.5 1 0.5">
+			<Shape DEF="circle1_Shape">
+				<Appearance DEF="circle1_Appearance">
+					<Material DEF="circle1_Material"
+						diffuseColor="0.899999976158142 0 0.699999988079071"
+						emissiveColor="0.424955993890762 0.483976006507874 1" />
+				</Appearance>
+				<IndexedLineSet USE="Orbit1" />
+			</Shape>
+		</Transform>
+		<Transform DEF="Circle2"
+			scale="0.25 1 0.25">
+			<Shape DEF="circle2_Shape">
+				<Appearance DEF="circle2_Appearance">
+					<Material DEF="circle2_Material"
+						diffuseColor="0.899999976158142 0 0.699999988079071"
+						emissiveColor="0.424955993890762 0.483976006507874 1" />
+				</Appearance>
+				<IndexedLineSet USE="Orbit1" />
+			</Shape>
+		</Transform>
+	</Group>
+</Scene>
+</X3D>
